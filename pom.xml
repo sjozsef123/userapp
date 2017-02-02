@@ -24,7 +24,18 @@
 
 	<dependencyManagement>
 		<dependencies>
-
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>3.3.0.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.1_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
 			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
 				<artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -38,6 +49,12 @@
 				<scope>provided</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>1</version>
+				<scope>provided</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>javax.enterprise</groupId>
@@ -45,6 +62,7 @@
 				<version>1.2</version>
 				<scope>provided</scope>
 			</dependency>
+		
 
 			<dependency>
 				<groupId>solomonj.msg.userapp</groupId>

@@ -17,7 +17,7 @@ public class Role extends BaseEntity {
 	private String rolename;
 
 	// bi-directional many-to-many association to User
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
 	private List<User> users;
 
 	public Role() {
@@ -37,6 +37,11 @@ public class Role extends BaseEntity {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [rolename=" + rolename + ", users=" + users + "]";
 	}
 
 }

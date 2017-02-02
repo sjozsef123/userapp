@@ -25,10 +25,35 @@ public class UserBean implements IUser {
 	@Override
 	public void insertUser(String username) {
 		User user = new User();
-		user.setUsername(username);
-		
+		user.setUsername(username);	
 		entityManager.persist(user);
-	
+		
+	}
+
+	@Override
+	public void deleteUserById(int id) {
+		User user =entityManager.find(User.class, id);
+		entityManager.remove(user);
+		
+	}
+
+	@Override
+	public List<User> searchUserByName(String name) {
+		TypedQuery<User> query = entityManager.createQuery("Select u "
+				+ "from User u where u.username LIKE :name", User.class );
+		query.setParameter("name", "%" + name + "%");
+		return query.getResultList();
+	}
+
+	@Override
+	public User searchUserById(int id) {
+		return entityManager.find(User.class,id);
+	}
+
+	@Override
+	public void updateUser(int id, String username) {
+		User user =entityManager.find(User.class, id);
+		user.setUsername(username);
 		
 	}
 
