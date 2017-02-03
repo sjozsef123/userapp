@@ -12,7 +12,7 @@
 
 	<h1>Users:</h1>
 	<ui:repeat value="#{userr.allUsers}" var="value">
-     #{value.id}  #{value.username} 
+     #{value.id}  #{value.userName} 
 		<ui:repeat value="#{value.roles}" var="valuee">
      (#{valuee.rolename})
 		</ui:repeat> 
@@ -27,7 +27,7 @@
 
 	<h1>Insert user</h1>
 	<h:form>
-		username -> <h:inputText title="username" value="#{userr.user.username}" />
+		username -> <h:inputText title="username" value="#{userr.user.userName}" />
 		roleid -> <h:inputText title="roleid" value="#{userr.roleid}" />
 
 		<h:commandButton value="Insert"
@@ -50,7 +50,7 @@
 			action="#{userr.searchUserByName(valtozo3.value)}" />
 	</h:form>
 	<ui:repeat value="#{userr.users}" var="value1">
-    #{value1.id}  #{value1.username} <br />
+    #{value1.id}  #{value1.userName} <br />
 	</ui:repeat>
 
 	<h1>Update User by Id</h1>
