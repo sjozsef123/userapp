@@ -49,9 +49,9 @@ public class UserBean implements IUser {
 	}
 
 	@Override
-	public void updateUser(int id, String username) {
-		User user =entityManager.find(User.class, id);
-		user.setUserName(username);
+	public void updateUser(User user) {
+		User userUpdate =entityManager.find(User.class, user.getId());
+		userUpdate.setUserName(user.getUserName());
 		
 	}
 

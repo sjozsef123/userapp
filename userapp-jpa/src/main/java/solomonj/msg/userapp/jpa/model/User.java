@@ -24,14 +24,12 @@ public class User extends BaseEntity {
 
 	public User() {
 	}
-
-	public String getUserName() {
-		return this.userName;
+	
+	public User(int id, String userName) {
+		setId(id);
+		this.userName = userName;
 	}
 
-	public void setUserName(String username) {
-		this.userName = username;
-	}
 
 	public List<Role> getRoles() {
 		return this.roles;
@@ -44,6 +42,24 @@ public class User extends BaseEntity {
 	@Override
 	public String toString() {
 		return "User [username=" + userName + ", roles=" + roles + "]";
+	}
+	
+	@Override
+	public User clone() {
+		return new User(getId(), this.userName);
+	}
+	
+	public void restore(User user) {
+		 setId(user.getId());
+		this.userName = user.getUserName();
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

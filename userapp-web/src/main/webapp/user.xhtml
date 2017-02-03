@@ -10,58 +10,61 @@
 </head>
 <body>
 
-	<h1>Users:</h1>
-	<ui:repeat value="#{userr.allUsers}" var="value">
-     #{value.id}  #{value.userName} 
-		<ui:repeat value="#{value.roles}" var="valuee">
-     (#{valuee.rolename})
-		</ui:repeat> 
-		<br />
-	</ui:repeat>
-	<br />
-	
-	<h1>Roles</h1>
-	<ui:repeat value="#{roler.roles}" var= "roles" >
-	#{roles.id} -- #{roles.rolename}
-	</ui:repeat>
+	<h2>List users</h2>
 
-	<h1>Insert user</h1>
-	<h:form>
-		username -> <h:inputText title="username" value="#{userr.user.userName}" />
-		roleid -> <h:inputText title="roleid" value="#{userr.roleid}" />
-
-		<h:commandButton value="Insert"
-			action="#{userr.insertUser()}" />
+	<h:form rendered="#{not empty userr.allUsers}">
+		<h:dataTable value="#{userr.allUsers}" var="item">
+			<h:column>
+				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+			<h:column>
+				<f:facet name="header">Name</f:facet>#{item.userName}</h:column>
+			<h:column headerText="roles">
+				(<ui:repeat value="#{item.roles}" var="roles">
+					-<h:outputText value="#{roles.rolename}"/>-
+				</ui:repeat>)
+			</h:column>
+			<h:column>
+				<h:commandButton value="edit" action= "#{userr.editt(item)}" />
+			</h:column>
+			<h:column>
+				<h:commandButton value="delete" action="#{userr.delete(item)}" />
+			</h:column>
+		</h:dataTable>
 	</h:form>
-	<br />
 
-	<h1>Delete by id</h1>
-	<h:form>
-		<h:inputText binding="#{valtozo2}" />
-		<h:commandButton value="Delete"
-			action="#{userr.deleteUserById(valtozo2.value)}" />
-	</h:form>
-	<br />
+	<h:panelGroup rendered="#{empty userr.allUsers}">
+		<p>No Users! Please add users.</p>
+	</h:panelGroup>
 
-	<h1>Search by name</h1>
-	<h:form>
-		<h:inputText binding="#{valtozo3}" />
-		<h:commandButton binding="#{eredmeny}" value="Search"
-			action="#{userr.searchUserByName(valtozo3.value)}" />
-	</h:form>
-	<ui:repeat value="#{userr.users}" var="value1">
-    #{value1.id}  #{value1.userName} <br />
-	</ui:repeat>
+	<h:panelGroup rendered="#{!userr.edit}">
+		<h3>Add user</h3>
+		<h:form>
+			<p>
+				Name:
+				<h:inputText value="#{userr.item.userName}" />
+			</p>
+			<p>
+				<h:commandButton value="add" action="#{userr.add}" />
+				<h:commandButton value="reset" action="#{userr.resetAdd}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
 
-	<h1>Update User by Id</h1>
-	<h:form>
-		id <h:inputText title="id" binding="#{valtozo4}" />
-		<br />
-		new name <h:inputText title="new name" binding="#{valtozo5}" />
-		<h:commandButton value="Update"
-			action="#{userr.updateUser(valtozo4.value, valtozo5.value)}" />
-	</h:form>
-	<br />
+
+	<h:panelGroup rendered="#{userr.edit}">
+		<h3>Edit user #{userr.item.id}</h3>
+		<h:form>
+			<p>
+				Name:
+				<h:inputText value="#{userr.item.userName}" />
+			</p>
+			<p>
+				<h:commandButton value="save" action="#{userr.saveEdit}" />
+				<h:commandButton value="cancel" action="#{userr.cancelEdit}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+
 
 </body>
 </html>
