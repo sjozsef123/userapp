@@ -26,13 +26,14 @@ public class UserManagedBean implements Serializable, IUser {
 	private int roleid;
 	
 
-	private List<User> users = null;
+	private List<User> allUsers = null;
+
 		
 	@Override
 	public List<User> getAllUsers() {
-		      List<User> userss = getUserBean().getAllUsers();
+		     allUsers = getUserBean().getAllUsers();
 		     
-		return userss;
+		return allUsers;
 		
 	}
 	
@@ -75,17 +76,10 @@ public class UserManagedBean implements Serializable, IUser {
 
 	@Override
 	public List<User> searchUserByName(String name) {
-		users = getUserBean().searchUserByName(name);
+		
 		return null;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
 
 
 	@Override

@@ -10,15 +10,20 @@
 </head>
 <body>
 
-	<h1>Users:</h1>
-	<ui:repeat value="#{userr.allUsers}" var="value">
-     #{value.id}  #{value.username} 
-		<ui:repeat value="#{value.roles}" var="valuee">
-     (#{valuee.rolename})
-		</ui:repeat> 
-		<br />
-	</ui:repeat>
-	<br />
+	<h3>List users</h3>
+	
+	<h:form rendered="#{not empty userr.allUsers}">
+		<h:dataTable value="#{suserr.allUsers}" var="item">
+			<h:column><f:facet name="header">ID</f:facet>#{item.id}</h:column>
+			<h:column><f:facet name="header">Name</f:facet>#{item.username}</h:column>
+			<h:column>
+				<h:commandButton value="edit" action="#{simpleCrudBean.edit(item)}" />
+			</h:column>
+			<h:column>
+				<h:commandButton value="delete" action="#{simpleCrudBean.delete(item)}" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
 	
 	<h1>Roles</h1>
 	<ui:repeat value="#{roler.roles}" var= "roles" >
