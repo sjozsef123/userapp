@@ -12,16 +12,26 @@
 
 	<h1>Users:</h1>
 	<ui:repeat value="#{userr.allUsers}" var="value">
-     #{value.id}  #{value.username} <br />
+     #{value.id}  #{value.username} 
+		<ui:repeat value="#{value.roles}" var="valuee">
+     (#{valuee.rolename})
+		</ui:repeat> 
+		<br />
 	</ui:repeat>
 	<br />
+	
+	<h1>Roles</h1>
+	<ui:repeat value="#{roler.roles}" var= "roles" >
+	#{roles.id} -- #{roles.rolename}
+	</ui:repeat>
 
 	<h1>Insert user</h1>
 	<h:form>
-		<h:inputText binding="#{valtozo1}" />
+		username -> <h:inputText title="username" value="#{userr.user.username}" />
+		roleid -> <h:inputText title="roleid" value="#{userr.roleid}" />
 
-		<h:commandButton value="Submit"
-			action="#{userr.insertUser(valtozo1.value)}" />
+		<h:commandButton value="Insert"
+			action="#{userr.insertUser()}" />
 	</h:form>
 	<br />
 
@@ -48,7 +58,7 @@
 		id <h:inputText title="id" binding="#{valtozo4}" />
 		<br />
 		new name <h:inputText title="new name" binding="#{valtozo5}" />
-		<h:commandButton value="Submit"
+		<h:commandButton value="Update"
 			action="#{userr.updateUser(valtozo4.value, valtozo5.value)}" />
 	</h:form>
 	<br />

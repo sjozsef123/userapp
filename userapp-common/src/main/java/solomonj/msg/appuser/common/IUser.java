@@ -10,7 +10,7 @@ public interface IUser {
 	
 	public List<User> getAllUsers();
 
-	public void insertUser(String username);
+	public void insertUser(User user);
 	
 	public void deleteUserById(int id);
 	

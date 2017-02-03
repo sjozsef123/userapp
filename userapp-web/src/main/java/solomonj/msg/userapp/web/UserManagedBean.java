@@ -1,6 +1,7 @@
 package solomonj.msg.userapp.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -10,7 +11,6 @@ import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
 
-import solomonj.msg.appuser.common.IRole;
 import solomonj.msg.appuser.common.IUser;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
@@ -18,24 +18,39 @@ import solomonj.msg.userapp.jpa.model.User;
 
 @Named("userr")
 @ApplicationScoped
-public class ManagedBean implements Serializable, IUser, IRole {
-	private Logger oLogger = Logger.getLogger(ManagedBean.class);
+public class UserManagedBean implements Serializable, IUser {
+	private Logger oLogger = Logger.getLogger(UserManagedBean.class);
 	private static final long serialVersionUID = -16296420798818231L;
 	private IUser userBean = null;
-	//private IRole roleBean = null;
-	List<User> users = null;
+	private User user;
+	private int roleid;
+	
+
+	private List<User> users = null;
 		
 	@Override
 	public List<User> getAllUsers() {
-		      oLogger.info((getUserBean().getAllUsers().get(0).getRoles()) + "---------");
-		return getUserBean().getAllUsers();
+		      List<User> userss = getUserBean().getAllUsers();
+		     
+		return userss;
 		
 	}
+	
+	public void insertUser() {
+		Role role = new Role();
+		role.setId(roleid);
+		List<Role> roles = new ArrayList<>();
+		roles.add(role);
+		user.setRoles(roles);
+		insertUser(this.user);
+		user = null;
+	}
+
 
 	@Override
-	public void insertUser(String username) {
+	public void insertUser(User user) {
 		
-		getUserBean().insertUser(username);
+		getUserBean().insertUser(user);
 		
 	}
 	
@@ -51,17 +66,6 @@ public class ManagedBean implements Serializable, IUser, IRole {
 		return userBean;
 	}
 	
-//	private IRole getRoleBean() {
-//		if (roleBean == null) {
-//			try {
-//				InitialContext jndi = new InitialContext();
-//				roleBean = (IRole) jndi.lookup(IRole.jndiNAME);
-//			} catch (NamingException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return roleBean;
-//	}
 
 	@Override
 	public void deleteUserById(int id) {
@@ -96,16 +100,27 @@ public class ManagedBean implements Serializable, IUser, IRole {
 		
 	}
 
-	@Override
-	public List<Role> getRoles() {
-		// TODO Auto-generated method stub
-		return null;
+
+	public User getUser() {
+		if(user == null) {
+			user = new User();
+		}
+		return user;
 	}
 
-//	@Override
-//	public List<Role> getRoles() {
-//		return getRoleBean().getRoles();
-//	}
+
+	public void setUser(User user) {
+		
+		this.user = user;
+	}
+
+	public int getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(int roleid) {
+		this.roleid = roleid;
+	}
 	
 
 }

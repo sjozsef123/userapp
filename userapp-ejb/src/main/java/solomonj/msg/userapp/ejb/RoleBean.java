@@ -23,5 +23,7 @@ public class RoleBean implements IRole {
 		TypedQuery<Role> query = entityManager.createNamedQuery("Role.findAll", Role.class);
 		return query.getResultList();
 	}
+	
+	
 
 }

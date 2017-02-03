@@ -23,9 +23,7 @@ public class UserBean implements IUser {
 	}
 
 	@Override
-	public void insertUser(String username) {
-		User user = new User();
-		user.setUsername(username);	
+	public void insertUser(User user) {
 		entityManager.persist(user);
 		
 	}

@@ -1,0 +1,146 @@
+VIGYÁZAT!!! A Wildfly fusson
+
+Új DOS ablakban meghívni: jboss-cli.bat
+
+connect
+jms-queue add --queue-address=WildflyEchosIn --entries=java:/jms/queue/WildflyEchosIn
+reload
+disconnect
+
+--------------------------------------------------------
+
+wildfly-echos/pom.xml
+
+<dependency>
+	<groupId>org.jboss.spec.javax.jms</groupId>
+	<artifactId>jboss-jms-api_2.0_spec</artifactId>
+	<version>1.0.0.Final</version>
+	<scope>provided</scope>
+</dependency>
+
+--------------------------------------------------------
+
+wildfly-echos-ejb/pom.xml
+
+<dependency>
+	<groupId>org.jboss.spec.javax.jms</groupId>
+	<artifactId>jboss-jms-api_2.0_spec</artifactId>
+</dependency>
+
+
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+import org.jboss.logging.Logger;
+
+@MessageDriven(name = "EchoQueueMDB", activationConfig = {
+		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/queue/WildflyEchosIn"),
+		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+public class EchoQueueMDB implements MessageListener {
+
+	private Logger oLogger = Logger.getLogger(EchoQueueMDB.class);
+
+	@Override
+	public void onMessage(Message rcvMessage) {
+		TextMessage msg = null;
+		try {
+			if (rcvMessage instanceof TextMessage) {
+				msg = (TextMessage) rcvMessage;
+				oLogger.info("Received Message from queue: " + msg.getText());
+			} else {
+				oLogger.warn("Message of wrong type: " + rcvMessage.getClass().getName());
+			}
+		} catch (JMSException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+}
+
+--------------------------------------------------------
+
+wildfly-echos-web/pom.xml
+
+<dependency>
+	<groupId>org.jboss.spec.javax.jms</groupId>
+	<artifactId>jboss-jms-api_2.0_spec</artifactId>
+</dependency>
+
+
+import java.io.IOException;
+
+import javax.annotation.Resource;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.QueueConnection;
+import javax.jms.QueueSession;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.jboss.logging.Logger;
+
+@WebServlet("/JmsSendNewUserServlet")
+public class JmsSendNewUserServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+	private Logger oLogger = Logger.getLogger(JmsSendNewUserServlet.class);
+
+	@Resource(lookup = "java:/ConnectionFactory")
+    ConnectionFactory connectionFactory;
+
+	@Resource(lookup = "java:/jms/queue/WildflyEchosIn")
+    Destination destination;
+
+	public JmsSendNewUserServlet() {
+    	oLogger.info("--JmsSendNewUserServlet()--");
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String p_name = request.getParameter("name");
+		if (p_name != null) {
+			oLogger.info(String.format("--JmsSendNewUserServlet.doGet(\"%s\")--", p_name));
+			try {
+				QueueConnection connection = (QueueConnection)connectionFactory.createConnection();
+				QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+				MessageProducer producer = session.createProducer(destination);
+				TextMessage message = session.createTextMessage("Hello, world! ^__^");
+                producer.send(message);
+			} catch (JMSException e) {
+				e.printStackTrace();
+			}
+			response.getWriter()
+				.append("JMS sent. ")
+				.append("Served at: ").append(request.getContextPath());
+		}
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		oLogger.info("--JmsSendNewUserServlet.doPost--");
+		doGet(request, response);
+	}
+
+}
+
+--------------------------------------------------------
+
+http://localhost:8080/wildfly-echos-web/JmsSendNewUserServlet?name=ValakiNeve
+
