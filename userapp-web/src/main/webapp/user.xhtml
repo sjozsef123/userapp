@@ -11,36 +11,59 @@
 <body>
 
 	<h2>List users</h2>
-	
+
 	<h:form rendered="#{not empty userr.allUsers}">
 		<h:dataTable value="#{userr.allUsers}" var="item">
-			<h:column><f:facet name="header">ID</f:facet>#{item.id}</h:column>
-			<h:column><f:facet name="header">Name</f:facet>#{item.userName}</h:column>
 			<h:column>
-				<h:commandButton value="edit" action="#{userr.edit(item)}" />
+				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+			<h:column>
+				<f:facet name="header">Name</f:facet>#{item.userName}</h:column>
+			<h:column headerText="roles">
+				(<ui:repeat value="#{item.roles}" var="roles">
+					-<h:outputText value="#{roles.rolename}"/>-
+				</ui:repeat>)
+			</h:column>
+			<h:column>
+				<h:commandButton value="edit" action= "#{userr.editt(item)}" />
 			</h:column>
 			<h:column>
 				<h:commandButton value="delete" action="#{userr.delete(item)}" />
 			</h:column>
 		</h:dataTable>
 	</h:form>
-	
+
 	<h:panelGroup rendered="#{empty userr.allUsers}">
 		<p>No Users! Please add users.</p>
 	</h:panelGroup>
-	
+
 	<h:panelGroup rendered="#{!userr.edit}">
 		<h3>Add user</h3>
 		<h:form>
-			<p>Name: <h:inputText value="#{userr.item.userName}" /></p>
+			<p>
+				Name:
+				<h:inputText value="#{userr.item.userName}" />
+			</p>
 			<p>
 				<h:commandButton value="add" action="#{userr.add}" />
-				
+				<h:commandButton value="reset" action="#{userr.resetAdd}" />
 			</p>
 		</h:form>
 	</h:panelGroup>
-	
-	
+
+
+	<h:panelGroup rendered="#{userr.edit}">
+		<h3>Edit user #{userr.item.id}</h3>
+		<h:form>
+			<p>
+				Name:
+				<h:inputText value="#{userr.item.userName}" />
+			</p>
+			<p>
+				<h:commandButton value="save" action="#{userr.saveEdit}" />
+				<h:commandButton value="cancel" action="#{userr.cancelEdit}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
 
 
 </body>

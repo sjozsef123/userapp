@@ -14,7 +14,7 @@ public interface IUser {
 	
 	public void deleteUserById(int id);
 	
-	public void updateUser(int id, String username);
+	public void updateUser(User user);
 	
 	public List<User> searchUserByName(String name);
 	

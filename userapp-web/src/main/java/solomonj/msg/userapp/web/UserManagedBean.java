@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.naming.InitialContext;
@@ -21,39 +22,46 @@ public class UserManagedBean implements Serializable, IUser {
 	private Logger oLogger = Logger.getLogger(UserManagedBean.class);
 	private static final long serialVersionUID = -16296420798818231L;
 	private IUser userBean = null;
-	private User user;
+	private User item = new User();
 	private User beforeEditItem = null;
 	private boolean edit;
 
 	private List<User> allUsers = null;
 
-	public void edit(User item) {
+	public void editt(User item) {
 		beforeEditItem = item.clone();
-		this.user = item;
+		this.item = item;
 		edit = true;
 	}
 
 	public void cancelEdit() {
-		this.user.restore(beforeEditItem);
-		this.user = new User();
+		this.item.restore(beforeEditItem);
+		this.item = new User();
 		edit = false;
 	}
-	
 
-	 public void add() {
-	    
-	        insertUser(user);
-	        user = new User();
-	    }
+	public void add() {
 
-	    public void resetAdd() {
-	    	user = new User();
-	    }
+		insertUser(item);
+		item = new User();
+	}
+
+	public void resetAdd() {
+		item = new User();
+	}
+
+	public void saveEdit() {
+		updateUser(item);
+		this.item = new User();
+		edit = false;
+	}
 
 	@Override
 	public List<User> getAllUsers() {
 		allUsers = getUserBean().getAllUsers();
-
+		if (allUsers == null) {
+			return new ArrayList<>();
+		}
 		return allUsers;
 
 	}
@@ -96,21 +104,21 @@ public class UserManagedBean implements Serializable, IUser {
 	}
 
 	@Override
-	public void updateUser(int id, String username) {
-		getUserBean().updateUser(id, username);
+	public void updateUser(User user) {
+		getUserBean().updateUser(user);
 
 	}
 
 	public User getItem() {
-		return user;
-	}
-
-	public void setItem(User item) {
-		this.user = item;
+		return item;
 	}
 
 	public boolean isEdit() {
 		return edit;
+	}
+
+	public void delete(User item) {
+		deleteUserById(item.getId());
 	}
 
 }
