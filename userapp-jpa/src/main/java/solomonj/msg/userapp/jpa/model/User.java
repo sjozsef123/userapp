@@ -14,7 +14,7 @@ public class User extends BaseEntity {
 
 	private static final long serialVersionUID = -1149625015538767160L;
 
-	private String username;
+	private String userName;
 
 	// bi-directional many-to-many association to Role
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -24,14 +24,12 @@ public class User extends BaseEntity {
 
 	public User() {
 	}
-
-	public String getUsername() {
-		return this.username;
+	
+	public User(int id, String userName) {
+		setId(id);
+		this.userName = userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public List<Role> getRoles() {
 		return this.roles;
@@ -43,7 +41,25 @@ public class User extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", roles=" + roles + "]";
+		return "User [username=" + userName + ", roles=" + roles + "]";
+	}
+	
+	@Override
+	public User clone() {
+		return new User(getId(), this.userName);
+	}
+	
+	public void restore(User user) {
+		 setId(user.getId());
+		this.userName = user.getUserName();
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

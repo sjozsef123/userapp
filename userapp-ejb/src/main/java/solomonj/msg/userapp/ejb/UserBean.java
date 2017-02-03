@@ -51,7 +51,7 @@ public class UserBean implements IUser {
 	@Override
 	public void updateUser(int id, String username) {
 		User user =entityManager.find(User.class, id);
-		user.setUsername(username);
+		user.setUserName(username);
 		
 	}
 
