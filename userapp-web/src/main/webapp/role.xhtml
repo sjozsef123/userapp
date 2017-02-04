@@ -10,9 +10,43 @@
 </head>
 <body>
 
-<h1>Roles</h1>
-	<ui:repeat value="#{roler.roles}" var= "roles" >
-	#{roles.id} -- #{roles.rolename} <br/>
-	</ui:repeat>
+	<h2>List roles</h2>
+
+	<h:form rendered="#{not empty roler.roles}">
+		<h:dataTable value="#{roler.roles}" var="item">
+			<h:column>
+				<f:facet name="header">Role name</f:facet> 
+				#{item.rolename}
+				</h:column>
+				
+				<h:column>
+				<f:facet name="header"> users </f:facet>
+				(<ui:repeat value="#{item.users}" var="users">
+					-<h:outputText value="#{users.userName}" />-
+				</ui:repeat>)
+			</h:column>
+			
+			<h:column>
+				<h:commandButton value="delete" action="#{roler.delete(item)}" />
+			</h:column>
+			
+		</h:dataTable>
+	</h:form>
+	
+	
+	<h3>Add role</h3>
+		<h:form>
+			<p>
+				Name:
+				<h:inputText value="#{roler.role.rolename}" />
+			</p>
+
+			<p>
+				<h:commandButton value="add" action="#{roler.add}" />
+				<h:commandButton value="reset" action="#{roler.resetAdd}" />
+			</p>
+		</h:form>
+	<h:link value="User Management" outcome="user" />
+	
 </body>
 </html>

@@ -22,6 +22,10 @@ public class Role extends BaseEntity {
 
 	public Role() {
 	}
+	
+	public Role(int id) {
+	this.id = id;
+	}
 
 	public String getRolename() {
 		return this.rolename;
@@ -41,7 +45,9 @@ public class Role extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "Role [rolename=" + rolename + ", users=" + users + "]";
+		return "Role [id=" + id+ ", users=" + users + "]";
 	}
+
+
 
 }

@@ -23,6 +23,20 @@ public class RoleBean implements IRole {
 		TypedQuery<Role> query = entityManager.createNamedQuery("Role.findAll", Role.class);
 		return query.getResultList();
 	}
+
+	@Override
+	public void deleteRole(int id) {
+		
+		Role role = entityManager.find(Role.class, id);
+		entityManager.remove(role);
+		
+	}
+
+	@Override
+	public void insertRole(Role role) {
+		entityManager.persist(role);
+		
+	}
 	
 	
 

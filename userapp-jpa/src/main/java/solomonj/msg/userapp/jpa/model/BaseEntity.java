@@ -14,7 +14,7 @@ public abstract class BaseEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	protected int id;
 
 	public int getId() {
 		return id;

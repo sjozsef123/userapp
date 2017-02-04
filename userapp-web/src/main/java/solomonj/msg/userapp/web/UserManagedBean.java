@@ -13,7 +13,7 @@ import javax.naming.NamingException;
 import org.jboss.logging.Logger;
 
 import solomonj.msg.appuser.common.IUser;
-
+import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
 @Named("userr")
@@ -22,37 +22,73 @@ public class UserManagedBean implements Serializable, IUser {
 	private Logger oLogger = Logger.getLogger(UserManagedBean.class);
 	private static final long serialVersionUID = -16296420798818231L;
 	private IUser userBean = null;
-	private User item = new User();
+	private User user = new User();
 	private User beforeEditItem = null;
 	private boolean edit;
+	private List<String> selectedRoles = new ArrayList<>();
+	
+	
+	public List<String> getSelectedRoles() {
+		return selectedRoles;
+	}
+
+	public void setSelectedRoles(List<String> selectedRoles) {
+		this.selectedRoles = selectedRoles;
+	}
 
 	private List<User> allUsers = null;
 
-	public void editt(User item) {
-		beforeEditItem = item.clone();
-		this.item = item;
+	public void editt(User user) {
+		beforeEditItem = user.clone();
+		List<Role> roles = user.getRoles();
+		for(Role r:roles) {
+			selectedRoles.add(new Integer(r.getId()).toString());
+		}
+		oLogger.info(selectedRoles);
+		
+		this.user = user;
 		edit = true;
 	}
 
 	public void cancelEdit() {
-		this.item.restore(beforeEditItem);
-		this.item = new User();
+		this.user.restore(beforeEditItem);
+		this.user = new User();
+		selectedRoles = new ArrayList<>();
 		edit = false;
 	}
 
 	public void add() {
-
-		insertUser(item);
-		item = new User();
+		oLogger.info(selectedRoles);
+		/**********************/
+		List<Role> roles = new ArrayList<>();
+		for(String i: selectedRoles) {
+			roles.add(new Role(Integer.parseInt(i)));
+		}
+		user.setRoles(roles);
+		
+		/**********************/
+		insertUser(user);
+		user = new User();
+		selectedRoles = new ArrayList<>();
 	}
 
 	public void resetAdd() {
-		item = new User();
+		user = new User();
+		selectedRoles = new ArrayList<>();
 	}
 
 	public void saveEdit() {
-		updateUser(item);
-		this.item = new User();
+		/**********************/
+		List<Role> roles = new ArrayList<>();
+		for(String i: selectedRoles) {
+			roles.add(new Role(Integer.parseInt(i)));
+		}
+		oLogger.info(selectedRoles);
+		user.setRoles(roles);
+		/**********************/
+		updateUser(user);
+		this.user = new User();
+		selectedRoles = new ArrayList<>();
 		edit = false;
 	}
 
@@ -109,16 +145,16 @@ public class UserManagedBean implements Serializable, IUser {
 
 	}
 
-	public User getItem() {
-		return item;
+	public User getUser() {
+		return user;
 	}
 
 	public boolean isEdit() {
 		return edit;
 	}
 
-	public void delete(User item) {
-		deleteUserById(item.getId());
+	public void delete(User user) {
+		deleteUserById(user.getId());
 	}
 
 }

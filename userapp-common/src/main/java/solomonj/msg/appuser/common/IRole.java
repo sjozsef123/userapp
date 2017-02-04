@@ -8,4 +8,8 @@ public interface IRole {
 	public static final String jndiNAME="java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/RoleBean";
 	
 	public List<Role> getRoles();
+	
+	public void deleteRole(int id);
+	
+	public void insertRole(Role role);
 }

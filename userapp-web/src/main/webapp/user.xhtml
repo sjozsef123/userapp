@@ -18,13 +18,14 @@
 				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
 			<h:column>
 				<f:facet name="header">Name</f:facet>#{item.userName}</h:column>
-			<h:column headerText="roles">
+			<h:column>
+				<f:facet name="header"> Roles </f:facet>
 				(<ui:repeat value="#{item.roles}" var="roles">
-					-<h:outputText value="#{roles.rolename}"/>-
+					-<h:outputText value="#{roles.rolename}" />-
 				</ui:repeat>)
 			</h:column>
 			<h:column>
-				<h:commandButton value="edit" action= "#{userr.editt(item)}" />
+				<h:commandButton value="edit" action="#{userr.editt(item)}" />
 			</h:column>
 			<h:column>
 				<h:commandButton value="delete" action="#{userr.delete(item)}" />
@@ -41,8 +42,18 @@
 		<h:form>
 			<p>
 				Name:
-				<h:inputText value="#{userr.item.userName}" />
+				<h:inputText value="#{userr.user.userName}" />
 			</p>
+
+			<p>
+
+				<h:selectManyCheckbox value="#{userr.selectedRoles}">
+					<f:selectItems value="#{roler.roles}" var="roles"
+						itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
+				</h:selectManyCheckbox>
+
+			</p>
+
 			<p>
 				<h:commandButton value="add" action="#{userr.add}" />
 				<h:commandButton value="reset" action="#{userr.resetAdd}" />
@@ -51,12 +62,22 @@
 	</h:panelGroup>
 
 
+
 	<h:panelGroup rendered="#{userr.edit}">
-		<h3>Edit user #{userr.item.id}</h3>
+		<h3>Edit user #{userr.user.id}</h3>
 		<h:form>
 			<p>
 				Name:
-				<h:inputText value="#{userr.item.userName}" />
+				<h:inputText value="#{userr.user.userName}" />
+				
+				<p>
+
+				<h:selectManyCheckbox value="#{userr.selectedRoles}">
+					<f:selectItems value="#{roler.roles}" var="roles"
+						itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
+				</h:selectManyCheckbox>
+
+			</p>
 			</p>
 			<p>
 				<h:commandButton value="save" action="#{userr.saveEdit}" />
@@ -64,6 +85,8 @@
 			</p>
 		</h:form>
 	</h:panelGroup>
+	
+	<h:link value="Role management" outcome="role" />
 
 
 </body>

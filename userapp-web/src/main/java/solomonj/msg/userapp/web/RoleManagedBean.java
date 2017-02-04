@@ -17,14 +17,22 @@ public class RoleManagedBean implements Serializable, IRole {
 
 	private static final long serialVersionUID = -6796469792037802850L;
 	private IRole roleBean = null;
-	private List<Role> roles;
+	private Role role = new Role();
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 
 	@Override
 	public List<Role> getRoles() {
-		if(roles == null) {
-			roles = getRoleBean().getRoles();
-		}
-		return roles;
+
+		return getRoleBean().getRoles();
+
 	}
 
 	private IRole getRoleBean() {
@@ -37,6 +45,31 @@ public class RoleManagedBean implements Serializable, IRole {
 			}
 		}
 		return roleBean;
+	}
+
+	public void delete(Role role) {
+		deleteRole(role.getId());
+	}
+
+	@Override
+	public void deleteRole(int id) {
+		getRoleBean().deleteRole(id);
+
+	}
+
+	public void add() {
+		insertRole(role);
+		role = new Role();
+	}
+
+	public void resetAdd() {
+		role = new Role();
+	}
+
+	@Override
+	public void insertRole(Role role) {
+		getRoleBean().insertRole(role);
+
 	}
 
 }

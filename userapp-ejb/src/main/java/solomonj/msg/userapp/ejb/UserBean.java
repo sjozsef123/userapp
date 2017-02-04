@@ -7,12 +7,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.jboss.logging.Logger;
+
 import solomonj.msg.appuser.common.IUser;
 import solomonj.msg.userapp.jpa.model.User;
+
 
 @Stateless
 public class UserBean implements IUser {
 
+	private Logger oLogger = Logger.getLogger(UserBean.class);
+	
 	@PersistenceContext(unitName = "userapp-jpa")
 	private EntityManager entityManager;
 	
@@ -24,6 +29,7 @@ public class UserBean implements IUser {
 
 	@Override
 	public void insertUser(User user) {
+		oLogger.info(user.getRoles());
 		entityManager.persist(user);
 		
 	}
@@ -50,8 +56,10 @@ public class UserBean implements IUser {
 
 	@Override
 	public void updateUser(User user) {
+		oLogger.info(user.getRoles());
 		User userUpdate =entityManager.find(User.class, user.getId());
 		userUpdate.setUserName(user.getUserName());
+		userUpdate.setRoles(user.getRoles());
 		
 	}
 

@@ -23,6 +23,11 @@
 	</build>
 
 	<dependencies>
+	<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				
+			</dependency>
 		<dependency>
 			<groupId>solomonj.msg.userapp</groupId>
 			<artifactId>userapp-common</artifactId>
