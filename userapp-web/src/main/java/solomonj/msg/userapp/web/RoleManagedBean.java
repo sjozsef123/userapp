@@ -4,18 +4,24 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.jboss.logging.Logger;
+
 import solomonj.msg.appuser.common.IRole;
+import solomonj.msg.appuser.common.ServiceException;
 import solomonj.msg.userapp.jpa.model.Role;
 
 @Named("roler")
 @ApplicationScoped
-public class RoleManagedBean implements Serializable, IRole {
+public class RoleManagedBean implements Serializable {
 
 	private static final long serialVersionUID = -6796469792037802850L;
+	private Logger oLogger = Logger.getLogger(RoleManagedBean.class);
 	private IRole roleBean = null;
 	private Role role = new Role();
 
@@ -27,8 +33,6 @@ public class RoleManagedBean implements Serializable, IRole {
 		this.role = role;
 	}
 
-
-	@Override
 	public List<Role> getRoles() {
 
 		return getRoleBean().getRoles();
@@ -51,9 +55,14 @@ public class RoleManagedBean implements Serializable, IRole {
 		deleteRole(role.getId());
 	}
 
-	@Override
 	public void deleteRole(int id) {
-		getRoleBean().deleteRole(id);
+		try {
+			getRoleBean().deleteRole(id);
+		} catch (ServiceException e) {
+			oLogger.error(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+		}
 
 	}
 
@@ -66,9 +75,15 @@ public class RoleManagedBean implements Serializable, IRole {
 		role = new Role();
 	}
 
-	@Override
 	public void insertRole(Role role) {
-		getRoleBean().insertRole(role);
+
+		try {
+			getRoleBean().insertRole(role);
+		} catch (ServiceException e) {
+			oLogger.error(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+		}
 
 	}
 

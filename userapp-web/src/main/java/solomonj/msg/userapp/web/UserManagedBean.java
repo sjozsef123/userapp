@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,12 +14,13 @@ import javax.naming.NamingException;
 import org.jboss.logging.Logger;
 
 import solomonj.msg.appuser.common.IUser;
+import solomonj.msg.appuser.common.ServiceException;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
 @Named("userr")
 @ApplicationScoped
-public class UserManagedBean implements Serializable, IUser {
+public class UserManagedBean implements Serializable {
 	private Logger oLogger = Logger.getLogger(UserManagedBean.class);
 	private static final long serialVersionUID = -16296420798818231L;
 	private IUser userBean = null;
@@ -26,8 +28,7 @@ public class UserManagedBean implements Serializable, IUser {
 	private User beforeEditItem = null;
 	private boolean edit;
 	private List<String> selectedRoles = new ArrayList<>();
-	
-	
+
 	public List<String> getSelectedRoles() {
 		return selectedRoles;
 	}
@@ -41,11 +42,11 @@ public class UserManagedBean implements Serializable, IUser {
 	public void editt(User user) {
 		beforeEditItem = user.clone();
 		List<Role> roles = user.getRoles();
-		for(Role r:roles) {
+		for (Role r : roles) {
 			selectedRoles.add(new Integer(r.getId()).toString());
 		}
 		oLogger.info(selectedRoles);
-		
+
 		this.user = user;
 		edit = true;
 	}
@@ -61,11 +62,11 @@ public class UserManagedBean implements Serializable, IUser {
 		oLogger.info(selectedRoles);
 		/**********************/
 		List<Role> roles = new ArrayList<>();
-		for(String i: selectedRoles) {
+		for (String i : selectedRoles) {
 			roles.add(new Role(Integer.parseInt(i)));
 		}
 		user.setRoles(roles);
-		
+
 		/**********************/
 		insertUser(user);
 		user = new User();
@@ -80,7 +81,7 @@ public class UserManagedBean implements Serializable, IUser {
 	public void saveEdit() {
 		/**********************/
 		List<Role> roles = new ArrayList<>();
-		for(String i: selectedRoles) {
+		for (String i : selectedRoles) {
 			roles.add(new Role(Integer.parseInt(i)));
 		}
 		oLogger.info(selectedRoles);
@@ -92,7 +93,6 @@ public class UserManagedBean implements Serializable, IUser {
 		edit = false;
 	}
 
-	@Override
 	public List<User> getAllUsers() {
 		allUsers = getUserBean().getAllUsers();
 		if (allUsers == null) {
@@ -102,11 +102,14 @@ public class UserManagedBean implements Serializable, IUser {
 
 	}
 
-	@Override
 	public void insertUser(User user) {
-
-		getUserBean().insertUser(user);
-
+		try {
+			getUserBean().insertUser(user);
+		} catch (ServiceException e) {
+			oLogger.error(e.getMessage());
+		    FacesContext.getCurrentInstance().addMessage(null, 
+		        new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+		}
 	}
 
 	private IUser getUserBean() {
@@ -121,27 +124,37 @@ public class UserManagedBean implements Serializable, IUser {
 		return userBean;
 	}
 
-	@Override
 	public void deleteUserById(int id) {
-		getUserBean().deleteUserById(id);
+		try {
+			getUserBean().deleteUserById(id);
+		} catch (ServiceException e) {
+			oLogger.error(e.getMessage());
+		    FacesContext.getCurrentInstance().addMessage(null, 
+		        new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+		}
+		
 
 	}
 
-	@Override
 	public List<User> searchUserByName(String name) {
 
 		return null;
 	}
 
-	@Override
 	public User searchUserById(int id) {
 
 		return getUserBean().searchUserById(id);
 	}
 
-	@Override
 	public void updateUser(User user) {
-		getUserBean().updateUser(user);
+		try {
+			getUserBean().updateUser(user);
+		} catch (Exception e) {
+			oLogger.error(e.getMessage());
+		    FacesContext.getCurrentInstance().addMessage(null, 
+		        new FacesMessage(FacesMessage.SEVERITY_INFO, "User's name already exists", null));
+		}
+
 
 	}
 

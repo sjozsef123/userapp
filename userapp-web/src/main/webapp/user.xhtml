@@ -70,7 +70,7 @@
 				Name:
 				<h:inputText value="#{userr.user.userName}" />
 				
-				<p>
+		
 
 				<h:selectManyCheckbox value="#{userr.selectedRoles}">
 					<f:selectItems value="#{roler.roles}" var="roles"
@@ -78,13 +78,14 @@
 				</h:selectManyCheckbox>
 
 			</p>
-			</p>
 			<p>
 				<h:commandButton value="save" action="#{userr.saveEdit}" />
 				<h:commandButton value="cancel" action="#{userr.cancelEdit}" />
 			</p>
 		</h:form>
 	</h:panelGroup>
+	
+	<h:messages globalOnly="true" />
 	
 	<h:link value="Role management" outcome="role" />
 

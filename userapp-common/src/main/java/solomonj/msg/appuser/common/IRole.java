@@ -9,7 +9,7 @@ public interface IRole {
 	
 	public List<Role> getRoles();
 	
-	public void deleteRole(int id);
+	public void deleteRole(int id) throws ServiceException;
 	
-	public void insertRole(Role role);
+	public void insertRole(Role role) throws ServiceException;
 }

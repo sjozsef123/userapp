@@ -2,12 +2,15 @@ package solomonj.msg.userapp.ejb;
 
 import java.util.List;
 
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 import solomonj.msg.appuser.common.IRole;
+import solomonj.msg.appuser.common.ServiceException;
 import solomonj.msg.userapp.jpa.model.Role;
 
 
@@ -25,16 +28,31 @@ public class RoleBean implements IRole {
 	}
 
 	@Override
-	public void deleteRole(int id) {
+	public void deleteRole(int id) throws ServiceException {
 		
 		Role role = entityManager.find(Role.class, id);
-		entityManager.remove(role);
+		if(role != null) {
+			try {
+				entityManager.remove(role);
+			} catch(PersistenceException e) {
+				throw new ServiceException(e.getMessage());
+			}	
+		} else {
+			throw new ServiceException("Role with id=" + id + "not found");
+		}
+	
+		
 		
 	}
 
 	@Override
-	public void insertRole(Role role) {
-		entityManager.persist(role);
+	public void insertRole(Role role) throws ServiceException {
+		try {
+			entityManager.persist(role);
+		} catch (PersistenceException e) {
+			throw new ServiceException("Role already exists");
+		}
+		
 		
 	}
 	

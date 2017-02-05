@@ -10,11 +10,11 @@ public interface IUser {
 	
 	public List<User> getAllUsers();
 
-	public void insertUser(User user);
+	public void insertUser(User user) throws ServiceException;
 	
-	public void deleteUserById(int id);
+	public void deleteUserById(int id) throws ServiceException;
 	
-	public void updateUser(User user);
+	public void updateUser(User user) throws ServiceException;
 	
 	public List<User> searchUserByName(String name);
 	
