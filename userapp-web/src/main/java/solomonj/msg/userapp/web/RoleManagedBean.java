@@ -21,7 +21,6 @@ import solomonj.msg.userapp.jpa.model.Role;
 public class RoleManagedBean implements Serializable {
 
 	private static final long serialVersionUID = -6796469792037802850L;
-	private Logger oLogger = Logger.getLogger(RoleManagedBean.class);
 	private IRole roleBean = null;
 	private Role role = new Role();
 
@@ -59,7 +58,6 @@ public class RoleManagedBean implements Serializable {
 		try {
 			getRoleBean().deleteRole(id);
 		} catch (ServiceException e) {
-			oLogger.error(e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
 		}
@@ -80,7 +78,6 @@ public class RoleManagedBean implements Serializable {
 		try {
 			getRoleBean().insertRole(role);
 		} catch (ServiceException e) {
-			oLogger.error(e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
 		}

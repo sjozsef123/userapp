@@ -4,7 +4,6 @@ import java.util.List;
 
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -16,12 +15,15 @@ import solomonj.msg.appuser.common.IUser;
 import solomonj.msg.appuser.common.ServiceException;
 import solomonj.msg.userapp.jpa.model.User;
 
+
 @Stateless
 public class UserBean implements IUser {
 
 
 	@PersistenceContext(unitName = "userapp-jpa")
 	private EntityManager entityManager;
+	
+	private Logger oLogger = Logger.getLogger(UserBean.class);
 
 	@Override
 	public List<User> getAllUsers() {
@@ -34,6 +36,7 @@ public class UserBean implements IUser {
 		try {
 			entityManager.persist(user);
 		} catch (PersistenceException e) {
+			oLogger.error(e.getMessage());
 			throw new ServiceException("User already exists");
 		} 
 
@@ -62,11 +65,16 @@ public class UserBean implements IUser {
 	@Override
 	public void updateUser(User user) throws ServiceException {
 		try {
+
 			User userUpdate = entityManager.find(User.class, user.getId());
 			userUpdate.setUserName(user.getUserName());
 			userUpdate.setRoles(user.getRoles());
-		} catch (Exception e) {
+			entityManager.flush();
+			
+		} catch (PersistenceException e) {
+			oLogger.error(e.getMessage());
 			throw new ServiceException("User's name already exists");
+
 		} 
 	
 

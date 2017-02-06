@@ -25,7 +25,7 @@
 				</ui:repeat>)
 			</h:column>
 			<h:column>
-				<h:commandButton value="edit" action="#{userr.editt(item)}" />
+				<h:commandButton value="edit" action="#{userr.editUser(item)}" />
 			</h:column>
 			<h:column>
 				<h:commandButton value="delete" action="#{userr.delete(item)}" />
@@ -34,7 +34,7 @@
 	</h:form>
 
 	<h:panelGroup rendered="#{empty userr.allUsers}">
-		<p>No Users! Please add users.</p>
+		<p>No Users!.</p>
 	</h:panelGroup>
 
 	<h:panelGroup rendered="#{!userr.edit}">
@@ -69,6 +69,7 @@
 			<p>
 				Name:
 				<h:inputText value="#{userr.user.userName}" />
+			
 				
 		
 
