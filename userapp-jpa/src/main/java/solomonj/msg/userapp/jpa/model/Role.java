@@ -16,9 +16,9 @@ public class Role extends BaseEntity {
 
 	private String rolename;
 
-	// bi-directional many-to-many association to User
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-	private List<User> users;
+//	// bi-directional many-to-many association to User
+//	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+//	private List<User> users;
 
 	public Role() {
 	}
@@ -35,17 +35,17 @@ public class Role extends BaseEntity {
 		this.rolename = rolename;
 	}
 
-	public List<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
+//	public List<User> getUsers() {
+//		return this.users;
+//	}
+//
+//	public void setUsers(List<User> users) {
+//		this.users = users;
+//	}
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id+ ", users=" + users + "]";
+		return "Role [id=" + id+ ", rolename=" + rolename +"]";
 	}
 
 
