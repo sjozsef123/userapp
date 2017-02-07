@@ -16,7 +16,7 @@ import solomonj.msg.appuser.common.ServiceException;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
-@Named("userr")
+@Named("usermanagedbean")
 @ApplicationScoped
 public class UserManagedBean implements Serializable {
 

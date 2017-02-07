@@ -12,8 +12,8 @@
 
 	<h2>List users</h2>
 
-	<h:form rendered="#{not empty userr.allUsers}">
-		<h:dataTable value="#{userr.allUsers}" var="item">
+	<h:form rendered="#{not empty usermanagedbean.allUsers}">
+		<h:dataTable value="#{usermanagedbean.allUsers}" var="item">
 			<h:column>
 				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
 			<h:column>
@@ -25,31 +25,31 @@
 				</ui:repeat>)
 			</h:column>
 			<h:column>
-				<h:commandButton value="edit" action="#{userr.editUser(item)}" />
+				<h:commandButton value="edit" action="#{usermanagedbean.editUser(item)}" />
 			</h:column>
 			<h:column>
-				<h:commandButton value="delete" action="#{userr.delete(item)}" />
+				<h:commandButton value="delete" action="#{usermanagedbean.delete(item)}" />
 			</h:column>
 		</h:dataTable>
 	</h:form>
 
-	<h:panelGroup rendered="#{empty userr.allUsers}">
+	<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
 		<p>No Users!.</p>
 	</h:panelGroup>
 
-	<h:panelGroup rendered="#{!userr.edit}">
+	<h:panelGroup rendered="#{!usermanagedbean.edit}">
 		<h2>Add user</h2>
 	
 		<h:form>
 			<p>
 				Name:
-				<h:inputText id="nameInput" value="#{userr.user.userName}" required="true" >
+				<h:inputText id="nameInput" value="#{usermanagedbean.user.userName}" required="true" >
 				 </h:inputText>			
 			</p>
 
 			<p>
 
-				<h:selectManyCheckbox value="#{userr.selectedRoles}">
+				<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
 					<f:selectItems value="#{roler.roles}" var="roles"
 						itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
 				</h:selectManyCheckbox>
@@ -57,8 +57,8 @@
 			</p>
 
 			<p>
-				<h:commandButton value="add" action="#{userr.add}" />
-				<h:commandButton value="reset" action="#{userr.resetAdd}" />
+				<h:commandButton value="add" action="#{usermanagedbean.add}" />
+				<h:commandButton value="reset" action="#{usermanagedbean.resetAdd}" />
 			</p>
 
 		</h:form>
@@ -66,25 +66,25 @@
 
 
 
-	<h:panelGroup rendered="#{userr.edit}">
-		<h3>Edit user #{userr.user.id}</h3>
+	<h:panelGroup rendered="#{usermanagedbean.edit}">
+		<h3>Edit user #{usermanagedbean.user.id}</h3>
 		<h:form>
 			<p>
 				Name:
-				<h:inputText value="#{userr.user.userName}" />
+				<h:inputText value="#{usermanagedbean.user.userName}" />
 			
 				
 		
 
-				<h:selectManyCheckbox value="#{userr.selectedRoles}">
+				<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
 					<f:selectItems value="#{roler.roles}" var="roles"
 						itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
 				</h:selectManyCheckbox>
 
 			</p>
 			<p>
-				<h:commandButton value="save" action="#{userr.saveEdit}" />
-				<h:commandButton value="cancel" action="#{userr.cancelEdit}" />
+				<h:commandButton value="save" action="#{usermanagedbean.saveEdit}" />
+				<h:commandButton value="cancel" action="#{usermanagedbean.cancelEdit}" />
 			</p>
 		</h:form>
 	</h:panelGroup>

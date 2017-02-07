@@ -12,15 +12,15 @@
 
 	<h2>List roles</h2>
 
-	<h:form rendered="#{not empty roler.roles}">
-		<h:dataTable value="#{roler.roles}" var="item">
+	<h:form rendered="#{not empty rolemanagedbean.roles}">
+		<h:dataTable value="#{rolemanagedbean.roles}" var="item">
 			<h:column>
 				<f:facet name="header">Role name</f:facet> 
 				#{item.rolename}
 				</h:column>
 				
 			<h:column>
-				<h:commandButton value="delete" action="#{roler.delete(item)}" />
+				<h:commandButton value="delete" action="#{rolemanagedbean.delete(item)}" />
 			</h:column>
 			
 		</h:dataTable>
@@ -31,12 +31,12 @@
 		<h:form>
 			<p>
 				Name:
-				<h:inputText value="#{roler.role.rolename}" />
+				<h:inputText value="#{rolemanagedbean.role.rolename}" />
 			</p>
 
 			<p>
-				<h:commandButton value="add" action="#{roler.add}" />
-				<h:commandButton value="reset" action="#{roler.resetAdd}" />
+				<h:commandButton value="add" action="#{rolemanagedbean.add}" />
+				<h:commandButton value="reset" action="#{rolemanagedbean.resetAdd}" />
 			</p>
 		</h:form>
 		
