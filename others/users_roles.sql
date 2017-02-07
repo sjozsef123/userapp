@@ -19,8 +19,9 @@ CREATE TABLE `userapp`.`users_roles` (
 `user_id` int(10) NOT NULL,
 `role_id` int(10) NOT NULL,
 PRIMARY KEY `pk_ur` (`user_id`,`role_id`),
-CONSTRAINT `fk_ur_user` FOREIGN KEY (`user_id`) REFERENCES `userapp`.`users` (`id`) ON DELETE CASCADE,
-CONSTRAINT `fk_ur_role` FOREIGN KEY (`role_id`) REFERENCES `userapp`.`roles` (`id`) ON DELETE CASCADE
+CONSTRAINT `fk_ur_user` FOREIGN KEY (`user_id`) REFERENCES `userapp`.`users` (`id`) ON DELETE CASCADE
+       ON UPDATE CASCADE,
+CONSTRAINT `fk_ur_role` FOREIGN KEY (`role_id`) REFERENCES `userapp`.`roles` (`id`) 
 );
 
 use userapp;

@@ -1,7 +1,6 @@
 package solomonj.msg.userapp.jpa.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * The persistent class for the roles database table.
@@ -16,15 +15,24 @@ public class Role extends BaseEntity {
 
 	private String rolename;
 
-//	// bi-directional many-to-many association to User
-//	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-//	private List<User> users;
+	/*
+	 * **** for many to many bidirectional relation****
+	 * 
+	 * bi-directional many-to-many association to User
+	 * 
+	 * @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER) private
+	 * List<User> users;
+	 * 
+	 * public List<User> getUsers() { return this.users; }
+	 * 
+	 * public void setUsers(List<User> users) { this.users = users; }
+	 */
 
 	public Role() {
 	}
-	
+
 	public Role(int id) {
-	this.id = id;
+		this.id = id;
 	}
 
 	public String getRolename() {
@@ -35,19 +43,9 @@ public class Role extends BaseEntity {
 		this.rolename = rolename;
 	}
 
-//	public List<User> getUsers() {
-//		return this.users;
-//	}
-//
-//	public void setUsers(List<User> users) {
-//		this.users = users;
-//	}
-
 	@Override
 	public String toString() {
-		return "Role [id=" + id+ ", rolename=" + rolename +"]";
+		return "Role [id=" + id + ", rolename=" + rolename + "]";
 	}
-
-
 
 }

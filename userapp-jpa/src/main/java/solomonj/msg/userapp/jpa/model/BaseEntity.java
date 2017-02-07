@@ -11,9 +11,9 @@ import javax.persistence.MappedSuperclass;
 public abstract class BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 4693941360525023967L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int id;
 
 	public int getId() {
@@ -23,5 +23,5 @@ public abstract class BaseEntity implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 }

@@ -11,8 +11,6 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.logging.Logger;
-
 import solomonj.msg.appuser.common.IUser;
 import solomonj.msg.appuser.common.ServiceException;
 import solomonj.msg.userapp.jpa.model.Role;
@@ -108,7 +106,6 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void deleteUserById(int id) {
-		cancelEdit();
 		try {
 			getUserBean().deleteUserById(id);
 		} catch (ServiceException e) {
@@ -132,7 +129,7 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().updateUser(user);
 		} catch (ServiceException e) {
-	
+
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "User's name already exists", null));
 		}
@@ -148,7 +145,12 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void delete(User user) {
+
+		if (edit) {
+			cancelEdit();
+		}
 		deleteUserById(user.getId());
+
 	}
 
 	private List<Role> rolesToInt() {
