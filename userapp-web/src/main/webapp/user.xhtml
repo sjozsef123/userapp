@@ -38,11 +38,13 @@
 	</h:panelGroup>
 
 	<h:panelGroup rendered="#{!userr.edit}">
-		<h3>Add user</h3>
+		<h2>Add user</h2>
+	
 		<h:form>
 			<p>
 				Name:
-				<h:inputText value="#{userr.user.userName}" />
+				<h:inputText id="nameInput" value="#{userr.user.userName}" required="true" >
+				 </h:inputText>			
 			</p>
 
 			<p>
@@ -58,6 +60,7 @@
 				<h:commandButton value="add" action="#{userr.add}" />
 				<h:commandButton value="reset" action="#{userr.resetAdd}" />
 			</p>
+
 		</h:form>
 	</h:panelGroup>
 

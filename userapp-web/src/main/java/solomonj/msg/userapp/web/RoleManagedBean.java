@@ -63,8 +63,14 @@ public class RoleManagedBean implements Serializable {
 	}
 
 	public void add() {
-		insertRole(role);
-		role = new Role();
+		if (role.getRolename().length() < 3) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min. 3 character", null));
+		} else {
+			insertRole(role);
+			role = new Role();
+		}
+
 	}
 
 	public void resetAdd() {

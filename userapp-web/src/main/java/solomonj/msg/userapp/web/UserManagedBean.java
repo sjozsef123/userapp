@@ -68,10 +68,12 @@ public class UserManagedBean implements Serializable {
 
 	public void add() {
 
-		user.setRoles(rolesToInt());
-		insertUser(user);
-		user = new User();
-		selectedRoles = new ArrayList<>();
+		if (checkUserName()) {
+			user.setRoles(rolesToInt());
+			insertUser(user);
+			user = new User();
+			selectedRoles = new ArrayList<>();
+		}
 	}
 
 	public void resetAdd() {
@@ -80,11 +82,14 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void saveEdit() {
-		user.setRoles(rolesToInt());
-		updateUser(user);
-		this.user = new User();
-		selectedRoles = new ArrayList<>();
-		edit = false;
+		if (checkUserName()) {
+			user.setRoles(rolesToInt());
+			updateUser(user);
+			this.user = new User();
+			selectedRoles = new ArrayList<>();
+			edit = false;
+
+		}
 	}
 
 	public List<User> getAllUsers() {
@@ -113,11 +118,6 @@ public class UserManagedBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
 		}
 
-	}
-
-	public List<User> searchUserByName(String name) {
-
-		return null;
 	}
 
 	public User searchUserById(int id) {
@@ -159,6 +159,16 @@ public class UserManagedBean implements Serializable {
 			roles.add(new Role(Integer.parseInt(i)));
 		}
 		return roles;
+	}
+
+	private boolean checkUserName() {
+		if (user.getUserName().length() < 3) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min 3 character", null));
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }
