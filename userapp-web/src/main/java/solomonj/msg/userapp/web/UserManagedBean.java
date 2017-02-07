@@ -27,6 +27,7 @@ public class UserManagedBean implements Serializable {
 	private boolean edit;
 	private List<String> selectedRoles = new ArrayList<>();
 	private List<User> allUsers = null;
+	private String searchName = "";
 
 	private IUser getUserBean() {
 		if (userBean == null) {
@@ -93,7 +94,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public List<User> getAllUsers() {
-		allUsers = getUserBean().getAllUsers();
+		allUsers = getUserBean().searchUserByName(searchName);
 		if (allUsers == null) {
 			return new ArrayList<>();
 		}
@@ -170,5 +171,15 @@ public class UserManagedBean implements Serializable {
 			return true;
 		}
 	}
+
+	public String getSearchName() {
+		return searchName;
+	}
+
+	public void setSearchName(String searchName) {
+		this.searchName = searchName;
+	}
+	
+	
 
 }

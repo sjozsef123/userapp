@@ -49,7 +49,7 @@ public class UserBean implements IUser {
 
 	@Override
 	public List<User> searchUserByName(String name) {
-		TypedQuery<User> query = entityManager.createQuery("Select u " + "from User u where u.username LIKE :name",
+		TypedQuery<User> query = entityManager.createQuery("Select u " + "from User u where u.userName LIKE :name",
 				User.class);
 		query.setParameter("name", "%" + name + "%");
 		return query.getResultList();

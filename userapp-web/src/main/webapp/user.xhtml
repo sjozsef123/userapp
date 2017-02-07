@@ -25,10 +25,12 @@
 				</ui:repeat>)
 			</h:column>
 			<h:column>
-				<h:commandButton value="edit" action="#{usermanagedbean.editUser(item)}" />
+				<h:commandButton value="edit"
+					action="#{usermanagedbean.editUser(item)}" />
 			</h:column>
 			<h:column>
-				<h:commandButton value="delete" action="#{usermanagedbean.delete(item)}" />
+				<h:commandButton value="delete"
+					action="#{usermanagedbean.delete(item)}" />
 			</h:column>
 		</h:dataTable>
 	</h:form>
@@ -37,20 +39,22 @@
 		<p>No Users!.</p>
 	</h:panelGroup>
 
+	<br />
 	<h:panelGroup rendered="#{!usermanagedbean.edit}">
 		<h2>Add user</h2>
-	
+
 		<h:form>
 			<p>
 				Name:
-				<h:inputText id="nameInput" value="#{usermanagedbean.user.userName}" required="true" >
-				 </h:inputText>			
+				<h:inputText id="nameInput" value="#{usermanagedbean.user.userName}"
+					required="true">
+				</h:inputText>
 			</p>
 
 			<p>
 
 				<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
-					<f:selectItems value="#{roler.roles}" var="roles"
+					<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
 						itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
 				</h:selectManyCheckbox>
 
@@ -67,29 +71,40 @@
 
 
 	<h:panelGroup rendered="#{usermanagedbean.edit}">
-		<h3>Edit user #{usermanagedbean.user.id}</h3>
+		<h3>Edit user with id: #{usermanagedbean.user.id}</h3>
 		<h:form>
 			<p>
 				Name:
 				<h:inputText value="#{usermanagedbean.user.userName}" />
-			
-				
-		
+
+
+
 
 				<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
-					<f:selectItems value="#{roler.roles}" var="roles"
+					<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
 						itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
 				</h:selectManyCheckbox>
 
 			</p>
 			<p>
 				<h:commandButton value="save" action="#{usermanagedbean.saveEdit}" />
-				<h:commandButton value="cancel" action="#{usermanagedbean.cancelEdit}" />
+				<h:commandButton value="cancel"
+					action="#{usermanagedbean.cancelEdit}" />
 			</p>
 		</h:form>
 	</h:panelGroup>
 	
 	<h:messages globalOnly="true" />
+	<br />
+
+	<h3>Filter by name:</h3>
+	<h:form>
+		<p>
+			<h:inputText value="#{usermanagedbean.searchName}">
+			</h:inputText>
+			<h:commandButton value="Search" outcome="user" />
+		</p>
+	</h:form>
 	
 	<h:link value="Role management" outcome="role" />
 
