@@ -1,4 +1,4 @@
-package solomonj.msg.userapp.ejb;
+package solomonj.msg.userapp.ejb.repository;
 
 import java.util.List;
 
