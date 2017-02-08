@@ -9,7 +9,7 @@ public interface IUserService {
 
 	public static final String jndiNAME="java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/UserServiceBean";
 	
-	public List<User> getUsers() throws ServiceException;
+	public List<User> getAllUsers() throws ServiceException;
 	
 	public void insertUser(User user) throws ServiceException;
 	
@@ -17,5 +17,5 @@ public interface IUserService {
 	
 	public void updateUser(User user) throws ServiceException;
 	
-	public List<User> searchUserByName(String name);
+	public List<User> searchUserByName(String name) throws ServiceException;
 }

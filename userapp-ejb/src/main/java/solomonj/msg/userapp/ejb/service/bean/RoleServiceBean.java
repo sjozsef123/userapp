@@ -8,30 +8,42 @@ import javax.ejb.Stateless;
 import solomonj.msg.appuser.common.IRoleService;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.ejb.repository.IRoleRepository;
+import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Role;
 
 @Stateless
-//@DependsOn(IRoleRepository)
-public class RoleServiceBean implements IRoleService{
-	
+public class RoleServiceBean implements IRoleService {
+
 	@EJB
-    private IRoleRepository roleRepositoryBean;
-	
+	private IRoleRepository roleRepositoryBean;
+
 	@Override
 	public List<Role> getRoles() throws ServiceException {
-		return null;
+		try {
+			return roleRepositoryBean.getRoles();
+		} catch (RepositoryException e) {
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Override
 	public void deleteRole(int id) throws ServiceException {
-		// TODO Auto-generated method stub
-		
+		try {
+			roleRepositoryBean.deleteRole(id);
+		} catch (RepositoryException e) {
+			throw new ServiceException(e.getMessage());
+		}
+
 	}
 
 	@Override
 	public void insertRole(Role role) throws ServiceException {
-		// TODO Auto-generated method stub
-		
+		try {
+			roleRepositoryBean.insertRole(role);
+		} catch (RepositoryException e) {
+			throw new ServiceException(e.getMessage());
+		}
+
 	}
 
 }

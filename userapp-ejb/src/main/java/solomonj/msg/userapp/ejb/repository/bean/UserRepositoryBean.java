@@ -23,7 +23,7 @@ public class UserRepositoryBean implements IUserRepository {
 	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 
 	@Override
-	public List<User> getAllUsers() {
+	public List<User> getAllUsers() throws RepositoryException {
 		TypedQuery<User> query = entityManager.createNamedQuery("User.findAll", User.class);
 		return query.getResultList();
 	}
@@ -48,7 +48,7 @@ public class UserRepositoryBean implements IUserRepository {
 	}
 
 	@Override
-	public List<User> searchUserByName(String name) {
+	public List<User> searchUserByName(String name) throws RepositoryException {
 		TypedQuery<User> query = entityManager.createQuery("Select u " + "from User u where u.username LIKE :name",
 				User.class);
 		query.setParameter("name", "%" + name + "%");

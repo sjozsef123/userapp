@@ -12,14 +12,14 @@ import solomonj.msg.userapp.ejb.repository.IRoleRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Role;
 
-@Stateless(name = "IRoleRepository", mappedName = "ejb/IRoleRepository")
+@Stateless
 public class RoleRepositoryBean implements IRoleRepository {
 
 	@PersistenceContext(unitName = "userapp-jpa")
 	private EntityManager entityManager;
 
 	@Override
-	public List<Role> getRoles() {
+	public List<Role> getRoles() throws RepositoryException {
 		TypedQuery<Role> query = entityManager.createNamedQuery("Role.findAll", Role.class);
 		return query.getResultList();
 	}
