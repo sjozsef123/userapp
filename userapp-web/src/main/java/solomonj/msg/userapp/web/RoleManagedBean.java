@@ -10,8 +10,8 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import solomonj.msg.appuser.common.IRole;
-import solomonj.msg.appuser.common.ServiceException;
+import solomonj.msg.appuser.common.IRoleService;
+import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.jpa.model.Role;
 
 @Named("rolemanagedbean")
@@ -19,7 +19,7 @@ import solomonj.msg.userapp.jpa.model.Role;
 public class RoleManagedBean implements Serializable {
 
 	private static final long serialVersionUID = -6796469792037802850L;
-	private IRole roleBean = null;
+	private IRoleService roleBean = null;
 	private Role role = new Role();
 
 	public Role getRole() {
@@ -31,16 +31,21 @@ public class RoleManagedBean implements Serializable {
 	}
 
 	public List<Role> getRoles() {
-
-		return getRoleBean().getRoles();
+			try {
+				return getRoleBean().getRoles();
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
 
 	}
 
-	private IRole getRoleBean() {
+	private IRoleService getRoleBean() {
 		if (roleBean == null) {
 			try {
 				InitialContext jndi = new InitialContext();
-				roleBean = (IRole) jndi.lookup(IRole.jndiNAME);
+				roleBean = (IRoleService) jndi.lookup(IRoleService.jndiNAME);
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}

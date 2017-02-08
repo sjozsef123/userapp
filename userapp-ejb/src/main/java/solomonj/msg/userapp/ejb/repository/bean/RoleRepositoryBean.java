@@ -1,4 +1,4 @@
-package solomonj.msg.userapp.ejb.repository;
+package solomonj.msg.userapp.ejb.repository.bean;
 
 import java.util.List;
 
@@ -8,12 +8,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
-import solomonj.msg.appuser.common.IRole;
-import solomonj.msg.appuser.common.ServiceException;
+import solomonj.msg.userapp.ejb.repository.IRoleRepository;
+import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Role;
 
-@Stateless
-public class RoleBean implements IRole {
+@Stateless(name = "IRoleRepository", mappedName = "ejb/IRoleRepository")
+public class RoleRepositoryBean implements IRoleRepository {
 
 	@PersistenceContext(unitName = "userapp-jpa")
 	private EntityManager entityManager;
@@ -25,7 +25,7 @@ public class RoleBean implements IRole {
 	}
 
 	@Override
-	public void deleteRole(int id) throws ServiceException {
+	public void deleteRole(int id) throws RepositoryException {
 
 		Role role = entityManager.find(Role.class, id);
 		if (role != null) {
@@ -33,20 +33,20 @@ public class RoleBean implements IRole {
 				entityManager.remove(role);
 				entityManager.flush();
 			} catch (PersistenceException e) {
-				throw new ServiceException("Cannot delete role, there is user tied with it");
+				throw new RepositoryException("Cannot delete role, there is user tied with it");
 			}
 		} else {
-			throw new ServiceException("Role with id=" + id + "not found");
+			throw new RepositoryException("Role with id=" + id + "not found");
 		}
 
 	}
 
 	@Override
-	public void insertRole(Role role) throws ServiceException {
+	public void insertRole(Role role) throws RepositoryException {
 		try {
 			entityManager.persist(role);
 		} catch (PersistenceException e) {
-			throw new ServiceException("Role already exists");
+			throw new RepositoryException("Role already exists");
 		}
 
 	}

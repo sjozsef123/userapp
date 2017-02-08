@@ -11,8 +11,8 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import solomonj.msg.appuser.common.IUser;
-import solomonj.msg.appuser.common.ServiceException;
+import solomonj.msg.appuser.common.IUserService;
+import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
@@ -21,18 +21,18 @@ import solomonj.msg.userapp.jpa.model.User;
 public class UserManagedBean implements Serializable {
 
 	private static final long serialVersionUID = -16296420798818231L;
-	private IUser userBean = null;
+	private IUserService userBean = null;
 	private User user = new User();
 	private boolean edit;
 	private List<String> selectedRoles = new ArrayList<>();
 	private List<User> allUsers = null;
 	private String searchName = "";
 
-	private IUser getUserBean() {
+	private IUserService getUserBean() {
 		if (userBean == null) {
 			try {
 				InitialContext jndi = new InitialContext();
-				userBean = (IUser) jndi.lookup(IUser.jndiNAME);
+				userBean = (IUserService) jndi.lookup(IUserService.jndiNAME);
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
@@ -117,11 +117,6 @@ public class UserManagedBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
 		}
 
-	}
-
-	public User searchUserById(int id) {
-
-		return getUserBean().searchUserById(id);
 	}
 
 	public void updateUser(User user) {

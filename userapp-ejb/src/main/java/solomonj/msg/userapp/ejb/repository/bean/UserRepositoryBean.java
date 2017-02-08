@@ -1,4 +1,4 @@
-package solomonj.msg.userapp.ejb.repository;
+package solomonj.msg.userapp.ejb.repository.bean;
 
 import java.util.List;
 
@@ -10,17 +10,17 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
-import solomonj.msg.appuser.common.IUser;
-import solomonj.msg.appuser.common.ServiceException;
+import solomonj.msg.userapp.ejb.repository.IUserRepository;
+import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
 
 @Stateless
-public class UserBean implements IUser {
+public class UserRepositoryBean implements IUserRepository {
 
 	@PersistenceContext(unitName = "userapp-jpa")
 	private EntityManager entityManager;
 
-	private Logger oLogger = Logger.getLogger(UserBean.class);
+	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 
 	@Override
 	public List<User> getAllUsers() {
@@ -29,18 +29,18 @@ public class UserBean implements IUser {
 	}
 
 	@Override
-	public void insertUser(User user) throws ServiceException {
+	public void insertUser(User user) throws RepositoryException {
 		try {
 			entityManager.persist(user);
 		} catch (PersistenceException e) {
 			oLogger.error(e.getMessage());
-			throw new ServiceException("User already exists");
+			throw new RepositoryException("User already exists");
 		}
 
 	}
 
 	@Override
-	public void deleteUserById(int id) throws ServiceException {
+	public void deleteUserById(int id) throws RepositoryException {
 
 		User user = entityManager.find(User.class, id);
 		entityManager.remove(user);
@@ -56,12 +56,7 @@ public class UserBean implements IUser {
 	}
 
 	@Override
-	public User searchUserById(int id) {
-		return entityManager.find(User.class, id);
-	}
-
-	@Override
-	public void updateUser(User user) throws ServiceException {
+	public void updateUser(User user) throws RepositoryException {
 		try {
 
 			User userUpdate = entityManager.find(User.class, user.getId());
@@ -71,7 +66,7 @@ public class UserBean implements IUser {
 
 		} catch (PersistenceException e) {
 			oLogger.error(e.getMessage());
-			throw new ServiceException("User's name already exists");
+			throw new RepositoryException("User's name already exists");
 
 		}
 
