@@ -7,6 +7,11 @@
 			<jta-data-source>java:jboss/datasources/userappDS</jta-data-source>
 
 			<class>solomonj.msg.userapp.jpa.model.BaseEntity</class>
+			<class>solomonj.msg.userapp.jpa.model.Article</class>
+			<class>solomonj.msg.userapp.jpa.model.Author</class>
+			<class>solomonj.msg.userapp.jpa.model.Publication</class>
+			<class>solomonj.msg.userapp.jpa.model.PublicationBorrowing</class>
+			<class>solomonj.msg.userapp.jpa.model.PublicationBorrowingPK</class>
 			<class>solomonj.msg.userapp.jpa.model.Role</class>
 			<class>solomonj.msg.userapp.jpa.model.User</class>
 	</persistence-unit>

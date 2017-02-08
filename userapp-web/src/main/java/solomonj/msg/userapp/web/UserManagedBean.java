@@ -23,7 +23,6 @@ public class UserManagedBean implements Serializable {
 	private static final long serialVersionUID = -16296420798818231L;
 	private IUser userBean = null;
 	private User user = new User();
-	private User beforeEditUser = null;
 	private boolean edit;
 	private List<String> selectedRoles = new ArrayList<>();
 	private List<User> allUsers = null;
@@ -50,7 +49,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void editUser(User user) {
-		beforeEditUser = user.clone();
+		selectedRoles.clear();
 		List<Role> roles = user.getRoles();
 		for (Role r : roles) {
 			selectedRoles.add(new Integer(r.getId()).toString());
@@ -61,7 +60,6 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void cancelEdit() {
-		this.user.restore(beforeEditUser);
 		this.user = new User();
 		selectedRoles = new ArrayList<>();
 		edit = false;
@@ -163,7 +161,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	private boolean checkUserName() {
-		if (user.getUserName().length() < 3) {
+		if (user.getUsername().length() < 3) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min 3 character", null));
 			return false;

@@ -17,7 +17,7 @@
 			<h:column>
 				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
 			<h:column>
-				<f:facet name="header">Name</f:facet>#{item.userName}</h:column>
+				<f:facet name="header">Name</f:facet>#{item.username}</h:column>
 			<h:column>
 				<f:facet name="header"> Roles </f:facet>
 				(<ui:repeat value="#{item.roles}" var="roles">
@@ -46,7 +46,7 @@
 		<h:form>
 			<p>
 				Name:
-				<h:inputText id="nameInput" value="#{usermanagedbean.user.userName}"
+				<h:inputText id="nameInput" value="#{usermanagedbean.user.username}"
 					required="true">
 				</h:inputText>
 			</p>
@@ -75,7 +75,7 @@
 		<h:form>
 			<p>
 				Name:
-				<h:inputText value="#{usermanagedbean.user.userName}" />
+				<h:inputText value="#{usermanagedbean.user.username}" />
 
 
 
