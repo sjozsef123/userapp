@@ -58,10 +58,10 @@ public class UserRepositoryBean implements IUserRepository {
 	@Override
 	public void updateUser(User user) throws RepositoryException {
 		try {
-
 			User userUpdate = entityManager.find(User.class, user.getId());
 			userUpdate.setUsername(user.getUsername());
 			userUpdate.setRoles(user.getRoles());
+			userUpdate.setLoyaltyIndex(user.getLoyaltyIndex());
 			entityManager.flush();
 
 		} catch (PersistenceException e) {
