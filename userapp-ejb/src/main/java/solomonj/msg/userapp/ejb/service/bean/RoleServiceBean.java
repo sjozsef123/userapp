@@ -2,7 +2,6 @@ package solomonj.msg.userapp.ejb.service.bean;
 
 import java.util.List;
 
-import javax.ejb.DependsOn;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -20,20 +19,31 @@ public class RoleServiceBean implements IRoleService {
 
 	@Override
 	public List<Role> getRoles() throws ServiceException {
-	return null;
-		
+		try {
+			return roleRepositoryBean.getRoles();
+		} catch (RepositoryException e) {
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Override
 	public void deleteRole(int id) throws ServiceException {
-		// TODO Auto-generated method stub
-		
+		try {
+			roleRepositoryBean.deleteRole(id);
+		} catch (RepositoryException e) {
+			throw new ServiceException(e.getMessage());
+		}
+
 	}
 
 	@Override
 	public void insertRole(Role role) throws ServiceException {
-		// TODO Auto-generated method stub
-		
+		try {
+			roleRepositoryBean.insertRole(role);
+		} catch (RepositoryException e) {
+			throw new ServiceException(e.getMessage());
+		}
+
 	}
 
 }
