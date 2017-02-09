@@ -5,8 +5,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import solomonj.msg.appuser.common.IUserService;
 import solomonj.msg.appuser.common.exception.ServiceException;
+import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
@@ -21,8 +21,8 @@ public class UserServiceBean implements IUserService {
 	@Override
 	public List<User> getAllUsers() throws ServiceException {
 		try {
-			return userRepositoryBean.getAllUsers();
-		} catch (RepositoryException e) {
+			return userRepositoryBean.getlAll();
+		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -30,17 +30,17 @@ public class UserServiceBean implements IUserService {
 	@Override
 	public void insertUser(User user) throws ServiceException {
 		try {
-			userRepositoryBean.insertUser(user);
-		} catch (RepositoryException e) {
+			userRepositoryBean.create(user);
+		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
-	public void deleteUserById(int id) throws ServiceException {
+	public void deleteUserById(User user) throws ServiceException {
 		try {
-			userRepositoryBean.deleteUserById(id);
-		} catch (RepositoryException e) {
+			userRepositoryBean.delete(user);
+		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -48,8 +48,8 @@ public class UserServiceBean implements IUserService {
 	@Override
 	public void updateUser(User user) throws ServiceException {
 		try {
-			userRepositoryBean.updateUser(user);
-		} catch (RepositoryException e) {
+			userRepositoryBean.update(user);
+		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -58,7 +58,7 @@ public class UserServiceBean implements IUserService {
 	public List<User> searchUserByName(String name) throws ServiceException {
 		try {
 			return userRepositoryBean.searchUserByName(name);
-		} catch (RepositoryException e) {			
+		} catch (Exception e) {			
 			throw new ServiceException(e.getMessage());					
 		}
 	}

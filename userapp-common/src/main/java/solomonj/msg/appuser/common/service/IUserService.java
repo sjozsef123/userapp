@@ -1,4 +1,4 @@
-package solomonj.msg.appuser.common;
+package solomonj.msg.appuser.common.service;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface IUserService {
 	
 	public void insertUser(User user) throws ServiceException;
 	
-	public void deleteUserById(int id) throws ServiceException;
+	public void deleteUserById(User user) throws ServiceException;
 	
 	public void updateUser(User user) throws ServiceException;
 	

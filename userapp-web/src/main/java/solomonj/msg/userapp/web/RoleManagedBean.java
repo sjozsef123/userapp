@@ -10,8 +10,8 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import solomonj.msg.appuser.common.IRoleService;
 import solomonj.msg.appuser.common.exception.ServiceException;
+import solomonj.msg.appuser.common.service.IRoleService;
 import solomonj.msg.userapp.jpa.model.Role;
 
 @Named("rolemanagedbean")
@@ -54,12 +54,12 @@ public class RoleManagedBean implements Serializable {
 	}
 
 	public void delete(Role role) {
-		deleteRole(role.getId());
+		deleteRole(role);
 	}
 
-	public void deleteRole(int id) {
+	public void deleteRole(Role role) {
 		try {
-			getRoleBean().deleteRole(id);
+			getRoleBean().deleteRole(role);
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));

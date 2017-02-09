@@ -11,8 +11,8 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import solomonj.msg.appuser.common.IUserService;
 import solomonj.msg.appuser.common.exception.ServiceException;
+import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
@@ -113,9 +113,9 @@ public class UserManagedBean implements Serializable {
 		}
 	}
 
-	public void deleteUserById(int id) {
+	public void deleteUserById(User user) {
 		try {
-			getUserBean().deleteUserById(id);
+			getUserBean().deleteUserById(user);
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
@@ -147,7 +147,7 @@ public class UserManagedBean implements Serializable {
 		if (edit) {
 			cancelEdit();
 		}
-		deleteUserById(user.getId());
+		deleteUserById(user);
 
 	}
 

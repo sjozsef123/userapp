@@ -5,8 +5,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import solomonj.msg.appuser.common.IRoleService;
 import solomonj.msg.appuser.common.exception.ServiceException;
+import solomonj.msg.appuser.common.service.IRoleService;
 import solomonj.msg.userapp.ejb.repository.IRoleRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Role;
@@ -20,17 +20,17 @@ public class RoleServiceBean implements IRoleService {
 	@Override
 	public List<Role> getRoles() throws ServiceException {
 		try {
-			return roleRepositoryBean.getRoles();
-		} catch (RepositoryException e) {
+			return roleRepositoryBean.getlAll();
+		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
-	public void deleteRole(int id) throws ServiceException {
+	public void deleteRole(Role role) throws ServiceException {
 		try {
-			roleRepositoryBean.deleteRole(id);
-		} catch (RepositoryException e) {
+			roleRepositoryBean.delete(role);
+		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -39,8 +39,8 @@ public class RoleServiceBean implements IRoleService {
 	@Override
 	public void insertRole(Role role) throws ServiceException {
 		try {
-			roleRepositoryBean.insertRole(role);
-		} catch (RepositoryException e) {
+			roleRepositoryBean.create(role);
+		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
 
