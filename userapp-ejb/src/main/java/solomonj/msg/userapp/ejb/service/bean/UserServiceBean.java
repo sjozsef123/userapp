@@ -1,5 +1,6 @@
 package solomonj.msg.userapp.ejb.service.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -15,7 +16,6 @@ public class UserServiceBean implements IUserService {
 
 	@EJB
 	private IUserRepository userRepositoryBean;
-	
 
 	@Override
 	public List<User> getAllUsers() throws ServiceException {
@@ -55,8 +55,8 @@ public class UserServiceBean implements IUserService {
 
 	@Override
 	public List<User> searchUserByName(String name) throws ServiceException {
-		try {
-			return userRepositoryBean.searchUserByName(name);
+		try {			
+			return userRepositoryBean.searchUserByName(name);			 
 		} catch (Exception e) {			
 			throw new ServiceException(e.getMessage());					
 		}
