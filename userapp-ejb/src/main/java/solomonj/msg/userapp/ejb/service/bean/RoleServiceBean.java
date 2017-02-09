@@ -2,6 +2,7 @@ package solomonj.msg.userapp.ejb.service.bean;
 
 import java.util.List;
 
+import javax.ejb.DependsOn;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -19,7 +20,7 @@ public class RoleServiceBean implements IRoleService{
 	
 	@Override
 	public List<Role> getRoles() throws ServiceException {
-		return null;
+		return roleRepositoryBean.getRoles();
 	}
 
 	@Override
