@@ -17,25 +17,25 @@ import solomonj.msg.userapp.jpa.model.User;
 public class UserRepositoryBean extends BasicRepositoryBean<User>  implements IUserRepository {
 
 	public UserRepositoryBean() {
-		super(User.class);
-	
+		super(User.class);	
 	}
-
 
 	@PersistenceContext(unitName = "userapp-jpa")
 	private EntityManager entityManager;
 
 	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 
-
 	@Override
-	public List<User> searchUserByName(String name) throws RepositoryException {
+	public List<User> searchUserByName(String name) throws RepositoryException {		 
 		TypedQuery<User> query = entityManager.createQuery("Select u " + "from User u where u.username LIKE :name",
-				User.class);
+				User.class);		
 		query.setParameter("name", "%" + name + "%");
-		return query.getResultList();
+		return query.getResultList();		
 	}
 
-
+	@Override
+	public User getUserById(int id) {
+		return entityManager.find(User.class, id);
+	}
 
 }
