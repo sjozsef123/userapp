@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
-import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
 
 @Stateless

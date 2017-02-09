@@ -7,7 +7,7 @@ import solomonj.msg.userapp.jpa.model.User;
 
 public interface IUserService {
 
-	public static final String jndiNAME="java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/UserServiceBean";
+	public static final String jndiNAME = "java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/UserServiceBean";
 	
 	public List<User> getAllUsers() throws ServiceException;
 	
