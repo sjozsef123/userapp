@@ -37,6 +37,8 @@ public class UserRepositoryBean extends BasicRepositoryBean<User>  implements IU
 		return query.getResultList();
 	}
 
-
+	public User getUserById(int id) {
+		return entityManager.find(User.class, id);
+	}
 
 }

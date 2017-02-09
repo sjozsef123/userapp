@@ -81,7 +81,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void saveEdit() {
-		if (checkUserName()) {
+		if (checkUserName()) {			
 			user.setRoles(rolesToInt());
 			updateUser(user);
 			this.user = new User();
@@ -97,7 +97,7 @@ public class UserManagedBean implements Serializable {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		if (allUsers == null) {
+		if (allUsers == null) {			
 			return new ArrayList<>();
 		}
 		return allUsers;

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<title>Borrowing Management</title>
+</head>
+<body>
+	<h:panelGrid id="panel" columns="3" border="1" cellpadding="10"
+		cellspacing="1">
+
+		<h:column>
+			<h2>List Users</h2>
+			<h:form rendered="#{not empty usermanagedbean.allUsers}">
+				<h:dataTable value="#{usermanagedbean.allUsers}" var="item">
+					<h:column>
+						<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+					<h:column>
+						<f:facet name="header">Name</f:facet>#{item.username}</h:column>
+					<h:column>
+						<f:facet name="header">Loyalty i.</f:facet>#{item.loyaltyIndex}</h:column>
+					<h:column>
+
+						<f:facet name="header"> Roles </f:facet>
+					(<ui:repeat value="#{item.roles}" var="roles">
+						-<h:outputText value="#{roles.rolename}" />-
+					</ui:repeat>)
+				
+					<h:column>
+							<h:commandButton value="select"
+								action="#{borrowingmanagedbean.selectUser(item)}" />
+						</h:column>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+
+			<h3>Filter by name:</h3>
+			<h:form>
+				<p>
+					<h:inputText value="#{usermanagedbean.searchName}">
+					</h:inputText>
+					<h:commandButton value="Search" outcome="user" />
+				</p>
+			</h:form>
+
+			<h:link value="User management" outcome="user" />
+		</h:column>
+
+		<h:column>
+			<h2>Borrow Publications</h2>
+
+			<h:link value="Publication management" outcome="publication" />
+		</h:column>
+
+		<h:column>
+			<h2>Return Publications</h2>
+			<h:form rendered="#{not empty borrowingmanagedbean.user}">
+				<h:dataTable value="#{usermanagedbean.user.borrowing}" var="item">
+					<h:column>
+						<f:facet name="header">ID</f:facet>#{item.id.getUserId()}</h:column>
+					<h:column>
+						<f:facet name="header">Name</f:facet>#{item.id.getUsername()}</h:column>
+
+					<h:column>
+						<h:commandButton value="select"
+							action="#{borrowingmanagedbean.selectPublication(item)}" />
+					</h:column>
+				</h:dataTable>
+			</h:form>
+
+			<h:form>
+				<p>
+					<h:column>
+						<h:commandButton value="return"
+							action="#{borrowingmanagedbean.returnBorrowing()}" />
+					</h:column>
+				</p>
+			</h:form>
+		</h:column>
+
+	</h:panelGrid>
+
+</body>
+</html>
