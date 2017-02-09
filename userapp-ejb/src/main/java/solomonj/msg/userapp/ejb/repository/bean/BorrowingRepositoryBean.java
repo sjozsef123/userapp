@@ -1,7 +1,6 @@
 package solomonj.msg.userapp.ejb.repository.bean;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -51,8 +50,8 @@ public class BorrowingRepositoryBean implements IBorrowingRepository{
 					
 			delete.where(builder.equal(borrowRoot.get("PublicationBorrowingPK"), borrowingPK));
 			
-			entityManager.createQuery(delete).executeUpdate();
-			entityManager.getTransaction().commit();
+     		entityManager.createQuery(delete).executeUpdate();
+
 			
 			oLogger.info("Borrowing deleted.");			
 		} catch (PersistenceException e) {
