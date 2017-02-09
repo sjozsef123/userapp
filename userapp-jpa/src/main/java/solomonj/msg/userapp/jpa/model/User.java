@@ -32,23 +32,24 @@ public class User extends BaseEntity implements Serializable {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
+	//@PostLoadLazyCollection(LazyCollectionOption.FALSE)	
 	@JoinColumn(name = "user_id")
 	private List<PublicationBorrowing> borrowings;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)	
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
 
 	public User() {
 		roles = new ArrayList<>();
-		
+		borrowings = new ArrayList<>();
 	}
 
 	public User(int id, String userName) {
 		this();
 		setId(id);
-		this.username = userName;
+		this.username = userName;		
 }
 	
 	public int getId() {

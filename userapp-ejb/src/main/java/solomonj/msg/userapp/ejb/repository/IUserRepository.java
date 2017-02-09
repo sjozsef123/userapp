@@ -9,5 +9,7 @@ public interface IUserRepository extends IBasicRepository<User> {
 	
 	
 	public List<User> searchUserByName(String name) throws RepositoryException;
+	
+	public User getUserById(int id) throws RepositoryException;
 
 }
