@@ -92,7 +92,11 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public List<User> getAllUsers() {
-		allUsers = getUserBean().searchUserByName(searchName);
+		try {
+			allUsers = getUserBean().searchUserByName(searchName);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 		if (allUsers == null) {
 			return new ArrayList<>();
 		}

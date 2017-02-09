@@ -24,7 +24,7 @@ public class User extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = -3160124704546098071L;
 
 	@Column(name = "loyalty_index")
-	private int loyaltyIndex;
+	private int loyaltyIndex = 10;
 
 	@Column(name = "username")
 	private String username;
