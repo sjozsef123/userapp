@@ -71,5 +71,10 @@ public class UserRepositoryBean implements IUserRepository {
 		}
 
 	}
+	
+	@Override
+	public User getUserById(int id) {
+		return entityManager.find(User.class, id);
+	}
 
 }

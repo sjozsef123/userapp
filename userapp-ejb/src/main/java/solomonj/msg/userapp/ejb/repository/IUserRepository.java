@@ -7,8 +7,6 @@ import solomonj.msg.userapp.jpa.model.User;
 
 public interface IUserRepository {
 	
-	public static final String jndiNAME="java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/UserRepositoryBean";
-	
 	public List<User> getAllUsers() throws RepositoryException;
 
 	public void insertUser(User user) throws RepositoryException;
@@ -18,5 +16,7 @@ public interface IUserRepository {
 	public void updateUser(User user) throws RepositoryException;
 	
 	public List<User> searchUserByName(String name) throws RepositoryException;
+	
+	public User getUserById(int id) throws RepositoryException;
 
 }

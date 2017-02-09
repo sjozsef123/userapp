@@ -97,7 +97,7 @@ public class UserManagedBean implements Serializable {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		if (allUsers == null) {
+		if (allUsers == null) {			
 			return new ArrayList<>();
 		}
 		return allUsers;
