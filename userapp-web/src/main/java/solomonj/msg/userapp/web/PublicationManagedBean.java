@@ -39,7 +39,6 @@ public class PublicationManagedBean implements Serializable {
 		return publicationBean;
 	}
 
-
 	public String getType(Publication pub) {
 		return pub.getClass().getSimpleName();
 	}

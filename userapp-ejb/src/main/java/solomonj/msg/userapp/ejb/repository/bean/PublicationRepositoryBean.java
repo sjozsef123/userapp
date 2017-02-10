@@ -14,6 +14,7 @@ import solomonj.msg.userapp.ejb.repository.IPublicationRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Publication;
 import solomonj.msg.userapp.jpa.model.Publication_;
+import solomonj.msg.userapp.jpa.model.User;
 
 public abstract class PublicationRepositoryBean<T extends Publication> extends BasicRepositoryBean<T> implements IPublicationRepository<T>{
 
@@ -51,6 +52,11 @@ public abstract class PublicationRepositoryBean<T extends Publication> extends B
 			
 		}
 		
+	}
+	
+	@Override
+	public Publication getPublicationById(int id) {
+		return entityManager.find(cls, id);
 	}
 	
 
