@@ -4,7 +4,11 @@ import java.util.List;
 
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Article;
-
+/**
+ * interface for handling articles
+ * @author szocsc
+ *
+ */
 public interface IArticleRepository extends IBasicRepository<Article>{
 	/**
 	 * This method searches for the Article with the specified name.

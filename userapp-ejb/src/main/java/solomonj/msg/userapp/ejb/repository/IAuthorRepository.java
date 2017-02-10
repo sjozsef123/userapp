@@ -4,7 +4,11 @@ import java.util.List;
 
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Author;
-
+/**
+ * interface for handling authors
+ * @author szocsc
+ *
+ */
 public interface IAuthorRepository extends IBasicRepository<Author>{
 	/**
 	 * This method searches for the Author with the specified name.

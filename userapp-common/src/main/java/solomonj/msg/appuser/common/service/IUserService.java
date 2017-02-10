@@ -5,6 +5,11 @@ import java.util.List;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * interface for User CRUD operations.
+ * @author 
+ *
+ */
 public interface IUserService {
 
 	public static final String jndiNAME = "java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/UserServiceBean";

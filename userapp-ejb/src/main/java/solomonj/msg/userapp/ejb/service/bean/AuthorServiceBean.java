@@ -9,6 +9,11 @@ import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IAuthorService;
 import solomonj.msg.userapp.ejb.repository.IAuthorRepository;
 import solomonj.msg.userapp.jpa.model.Author;
+/**
+ * 
+ * @author szocsc
+ *
+ */
 @Stateless
 public class AuthorServiceBean implements IAuthorService {
 	@EJB
