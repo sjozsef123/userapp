@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<title>Publication</title>
+</head>
+<body>
+
+	<h2>Publication list</h2>
+
+	<h:form rendered="#{not empty publicationmanagedbean.publicationList}">
+		<h:dataTable value="#{publicationmanagedbean.publicationList}" var="item">
+			<h:column>
+				<f:facet name="header">Title</f:facet>#{item.title}</h:column>
+			<h:column>
+				<f:facet name="header">Type</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
+		
+
+		</h:dataTable>
+	</h:form>
+
+	<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
+		<p>No Publication!.</p>
+	</h:panelGroup>
+
+	
+
+</body>
+</html>

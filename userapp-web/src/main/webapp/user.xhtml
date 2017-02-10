@@ -33,7 +33,7 @@
 					action="#{usermanagedbean.editUser(item)}" />
 			</h:column>
 			<h:column>
-				<h:commandButton value="delete"
+				<h:commandButton value="delete" onclick="if(!confirm('Do you really wanna do that?')) return false"
 					action="#{usermanagedbean.delete(item)}" />
 			</h:column>
 		</h:dataTable>
