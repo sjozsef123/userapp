@@ -67,16 +67,8 @@ public class BorrowingManagedBean implements Serializable {
 		borrowingId.setUserId(u.getId());		 
 	}
 	
-	public void selectPublication(Publication p) {
+	public void selectPublication(Publication p) {		
 		borrowingId.setPublicationId(p.getId());		
-	}
-	
-	public PublicationBorrowing getBorrowing() {
-		return borrowing;
-	}
-
-	public void setBorrowing(PublicationBorrowing borrowing) {
-		this.borrowing = borrowing;
 	}
 
 	public User getUser() {
@@ -85,15 +77,6 @@ public class BorrowingManagedBean implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-		List<PublicationBorrowing> ub = user.getBorrowing();
-		System.out.println(ub);
-		if (ub.isEmpty()) {
-			System.out.println("EMPTY");
-		}
-		for (PublicationBorrowing pb : ub) {
-			System.out.println(pb.getId());
-			setBorrowing(ub.get(0));
-		}		
 	}
 			
 	public void returnBorrowing() {

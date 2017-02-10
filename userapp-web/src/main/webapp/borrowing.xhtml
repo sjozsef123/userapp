@@ -50,16 +50,14 @@
 
 		<h:column>
 			<h2>Return Publications</h2>
-			<h:form rendered="#{not empty borrowingmanagedbean.user}">
-				<h:dataTable value="#{usermanagedbean.user.borrowing}" var="item">
+			<h:form rendered="#{not empty borrowingmanagedbean.user.borrowing}">
+				<h:dataTable value="#{borrowingmanagedbean.user.borrowing}" var="item">
 					<h:column>
-						<f:facet name="header">ID</f:facet>#{item.id.getUserId()}</h:column>
-					<h:column>
-						<f:facet name="header">Name</f:facet>#{item.id.getUsername()}</h:column>
+						<f:facet name="header">Title</f:facet>#{item.publication.title}</h:column>
 
 					<h:column>
 						<h:commandButton value="select"
-							action="#{borrowingmanagedbean.selectPublication(item)}" />
+							action="#{borrowingmanagedbean.selectPublication(item.publication)}" />
 					</h:column>
 				</h:dataTable>
 			</h:form>

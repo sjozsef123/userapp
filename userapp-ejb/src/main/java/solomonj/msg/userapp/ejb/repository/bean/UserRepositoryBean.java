@@ -37,9 +37,9 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
 			Root<User> root = criteriaQuery.from(User.class);
-			root.fetch("borrowings", JoinType.LEFT);
-			criteriaQuery.select(root).where(builder.like(root.get("username"), "%"+name+"%"));
-
+			root.fetch("borrowings", JoinType.LEFT);			
+			criteriaQuery.select(root).where(builder.like(root.get("username"), "%"+name+"%")).distinct(true);
+			
 			resultList = entityManager.createQuery(criteriaQuery).getResultList();
 			return (resultList == null) ? new ArrayList<>() : resultList;
 		} catch (PersistenceException e) {
