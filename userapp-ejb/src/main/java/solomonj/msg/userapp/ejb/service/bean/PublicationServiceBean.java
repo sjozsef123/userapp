@@ -9,7 +9,7 @@ import org.jboss.logging.Logger;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IPublicationService;
-import solomonj.msg.userapp.ejb.repository.IPublicationRepository;
+import solomonj.msg.userapp.ejb.repository.IPubRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Publication;
 
@@ -17,7 +17,7 @@ import solomonj.msg.userapp.jpa.model.Publication;
 public class PublicationServiceBean implements IPublicationService {
 
 	@EJB
-	private IPublicationRepository<Publication> publicationBean;
+	private IPubRepository publicationBean;
 	private Logger oLogger = Logger.getLogger(PublicationServiceBean.class);
 	
 	

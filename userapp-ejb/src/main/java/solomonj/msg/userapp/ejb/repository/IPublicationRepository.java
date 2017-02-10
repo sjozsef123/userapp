@@ -7,5 +7,5 @@ import solomonj.msg.userapp.jpa.model.Publication;
 
 public interface IPublicationRepository<T extends Publication> extends IBasicRepository<T>{
 
-	List<Publication> filterPublicationByName(String filter) throws RepositoryException;
+	List<T> filterPublicationByName(String filter) throws RepositoryException;
 }

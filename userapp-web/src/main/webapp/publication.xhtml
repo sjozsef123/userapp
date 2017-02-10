@@ -18,8 +18,10 @@
 		<h:form>
 			<p>
 				<h:inputText value="#{publicationmanagedbean.filter}">
-				</h:inputText>
-				<h:commandButton value="Search" render="publicationList" />
+				</h:inputText> <br/>
+				<h:commandButton value="Search" render="publicationList" /> 
+				<h:commandButton value="Clear" action="#{publicationmanagedbean.clearFilter()}" render="publicationList"/>
+				
 			</p>
 		</h:form>
 		<h:form rendered="#{not empty publicationmanagedbean.publicationList}">

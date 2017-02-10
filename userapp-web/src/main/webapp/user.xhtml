@@ -123,8 +123,9 @@
 	<h:form>
 		<p>
 			<h:inputText value="#{usermanagedbean.searchName}">
-			</h:inputText>
+			</h:inputText> <br/>
 			<h:commandButton value="Search" render="userList" />
+			<h:commandButton value="Clear" action="#{usermanagedbean.clearFilter()}" render="userList" />
 		</p>
 	</h:form>
 

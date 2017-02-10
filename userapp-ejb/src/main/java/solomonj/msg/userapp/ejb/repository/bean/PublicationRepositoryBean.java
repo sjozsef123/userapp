@@ -3,7 +3,6 @@ package solomonj.msg.userapp.ejb.repository.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -16,30 +15,32 @@ import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Publication;
 import solomonj.msg.userapp.jpa.model.Publication_;
 
-@Stateless
-public abstract class PublicationRepositoryBean<T extends Publication> extends BasicRepositoryBean<Publication> implements IPublicationRepository<Publication>{
-
-	
-
+public abstract class PublicationRepositoryBean<T extends Publication> extends BasicRepositoryBean<T> implements IPublicationRepository<T>{
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	private Class<T> cls;
 	
-	public PublicationRepositoryBean(Class cls) {
+	public PublicationRepositoryBean() {
+		
+	}
+	
+	public PublicationRepositoryBean(Class<T> cls) {
 		super(cls);
+		this.cls = cls;
 	}	
 	
 	@Override
-	public List<Publication> filterPublicationByName(String filter) throws RepositoryException {
+	public List<T> filterPublicationByName(String filter) throws RepositoryException {
 
-		List<Publication> filteredPublications = new ArrayList<>();
+		List<T> filteredPublications = new ArrayList<>();
 		
 		try {
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-			CriteriaQuery<Publication> criteriaQuery = builder.createQuery(Publication.class);
-			Root<Publication> root = criteriaQuery.from(Publication.class);
+			CriteriaQuery<T> criteriaQuery = builder.createQuery(cls);
+			Root<T> root = criteriaQuery.from(cls);
 			
-			criteriaQuery.select(root).where(builder.equal(root.get(Publication_.title), filter));
+			criteriaQuery.select(root).where(builder.like(root.get(Publication_.title), "%" + filter + "%"));
 			
 			filteredPublications = entityManager.createQuery(criteriaQuery).getResultList();
 			return filteredPublications;

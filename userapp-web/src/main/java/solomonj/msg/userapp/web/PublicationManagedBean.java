@@ -60,7 +60,6 @@ public class PublicationManagedBean implements Serializable {
 		publicationList = new ArrayList<>();
 		
 		try {
-
 			publicationList = getpublicationBean().filterPublicationByName(filter);
 			return publicationList;
 		} catch (ServiceException e) {
@@ -92,6 +91,10 @@ public class PublicationManagedBean implements Serializable {
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
-
+	
+	public void clearFilter() {
+		
+		filter = "";
+	}
 	
 }

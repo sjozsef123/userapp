@@ -26,6 +26,9 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	public BasicRepositoryBean() {
+		
+	}
 	
 	public BasicRepositoryBean(Class<T> cls) {
 		this.cls = cls;
@@ -35,16 +38,19 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 	@Override
 	public List<T> getlAll() throws RepositoryException {
 
-		List<T> resultList; 
-
+		List<T> resultList;
 		try {
+			System.out.println("asd4");
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			System.out.println("asd5");
 			CriteriaQuery<T> criteriaQuery = builder.createQuery(cls);
+			System.out.println("aaa" + cls.getName());
 			Root<T> root = criteriaQuery.from(cls);
-			
+			System.out.println("asd7");
 			criteriaQuery.select(root);
-			
+			System.out.println("asd8");
 			resultList = entityManager.createQuery(criteriaQuery).getResultList();
+			System.out.println("asd9");
 			return (resultList == null) ? new ArrayList<>() : resultList;
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to query " + cls.getSimpleName() + "list.", e);
