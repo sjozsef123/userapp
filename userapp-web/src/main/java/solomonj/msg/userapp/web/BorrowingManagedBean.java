@@ -26,49 +26,49 @@ import solomonj.msg.userapp.jpa.model.User;
 public class BorrowingManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 7044748365143600630L;
-	//private IUserService userBean = null;
-	//private IPublicationService publicationBean = null;
+	// private IUserService userBean = null;
+	// private IPublicationService publicationBean = null;
 	private IBorrowingService borrowingBean = null;
-	
+
 	private PublicationBorrowing borrowing;
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
 	private User user = new User();
-	//private Publication publication;
-	
-//	private IUserService getUserBean() {
-//		if (userBean == null) {
-//			try {
-//				InitialContext jndi = new InitialContext();
-//				userBean = (IUserService) jndi.lookup(IUserService.jndiNAME);
-//			} catch (NamingException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return userBean;
-//	}
-	
+	// private Publication publication;
+
+	// private IUserService getUserBean() {
+	// if (userBean == null) {
+	// try {
+	// InitialContext jndi = new InitialContext();
+	// userBean = (IUserService) jndi.lookup(IUserService.jndiNAME);
+	// } catch (NamingException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// return userBean;
+	// }
+
 	private IBorrowingService getBorrowingBean() {
-	if (borrowingBean == null) {
-		try {
-			InitialContext jndi = new InitialContext();
-			borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
-		} catch (NamingException e) {
-			e.printStackTrace();
+		if (borrowingBean == null) {
+			try {
+				InitialContext jndi = new InitialContext();
+				borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
 		}
+		return borrowingBean;
 	}
-	return borrowingBean;
-}
-	
+
 	public void selectUser(User u) {
-		setUser(u);	
-		borrowingId = new PublicationBorrowingPK();	
-		borrowingId.setUserId(u.getId());		 
+		setUser(u);
+		borrowingId = new PublicationBorrowingPK();
+		borrowingId.setUserId(u.getId());
 	}
-	
+
 	public void selectPublication(Publication p) {
-		borrowingId.setPublicationId(p.getId());		
+		borrowingId.setPublicationId(p.getId());
 	}
-	
+
 	public PublicationBorrowing getBorrowing() {
 		return borrowing;
 	}
@@ -78,17 +78,17 @@ public class BorrowingManagedBean implements Serializable {
 	}
 
 	public User getUser() {
-		return user;		
+		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-		//System.out.println(user.getBorrowing());
-		//setBorrowing(user.getBorrowing());
+		// System.out.println(user.getBorrowing());
+		// setBorrowing(user.getBorrowing());
 	}
-			
+
 	public void returnBorrowing() {
-		borrowing.setId(borrowingId);		
+		borrowing.setId(borrowingId);
 		try {
 			getBorrowingBean().returnPublication(borrowing);
 		} catch (ServiceException e) {
@@ -96,5 +96,5 @@ public class BorrowingManagedBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
 		}
 	}
-	
+
 }

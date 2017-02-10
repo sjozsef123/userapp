@@ -1,7 +1,6 @@
 package solomonj.msg.userapp.ejb.repository.bean;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;

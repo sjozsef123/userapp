@@ -9,6 +9,6 @@ public interface IPublicationService {
 
 	public static final String jndiNAME = "java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/PublicationServiceBean";
 	
-	public List<Publication> getAllPublication() throws ServiceException;
-	
+	List<Publication> getAllPublication() throws ServiceException;
+	void deletePublication(Publication publication) throws ServiceException;
 }
