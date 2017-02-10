@@ -32,8 +32,7 @@ public class User extends BaseEntity implements Serializable {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany
-	//@PostLoadLazyCollection(LazyCollectionOption.FALSE)	
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private List<PublicationBorrowing> borrowings;
 

@@ -1,11 +1,16 @@
 package solomonj.msg.userapp.ejb.repository.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.PersistenceException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 
 import org.jboss.logging.Logger;
 
@@ -14,10 +19,10 @@ import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
 
 @Stateless
-public class UserRepositoryBean extends BasicRepositoryBean<User>  implements IUserRepository {
+public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUserRepository {
 
 	public UserRepositoryBean() {
-		super(User.class);	
+		super(User.class);
 	}
 
 	@PersistenceContext(unitName = "userapp-jpa")
@@ -26,11 +31,21 @@ public class UserRepositoryBean extends BasicRepositoryBean<User>  implements IU
 	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 
 	@Override
-	public List<User> searchUserByName(String name) throws RepositoryException {		 
-		TypedQuery<User> query = entityManager.createQuery("Select u " + "from User u where u.username LIKE :name",
-				User.class);		
-		query.setParameter("name", "%" + name + "%");
-		return query.getResultList();		
+	public List<User> searchUserByName(String name) throws RepositoryException {	
+		List<User> resultList;
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+			Root<User> root = criteriaQuery.from(User.class);
+			root.fetch("borrowings", JoinType.LEFT);
+			criteriaQuery.select(root).where(builder.like(root.get("username"), "%"+name+"%"));
+
+			resultList = entityManager.createQuery(criteriaQuery).getResultList();
+			return (resultList == null) ? new ArrayList<>() : resultList;
+		} catch (PersistenceException e) {
+			oLogger.error("Failed to query user list.", e);
+			throw new RepositoryException("user.read");
+		}
 	}
 
 	@Override

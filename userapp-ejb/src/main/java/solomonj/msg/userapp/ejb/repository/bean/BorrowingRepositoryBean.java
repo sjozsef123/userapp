@@ -50,8 +50,8 @@ public class BorrowingRepositoryBean implements IBorrowingRepository{
 					
 			delete.where(builder.equal(borrowRoot.get("PublicationBorrowingPK"), borrowingPK));
 			
-			entityManager.createQuery(delete).executeUpdate();
-			entityManager.getTransaction().commit();
+     		entityManager.createQuery(delete).executeUpdate();
+
 			
 			oLogger.info("Borrowing deleted.");			
 		} catch (PersistenceException e) {
