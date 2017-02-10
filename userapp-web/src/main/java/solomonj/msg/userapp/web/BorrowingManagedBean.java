@@ -1,6 +1,7 @@
 package solomonj.msg.userapp.web;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
@@ -60,6 +61,7 @@ public class BorrowingManagedBean implements Serializable {
 }
 	
 	public void selectUser(User u) {
+		System.out.println(u);
 		setUser(u);	
 		borrowingId = new PublicationBorrowingPK();	
 		borrowingId.setUserId(u.getId());		 
@@ -83,8 +85,15 @@ public class BorrowingManagedBean implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-		//System.out.println(user.getBorrowing());
-		//setBorrowing(user.getBorrowing());
+		List<PublicationBorrowing> ub = user.getBorrowing();
+		System.out.println(ub);
+		if (ub.isEmpty()) {
+			System.out.println("EMPTY");
+		}
+		for (PublicationBorrowing pb : ub) {
+			System.out.println(pb.getId());
+			setBorrowing(ub.get(0));
+		}		
 	}
 			
 	public void returnBorrowing() {
