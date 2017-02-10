@@ -31,6 +31,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 
 	@Override
+<<<<<<< HEAD
 	public List<User> searchUserByName(String name) throws RepositoryException {	
 		List<User> resultList;
 		try {
@@ -64,5 +65,15 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			throw new RepositoryException("user.loyalty");
 		}
 	}
+=======
+	public List<User> searchUserByName(String name) throws RepositoryException {
+		TypedQuery<User> query = entityManager.createQuery("Select u " + "from User u where u.username LIKE :name",
+				User.class);
+		query.setParameter("name", "%" + name + "%");
+		return query.getResultList();
+	}
+
+
+>>>>>>> refs/heads/jpa
 
 }
