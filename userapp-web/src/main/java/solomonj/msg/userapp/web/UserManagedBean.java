@@ -177,6 +177,11 @@ public class UserManagedBean implements Serializable {
 		this.searchName = searchName;
 	}
 	
+	public void clearFilter() {
+		
+		searchName = "";
+	}
+	
 	
 
 }

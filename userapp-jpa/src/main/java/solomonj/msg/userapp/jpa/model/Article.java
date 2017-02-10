@@ -1,11 +1,13 @@
 package solomonj.msg.userapp.jpa.model;
 
-import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "articles")
-public class Article extends BaseEntity implements Serializable {
+public class Article extends BaseEntity {
 	
 	@Transient
 	private static final long serialVersionUID = 1L;

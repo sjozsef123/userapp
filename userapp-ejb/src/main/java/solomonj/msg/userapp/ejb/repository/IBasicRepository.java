@@ -8,7 +8,7 @@ import solomonj.msg.userapp.jpa.model.BaseEntity;
 public interface IBasicRepository<T extends BaseEntity> {
 
 	List<T> getlAll() throws RepositoryException;
-	void create(T publication) throws RepositoryException;
-	void delete(T publication) throws RepositoryException;	
-	void update(T publication) throws RepositoryException;
+	void create(T t) throws RepositoryException;
+	void delete(T t) throws RepositoryException;	
+	void update(T t) throws RepositoryException;
 }

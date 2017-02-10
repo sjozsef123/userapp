@@ -1,7 +1,5 @@
 package solomonj.msg.userapp.jpa.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
@@ -16,7 +14,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="roles")
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
-public class Role extends BaseEntity implements Serializable {
+public class Role extends BaseEntity {
 	
 	@Transient
 	private static final long serialVersionUID = 231135871492528636L;

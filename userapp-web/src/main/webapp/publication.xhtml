@@ -12,22 +12,99 @@
 
 	<h2>Publication list</h2>
 
-	<h:form rendered="#{not empty publicationmanagedbean.publicationList}">
-		<h:dataTable value="#{publicationmanagedbean.publicationList}" var="item">
-			<h:column>
-				<f:facet name="header">Title</f:facet>#{item.title}</h:column>
-			<h:column>
-				<f:facet name="header">Type</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
-		
+	<div style="float: left; clear: both; margin-right: 50px;">
 
-		</h:dataTable>
-	</h:form>
+		<h4>Filter by name:</h4>
+		<h:form>
+			<p>
+				<h:inputText value="#{publicationmanagedbean.filter}">
+				</h:inputText> <br/>
+				<h:commandButton value="Search" render="publicationList" /> 
+				<h:commandButton value="Clear" action="#{publicationmanagedbean.clearFilter()}" render="publicationList"/>
+				
+			</p>
+		</h:form>
+		<h:form rendered="#{not empty publicationmanagedbean.publicationList}">
+			<h:dataTable id="publicationList" value="#{publicationmanagedbean.publicationList}"
+				var="item">
+				<h:column>
+					<f:facet name="header">Title</f:facet>#{item.title}</h:column>
+				<h:column>
+					<f:facet name="header">Type</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
 
-	<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
-		<p>No Publication!.</p>
-	</h:panelGroup>
+				<h:column>
+					<h:commandButton value="edit" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="delete"
+						action="#{publicationmanagedbean.deletePublication(item)}"
+						onclick="if(!confirm('Do you really wanna do that?')) return false" />
+				</h:column>
 
-	
+			</h:dataTable>
+		</h:form>
+
+		<h:panelGroup
+			rendered="#{empty publicationmanagedbean.publicationList}">
+			<p>No Publication!.</p>
+		</h:panelGroup>
+	</div>
+
+	<div style="float: left; clear: right; margin-right: 50px;">
+		<h2>Add publication</h2>
+		<h:form>
+			<p>
+				Title:
+				<h:inputText id="publicationTitle" binding="#{title}"
+					required="true" />
+			</p>
+
+			<p>
+				Stock:
+				<h:inputText id="publicationStock" binding="#{stock}"
+					required="true" />
+			</p>
+
+			<p>
+				Publisher:
+				<h:inputText id="publicationPublisher" binding="#{publisher}"
+					required="true" />
+			</p>
+
+			<p>
+				Release date:
+				<h:inputText id="publicationPelease" binding="#{release}"
+					required="true" />
+			</p>
+
+			<p>
+
+				<h:selectOneRadio id="publicationType"
+					binding="#{selectedPublicationType}">
+					<f:selectItem id="bookRadio" itemValue="book" itemLabel="Book" />
+					<f:selectItem id="magazineRadio" itemValue="magazine"
+						itemLabel="Magazine" />
+					<f:selectItem id="newspaperRadio" itemValue="newspaper"
+						itemLabel="Newspaper" />
+					<!-- 					<f:ajax render="output" /> -->
+				</h:selectOneRadio>
+
+				<!-- 				<h:outputText value="#{selectedPublicationType.value}" /> -->
+
+				<h:panelGroup id="output">
+					<h:outputText value="" rendered="" />
+				</h:panelGroup>
+
+			</p>
+
+			<p>
+				<h:commandButton value="Add"
+					action="#{publicationmanagedbean.test(selectedPublicationType.value)}" />
+
+			</p>
+
+		</h:form>
+	</div>
 
 </body>
 </html>

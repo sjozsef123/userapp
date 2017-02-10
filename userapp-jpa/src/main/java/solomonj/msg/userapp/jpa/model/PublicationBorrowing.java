@@ -22,7 +22,7 @@ public class PublicationBorrowing implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date deadline;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@MapsId("publicationId")
 	@JoinColumn(name = "publication_id")
 	private Publication publication;

@@ -1,6 +1,5 @@
 package solomonj.msg.userapp.jpa.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("newspaper")
-public class Newspaper extends Publication implements Serializable{
+public class Newspaper extends Publication {
 	
 	@Transient
 	private static final long serialVersionUID = 1L;
