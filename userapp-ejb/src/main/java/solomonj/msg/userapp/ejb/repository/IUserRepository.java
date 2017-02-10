@@ -11,5 +11,7 @@ public interface IUserRepository extends IBasicRepository<User> {
 	public List<User> searchUserByName(String name) throws RepositoryException;
 	
 	public User getUserById(int id) throws RepositoryException;
+	
+	public void decreaseLoyaltyIndex(int id) throws RepositoryException;
 
 }

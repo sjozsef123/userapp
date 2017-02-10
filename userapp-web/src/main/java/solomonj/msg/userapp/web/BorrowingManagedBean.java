@@ -10,8 +10,8 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import solomonj.msg.appuser.common.IBorrowingService;
 import solomonj.msg.appuser.common.exception.ServiceException;
+import solomonj.msg.appuser.common.service.IBorrowingService;
 import solomonj.msg.userapp.jpa.model.Publication;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowing;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
@@ -31,7 +31,7 @@ public class BorrowingManagedBean implements Serializable {
 	//private IPublicationService publicationBean = null;
 	private IBorrowingService borrowingBean = null;
 	
-	private PublicationBorrowing borrowing;
+	//private PublicationBorrowing borrowing;
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
 	private User user = new User();
 	//private Publication publication;
@@ -60,8 +60,11 @@ public class BorrowingManagedBean implements Serializable {
 	return borrowingBean;
 }
 	
+	public boolean getBorrowingIdCompleted() {
+		return (borrowingId == null) || ((borrowingId.getUserId() == 0) || (borrowingId.getPublicationId() == 0)) ? false : true;
+	}
+
 	public void selectUser(User u) {
-		System.out.println(u);
 		setUser(u);	
 		borrowingId = new PublicationBorrowingPK();	
 		borrowingId.setUserId(u.getId());		 
@@ -78,11 +81,16 @@ public class BorrowingManagedBean implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	private void clearVariables() {
+		borrowingId = null;
+		setUser(new User());
+	}
 			
-	public void returnBorrowing() {
-		borrowing.setId(borrowingId);		
+	public void returnBorrowing() {	
 		try {
-			getBorrowingBean().returnPublication(borrowing);
+			getBorrowingBean().returnPublication(borrowingId);
+			clearVariables();
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));

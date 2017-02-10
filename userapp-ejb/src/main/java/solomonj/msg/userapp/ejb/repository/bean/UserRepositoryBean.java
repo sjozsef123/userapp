@@ -52,5 +52,17 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 	public User getUserById(int id) {
 		return entityManager.find(User.class, id);
 	}
+	
+	@Override
+	public void decreaseLoyaltyIndex(int id) throws RepositoryException {
+		try {
+			User user = entityManager.find(User.class, id);
+			user.setLoyaltyIndex(user.getLoyaltyIndex() - 1);
+			oLogger.info("User's loyalty decreased.");
+		} catch (PersistenceException e) {
+			oLogger.error("Could not decrease user's loyalty", e);
+			throw new RepositoryException("user.loyalty");
+		}
+	}
 
 }
