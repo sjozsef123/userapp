@@ -14,5 +14,8 @@
 			<class>solomonj.msg.userapp.jpa.model.PublicationBorrowingPK</class>
 			<class>solomonj.msg.userapp.jpa.model.Role</class>
 			<class>solomonj.msg.userapp.jpa.model.User</class>
+			<class>solomonj.msg.userapp.jpa.model.Book</class>
+			<class>solomonj.msg.userapp.jpa.model.Magazine</class>
+			<class>solomonj.msg.userapp.jpa.model.Newspaper</class>
 	</persistence-unit>
 </persistence>
