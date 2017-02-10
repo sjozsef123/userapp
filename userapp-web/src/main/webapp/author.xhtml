@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<title>authors</title>
+</head>
+<body>
+
+	<h2>List authors</h2>
+
+	<h:form rendered="#{not empty authorManagedBean.allAuthor}">
+		<h:dataTable id = "authorList" value="#{authorManagedBean.allAuthor}" var="item">
+			<h:column>
+				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+			<h:column>
+				<f:facet name="header">Name</f:facet>#{item.name}</h:column>
+
+			<h:column>
+				<h:commandButton value="edit"
+					action="#{authorManagedBean.editAuthor(item)}" />
+			</h:column>
+			<h:column>
+				<h:commandButton value="delete"
+					action="#{authorManagedBean.delete(item)}" 
+					onclick="if(!confirm('Do you really wanna do that?')) return false"  />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+
+	<h:panelGroup rendered="#{empty authorManagedBean.allAuthor}">
+		<p>No Authors!.</p>
+	</h:panelGroup>
+
+	<br />
+	<h:panelGroup rendered="#{!authorManagedBean.edit}">
+		<h2>Add author</h2>
+
+		<h:form>
+			<p>
+				Name:
+				<h:inputText id="nameInput" value="#{authorManagedBean.author.name}"
+					required="true">
+				</h:inputText>
+			</p>
+
+			<p>
+				<h:commandButton value="add" action="#{authorManagedBean.add}" />
+				<h:commandButton value="reset" action="#{authorManagedBean.resetAdd}" />
+			</p>
+
+		</h:form>
+	</h:panelGroup>
+
+
+
+	<h:panelGroup rendered="#{authorManagedBean.edit}">
+		<h3>Edit user with id: #{authorManagedBean.author.id}</h3>
+		<h:form>
+			<p>
+				Name:
+				<h:inputText value="#{authorManagedBean.author.name}" />
+			</p>
+			<p>
+				<h:commandButton value="save" action="#{authorManagedBean.saveEdit}" />
+				<h:commandButton value="cancel"
+					action="#{authorManagedBean.cancelEdit}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+
+	<h:messages globalOnly="true" />
+	<br />
+
+	<h3>Filter by name:</h3>
+	<h:form>
+		<p>
+			<h:inputText value="#{authorManagedBean.searchName}">
+			</h:inputText>
+			<h:commandButton value="Search" outcome="author" />
+			<h:commandButton value="Clear" render="" action = "#{authorManagedBean.clearFilter}"/>
+		</p>
+	</h:form>
+	
+	
+
+
+</body>
+</html>

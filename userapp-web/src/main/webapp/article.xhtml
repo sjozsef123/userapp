@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<title>articles</title>
+</head>
+<body>
+
+	<h2>List articles</h2>
+
+	<h:form rendered="#{not empty articleManagedBean.allArticles}">
+		<h:dataTable id = "article" value="#{articleManagedBean.allArticles}" var="item">
+			<h:column>
+				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+			
+			<h:column>
+				<f:facet name="header">Title</f:facet>#{item.title}</h:column>
+
+			<h:column>
+				<h:commandButton value="edit"
+					action="#{articleManagedBean.editArticle(item)}" />
+			</h:column>
+			<h:column>
+				<h:commandButton value="delete"
+					action="#{articleManagedBean.delete(item)}" 
+					onclick="if(!confirm('Do you really wanna do that?')) return false"  />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+
+	<h:panelGroup rendered="#{empty articleManagedBean.allArticles}">
+		<p>No Articles!.</p>
+	</h:panelGroup>
+
+	<br />
+	<h:panelGroup rendered="#{!articleManagedBean.edit}">
+		<h2>Add article</h2>
+
+		<h:form>
+			<p>
+				Name:
+				<h:inputText id="nameInput"
+					value="#{articleManagedBean.article.title}" required="true">
+				</h:inputText>
+			</p>
+
+			<p>
+				<h:commandButton value="add" action="#{articleManagedBean.add}" />
+				<h:commandButton value="reset" action="#{articleManagedBean.resetAdd}" />
+			</p>
+
+		</h:form>
+	</h:panelGroup>
+
+
+
+	<h:panelGroup rendered="#{articleManagedBean.edit}">
+		<h3>Edit article with id: #{articleManagedBean.article.id}</h3>
+		<h:form>
+			<p>
+				Name:
+				<h:inputText value="#{articleManagedBean.article.title}" />
+			</p>
+			
+			<p>
+				<h:commandButton value="save" action="#{articleManagedBean.saveEdit}" />
+				<h:commandButton value="cancel"
+					action="#{articleManagedBean.cancelEdit}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+
+	<h:messages globalOnly="true" />
+	<br />
+
+	<h3>Filter by name:</h3>
+	<h:form>
+		<p>
+			<h:inputText value="#{articleManagedBean.searchName}">
+			</h:inputText>
+			<h:commandButton value="Search" render="article" />
+			<h:commandButton value="Clear" render="article" action = "#{articleManagedBean.clearFilter}"/>
+		</p>
+	</h:form>
+
+	<h:link value="Role management" outcome="role" />
+
+
+</body>
+</html>

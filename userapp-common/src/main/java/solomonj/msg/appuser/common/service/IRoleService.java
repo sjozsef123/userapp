@@ -1,4 +1,4 @@
-package solomonj.msg.appuser.common;
+package solomonj.msg.appuser.common.service;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface IRoleService {
 
 	public List<Role> getRoles() throws ServiceException;
 
-	public void deleteRole(int id) throws ServiceException;
+	public void deleteRole(Role role) throws ServiceException;
 
 	public void insertRole(Role role) throws ServiceException;
 }
