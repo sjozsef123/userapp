@@ -1,7 +1,6 @@
 package solomonj.msg.userapp.web;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
@@ -13,7 +12,6 @@ import javax.naming.NamingException;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IBorrowingService;
 import solomonj.msg.userapp.jpa.model.Publication;
-import solomonj.msg.userapp.jpa.model.PublicationBorrowing;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
 import solomonj.msg.userapp.jpa.model.User;
 
