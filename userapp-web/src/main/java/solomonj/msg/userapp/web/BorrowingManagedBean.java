@@ -1,9 +1,12 @@
 package solomonj.msg.userapp.web;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
@@ -21,30 +24,15 @@ import solomonj.msg.userapp.jpa.model.User;
  *
  */
 @Named("borrowingmanagedbean")
-@ApplicationScoped
+@SessionScoped
 public class BorrowingManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 7044748365143600630L;
-	//private IUserService userBean = null;
-	//private IPublicationService publicationBean = null;
 	private IBorrowingService borrowingBean = null;
 	
-	//private PublicationBorrowing borrowing;
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
 	private User user = new User();
 	//private Publication publication;
-	
-//	private IUserService getUserBean() {
-//		if (userBean == null) {
-//			try {
-//				InitialContext jndi = new InitialContext();
-//				userBean = (IUserService) jndi.lookup(IUserService.jndiNAME);
-//			} catch (NamingException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return userBean;
-//	}
 	
 	private IBorrowingService getBorrowingBean() {
 	if (borrowingBean == null) {
@@ -93,6 +81,15 @@ public class BorrowingManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
 		}
+	}
+	
+	public void changeLanguage() {
+		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+		if (viewRoot.getLocale() == Locale.ENGLISH) {
+			viewRoot.setLocale(new Locale("hu", "hu"));
+		} else {
+			viewRoot.setLocale(Locale.ENGLISH);
+		}		
 	}
 	
 }
