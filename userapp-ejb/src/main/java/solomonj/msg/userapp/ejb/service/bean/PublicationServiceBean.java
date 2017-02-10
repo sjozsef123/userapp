@@ -27,7 +27,7 @@ public class PublicationServiceBean implements IPublicationService {
 		try {
 			return publicationBean.getlAll();
 		} catch (RepositoryException e) {
-			oLogger.error("Failed to query publications");
+			oLogger.error(e.getMessage());
 			throw new ServiceException("publication.read");
 		}
 	}
@@ -38,8 +38,19 @@ public class PublicationServiceBean implements IPublicationService {
 		try {
 			publicationBean.delete(publication);
 		} catch (RepositoryException e) {
-			oLogger.equals("Failed to delete publication");
-			throw new ServiceException("publication.delete");
+			oLogger.error(e.getMessage());
+			throw new ServiceException(publication.getClass().getSimpleName().toLowerCase() + ".delete");
+		}
+	}
+
+	@Override
+	public List<Publication> filterPublicationByName(String filter) throws ServiceException {
+
+		try {
+			return publicationBean.filterPublicationByName(filter);
+		} catch (RepositoryException e) {
+			oLogger.error(e.getMessage());
+			throw new ServiceException("publication.read");
 		}
 	}
 

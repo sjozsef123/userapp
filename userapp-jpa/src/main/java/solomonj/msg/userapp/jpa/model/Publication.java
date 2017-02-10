@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @Table(name="publications")
-public abstract class Publication extends BaseEntity implements Serializable {
+public abstract class Publication extends BaseEntity {
 
 	@Transient
 	private static final long serialVersionUID = -8330975882778732846L;

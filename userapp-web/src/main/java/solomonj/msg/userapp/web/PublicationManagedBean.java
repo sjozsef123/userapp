@@ -24,6 +24,7 @@ public class PublicationManagedBean implements Serializable {
 	private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
 	private IPublicationService publicationBean;
 	private List<Publication> publicationList;
+	private String filter = "";
 	
 	public IPublicationService getpublicationBean() {
 		if (publicationBean == null) {
@@ -60,7 +61,7 @@ public class PublicationManagedBean implements Serializable {
 		
 		try {
 
-			publicationList = getpublicationBean().getAllPublication();
+			publicationList = getpublicationBean().filterPublicationByName(filter);
 			return publicationList;
 		} catch (ServiceException e) {
 			
@@ -72,5 +73,25 @@ public class PublicationManagedBean implements Serializable {
 	public void setPublicationList(List<Publication> publicationList) {
 		this.publicationList = publicationList;
 	}
+	
+	public void add(Publication publication) {
+			
+	}
+	
+	public void test(String a) {
+		System.out.println("retek");
+			System.out.println(a);
+	}
 
+
+	public String getFilter() {
+		return filter;
+	}
+
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	
 }

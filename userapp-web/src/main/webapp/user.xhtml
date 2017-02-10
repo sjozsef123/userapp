@@ -13,7 +13,7 @@
 	<h2>List users</h2>
 
 	<h:form rendered="#{not empty usermanagedbean.allUsers}">
-		<h:dataTable value="#{usermanagedbean.allUsers}" var="item">
+		<h:dataTable id="userList" value="#{usermanagedbean.allUsers}" var="item">
 			<h:column>
 				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
 			<h:column>
@@ -124,7 +124,7 @@
 		<p>
 			<h:inputText value="#{usermanagedbean.searchName}">
 			</h:inputText>
-			<h:commandButton value="Search" outcome="user" />
+			<h:commandButton value="Search" render="userList" />
 		</p>
 	</h:form>
 

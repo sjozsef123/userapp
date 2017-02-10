@@ -1,6 +1,5 @@
 package solomonj.msg.userapp.jpa.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="users")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity {
 	
 	@Transient
 	private static final long serialVersionUID = -3160124704546098071L;

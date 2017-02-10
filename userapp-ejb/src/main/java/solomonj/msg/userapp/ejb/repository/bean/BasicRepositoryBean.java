@@ -26,6 +26,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	
 	public BasicRepositoryBean(Class<T> cls) {
 		this.cls = cls;
 		 oLogger = Logger.getLogger(cls);
@@ -47,7 +48,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 			return (resultList == null) ? new ArrayList<>() : resultList;
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to query " + cls.getSimpleName() + "list.", e);
-			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".read", e);
+			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".read");
 		}
 	
 	}

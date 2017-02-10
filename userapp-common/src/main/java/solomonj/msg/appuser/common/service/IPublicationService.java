@@ -11,4 +11,5 @@ public interface IPublicationService {
 	
 	List<Publication> getAllPublication() throws ServiceException;
 	void deletePublication(Publication publication) throws ServiceException;
+	List<Publication> filterPublicationByName(String filter) throws ServiceException;
 }
