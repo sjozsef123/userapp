@@ -18,15 +18,18 @@
 		<h:form>
 			<p>
 				<h:inputText value="#{publicationmanagedbean.filter}">
-				</h:inputText> <br/>
-				<h:commandButton value="Search" render="publicationList" /> 
-				<h:commandButton value="Clear" action="#{publicationmanagedbean.clearFilter()}" render="publicationList"/>
-				
+				</h:inputText>
+				<br />
+				<h:commandButton value="Search" render="publicationList" />
+				<h:commandButton value="Clear"
+					action="#{publicationmanagedbean.clearFilter()}"
+					render="publicationList" />
+
 			</p>
 		</h:form>
 		<h:form rendered="#{not empty publicationmanagedbean.publicationList}">
-			<h:dataTable id="publicationList" value="#{publicationmanagedbean.publicationList}"
-				var="item">
+			<h:dataTable id="publicationList"
+				value="#{publicationmanagedbean.publicationList}" var="item">
 				<h:column>
 					<f:facet name="header">Title</f:facet>#{item.title}</h:column>
 				<h:column>
@@ -52,7 +55,7 @@
 
 	<div style="float: left; clear: right; margin-right: 50px;">
 		<h2>Add publication</h2>
-		<h:form>
+		<h:form id="form">
 			<p>
 				Title:
 				<h:inputText id="publicationTitle" binding="#{title}"
@@ -77,24 +80,55 @@
 					required="true" />
 			</p>
 
+			<script>
+				function change(selected) {
+
+					// 		alert('Value of selected item is: ' + selected);
+					document.getElementById("form:publicationType").value = selected;
+					// 		alert(document.getElementById("form:publicationType").value);
+
+					if (selected == 'book') {
+						document.getElementById("form:bookPanel").style.display = "";
+						document.getElementById("form:magazinePanel").style.display = "none;";
+						document.getElementById("form:newspaperPanel").style.display = "none;";
+					} else {
+
+						if (selected == 'magazine') {
+							document.getElementById("form:bookPanel").style.display = "none;";
+							document.getElementById("form:magazinePanel").style.display = "";
+							document.getElementById("form:newspaperPanel").style.display = "none;";
+						} else {
+
+						}
+
+						if (selected == 'newspaper') {
+							document.getElementById("form:bookPanel").style.display = "none;";
+							document.getElementById("form:magazinePanel").style.display = "none;";
+							document.getElementById("form:newspaperPanel").style.display = "";
+						}
+					}
+				}
+			</script>
 			<p>
+				<!-- onclick="this.form.submit();" -->
 
 				<h:selectOneRadio id="publicationType"
-					binding="#{selectedPublicationType}">
+					binding="#{selectedPublicationType}" onchange="change(this.value);">
 					<f:selectItem id="bookRadio" itemValue="book" itemLabel="Book" />
-					<f:selectItem id="magazineRadio" itemValue="magazine"
-						itemLabel="Magazine" />
-					<f:selectItem id="newspaperRadio" itemValue="newspaper"
-						itemLabel="Newspaper" />
-					<!-- 					<f:ajax render="output" /> -->
+					<f:selectItem id="magazineRadio" itemValue="magazine" itemLabel="Magazine" />
+					<f:selectItem id="newspaperRadio" itemValue="newspaper"	itemLabel="Newspaper" />
+
 				</h:selectOneRadio>
 
-				<!-- 				<h:outputText value="#{selectedPublicationType.value}" /> -->
+				<!-- 				<h:panelGroup id="changePane"> -->
+				<h:outputText id="bookPanel" value="book" style="display: none;" />
+				<h:outputText id="magazinePanel" value="magazine" style="display: none;" />
+				<h:outputText id="newspaperPanel" value="newspaper" style="display: none;" />
 
-				<h:panelGroup id="output">
-					<h:outputText value="" rendered="" />
-				</h:panelGroup>
-
+				<!-- 				<h:panelGroup id="output"> -->
+				<!-- 					<h:outputText value="" rendered="" /> -->
+				<!-- 				</h:panelGroup> -->
+				<!-- 				</h:panelGroup> -->
 			</p>
 
 			<p>
