@@ -67,7 +67,7 @@ public class UserManagedBean implements Serializable {
 
 	public void add() {
 
-		if (checkUserName()) {
+		if (checkUserName(user.getUsername())) {
 			user.setRoles(rolesToInt());
 			insertUser(user);
 			user = new User();
@@ -81,7 +81,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void saveEdit() {
-		if (checkUserName()) {			
+		if (checkUserName(user.getUsername())) {
 			user.setRoles(rolesToInt());
 			updateUser(user);
 			this.user = new User();
@@ -96,7 +96,7 @@ public class UserManagedBean implements Serializable {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		if (allUsers == null) {			
+		if (allUsers == null) {
 			return new ArrayList<>();
 		}
 		return allUsers;
@@ -126,7 +126,6 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().updateUser(user);
 		} catch (ServiceException e) {
-
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "User's name already exists", null));
 		}
@@ -158,8 +157,8 @@ public class UserManagedBean implements Serializable {
 		return roles;
 	}
 
-	private boolean checkUserName() {
-		if (user.getUsername().length() < 3) {
+	private boolean checkUserName(String name) {
+		if (name.length() < 3) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min 3 character", null));
 			return false;
@@ -175,12 +174,17 @@ public class UserManagedBean implements Serializable {
 	public void setSearchName(String searchName) {
 		this.searchName = searchName;
 	}
-	
+
 	public void clearFilter() {
-		
 		searchName = "";
 	}
-	
-	
+
+	public boolean login(String n, String p) {		
+		if (checkUserName(n)) {
+			return false;
+		} else {			
+			return true;
+		}
+	}		
 
 }

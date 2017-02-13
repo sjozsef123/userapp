@@ -43,7 +43,8 @@ public class BorrowingManagedBean implements Serializable {
 				InitialContext jndi = new InitialContext();
 				borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
 			} catch (NamingException e) {
-				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "borrowing.naming", null));
 			}
 		}
 		return borrowingBean;
