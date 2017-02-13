@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -17,7 +17,7 @@ import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
 @Named("usermanagedbean")
-@ApplicationScoped
+@SessionScoped
 public class UserManagedBean implements Serializable {
 
 	private static final long serialVersionUID = -16296420798818231L;
@@ -87,7 +87,6 @@ public class UserManagedBean implements Serializable {
 			this.user = new User();
 			selectedRoles = new ArrayList<>();
 			edit = false;
-
 		}
 	}
 

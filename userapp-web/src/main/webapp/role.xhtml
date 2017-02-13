@@ -9,25 +9,28 @@
 <title>roles</title>
 </head>
 <body>
+	<ui:include src="/includes/navigation.xhtml" />
 
-	<h2>List roles</h2>
+	<h:panelGrid>
+		<h2>List roles</h2>
 
-	<h:form rendered="#{not empty rolemanagedbean.roles}">
-		<h:dataTable value="#{rolemanagedbean.roles}" var="item">
-			<h:column>
-				<f:facet name="header">Role name</f:facet> 
+		<h:form rendered="#{not empty rolemanagedbean.roles}">
+			<h:dataTable value="#{rolemanagedbean.roles}" var="item">
+				<h:column>
+					<f:facet name="header">Role name</f:facet> 
 				#{item.rolename}
 				</h:column>
-				
-			<h:column>
-				<h:commandButton value="delete" action="#{rolemanagedbean.delete(item)}" />
-			</h:column>
-			
-		</h:dataTable>
-	</h:form>
-	
-	
-	<h3>Add role</h3>
+
+				<h:column>
+					<h:commandButton value="delete"
+						action="#{rolemanagedbean.delete(item)}" />
+				</h:column>
+
+			</h:dataTable>
+		</h:form>
+
+
+		<h3>Add role</h3>
 		<h:form>
 			<p>
 				Name:
@@ -39,9 +42,10 @@
 				<h:commandButton value="reset" action="#{rolemanagedbean.resetAdd}" />
 			</p>
 		</h:form>
-		
-		<h:messages globalOnly="true" />
-	<h:link value="User Management" outcome="user" />
-	
+	</h:panelGrid>
+
+	<ui:include src="/includes/footer.xhtml" />
+
+
 </body>
 </html>

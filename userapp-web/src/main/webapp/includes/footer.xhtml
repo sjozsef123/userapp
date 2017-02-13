@@ -3,16 +3,19 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+	<h:messages globalOnly="true" />
+	<br />
+
 	<footer>
-		<p>#{msg['web.team']}: Csilla, Jocó, Robi, Zolti</p>
 		<h:form>
 			<h:column>
 				<h:column>
 					<h:commandButton value="#{msg['web.changelanguage']}"
-						action="#{borrowingmanagedbean.changeLanguage()}" />
+						action="#{loginmanagedbean.changeLanguage()}" />
 				</h:column>
 			</h:column>
 		</h:form>
+		<p>#{msg['web.team']}: Csilla, Jocó, Robi, Zolti</p>
 	</footer>
 
 </ui:composition>

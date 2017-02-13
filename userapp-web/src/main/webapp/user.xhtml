@@ -9,128 +9,128 @@
 <title>users</title>
 </head>
 <body>
+	<ui:include src="/includes/navigation.xhtml" />
 
-	<h2>List users</h2>
+	<h:panelGrid>
+		<h2>List users</h2>
 
-	<h:form rendered="#{not empty usermanagedbean.allUsers}">
-		<h:dataTable id="userList" value="#{usermanagedbean.allUsers}" var="item">
-			<h:column>
-				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
-			<h:column>
-				<f:facet name="header">Name</f:facet>#{item.username}</h:column>
-			<h:column>
-				<f:facet name="header">Loyalty i.</f:facet>#{item.loyaltyIndex}</h:column>
+		<h:form rendered="#{not empty usermanagedbean.allUsers}">
+			<h:dataTable id="userList" value="#{usermanagedbean.allUsers}"
+				var="item">
+				<h:column>
+					<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+				<h:column>
+					<f:facet name="header">Name</f:facet>#{item.username}</h:column>
+				<h:column>
+					<f:facet name="header">Loyalty i.</f:facet>#{item.loyaltyIndex}</h:column>
 
-			<h:column>
+				<h:column>
 
-				<f:facet name="header"> Roles </f:facet>
+					<f:facet name="header"> Roles </f:facet>
 				(<ui:repeat value="#{item.roles}" var="roles">
 					-<h:outputText value="#{roles.rolename}" />-
 				</ui:repeat>)
 			</h:column>
-			<h:column>
-				<h:commandButton value="edit"
-					action="#{usermanagedbean.editUser(item)}" />
-			</h:column>
-			<h:column>
-				<h:commandButton value="delete" onclick="if(!confirm('Do you really wanna do that?')) return false"
-					action="#{usermanagedbean.delete(item)}" />
-			</h:column>
-		</h:dataTable>
-	</h:form>
+				<h:column>
+					<h:commandButton value="edit"
+						action="#{usermanagedbean.editUser(item)}" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="delete"
+						onclick="if(!confirm('Do you really wanna do that?')) return false"
+						action="#{usermanagedbean.delete(item)}" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
 
-	<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
-		<p>No Users!.</p>
-	</h:panelGroup>
+		<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
+			<p>No Users!.</p>
+		</h:panelGroup>
 
-	<br />
-	<h:panelGroup rendered="#{!usermanagedbean.edit}">
-		<h2>Add user</h2>
+		<br />
+		<h:panelGroup rendered="#{!usermanagedbean.edit}">
+			<h2>Add user</h2>
 
+			<h:form>
+				<p>
+					Name:
+					<h:inputText id="nameInput"
+						value="#{usermanagedbean.user.username}" required="true">
+					</h:inputText>
+				</p>
+
+				<p>
+					Loyalty i.:
+					<h:inputText id="loyalyInput"
+						value="#{usermanagedbean.user.loyaltyIndex}" required="true">
+					</h:inputText>
+				</p>
+
+				<p>
+					Password:
+					<h:inputText id="passwordInput"
+						value="#{usermanagedbean.user.password}" required="true">
+					</h:inputText>
+				</p>
+
+
+				<p>
+
+					<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
+						<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
+							itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
+					</h:selectManyCheckbox>
+
+				</p>
+
+				<p>
+					<h:commandButton value="add" action="#{usermanagedbean.add}" />
+					<h:commandButton value="reset" action="#{usermanagedbean.resetAdd}" />
+				</p>
+
+			</h:form>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{usermanagedbean.edit}">
+			<h3>Edit user with id: #{usermanagedbean.user.id}</h3>
+			<h:form>
+				<p>
+					Name:
+					<h:inputText value="#{usermanagedbean.user.username}" />
+				</p>
+				<p>
+					Loyalty i:
+					<h:inputText value="#{usermanagedbean.user.loyaltyIndex}" />
+
+
+
+					<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
+						<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
+							itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
+					</h:selectManyCheckbox>
+
+				</p>
+				<p>
+					<h:commandButton value="save" action="#{usermanagedbean.saveEdit}" />
+					<h:commandButton value="cancel"
+						action="#{usermanagedbean.cancelEdit}" />
+				</p>
+			</h:form>
+		</h:panelGroup>
+
+		<h3>Filter by name:</h3>
 		<h:form>
 			<p>
-				Name:
-				<h:inputText id="nameInput" value="#{usermanagedbean.user.username}"
-					required="true">
+				<h:inputText value="#{usermanagedbean.searchName}">
 				</h:inputText>
-			</p>
-
-			<p>
-				Loyalty i.:
-				<h:inputText id="loyalyInput"
-					value="#{usermanagedbean.user.loyaltyIndex}" required="true">
-				</h:inputText>
-			</p>
-
-			<p>
-				Password:
-				<h:inputText id="passwordInput"
-					value="#{usermanagedbean.user.password}" required="true">
-				</h:inputText>
-			</p>
-
-
-			<p>
-
-				<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
-					<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
-						itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
-				</h:selectManyCheckbox>
-
-			</p>
-
-			<p>
-				<h:commandButton value="add" action="#{usermanagedbean.add}" />
-				<h:commandButton value="reset" action="#{usermanagedbean.resetAdd}" />
-			</p>
-
-		</h:form>
-	</h:panelGroup>
-
-
-
-	<h:panelGroup rendered="#{usermanagedbean.edit}">
-		<h3>Edit user with id: #{usermanagedbean.user.id}</h3>
-		<h:form>
-			<p>
-				Name:
-				<h:inputText value="#{usermanagedbean.user.username}" />
-			</p>
-			<p>
-				Loyalty i:
-				<h:inputText value="#{usermanagedbean.user.loyaltyIndex}" />
-
-
-
-			<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
-				<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
-					itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
-			</h:selectManyCheckbox>
-
-			</p>
-			<p>
-				<h:commandButton value="save" action="#{usermanagedbean.saveEdit}" />
-				<h:commandButton value="cancel"
-					action="#{usermanagedbean.cancelEdit}" />
+				<br />
+				<h:commandButton value="Search" render="userList" />
+				<h:commandButton value="Clear"
+					action="#{usermanagedbean.clearFilter()}" render="userList" />
 			</p>
 		</h:form>
-	</h:panelGroup>
-
-	<h:messages globalOnly="true" />
-	<br />
-
-	<h3>Filter by name:</h3>
-	<h:form>
-		<p>
-			<h:inputText value="#{usermanagedbean.searchName}">
-			</h:inputText> <br/>
-			<h:commandButton value="Search" render="userList" />
-			<h:commandButton value="Clear" action="#{usermanagedbean.clearFilter()}" render="userList" />
-		</p>
-	</h:form>
-
-	<h:link value="Role management" outcome="role" />
-
-
+	</h:panelGrid>	
+	
+	<ui:include src="/includes/footer.xhtml" />
 </body>
 </html>

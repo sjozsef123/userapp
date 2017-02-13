@@ -115,13 +115,4 @@ public class BorrowingManagedBean implements Serializable {
 		}
 	}
 
-	public void changeLanguage() {
-		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
-		if (viewRoot.getLocale() == Locale.ENGLISH) {
-			viewRoot.setLocale(new Locale("hu", "hu"));
-		} else {
-			viewRoot.setLocale(Locale.ENGLISH);
-		}
-	}
-
 }
