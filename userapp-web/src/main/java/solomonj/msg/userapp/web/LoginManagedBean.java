@@ -3,6 +3,8 @@ package solomonj.msg.userapp.web;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIViewRoot;
@@ -87,6 +89,13 @@ public class LoginManagedBean implements Serializable {
 			}
 		}
 		return "login.xhtml";
+	}
+
+	public static String getResourceBundleString(String resourceBundleName, String resourceBundleKey)
+			throws MissingResourceException {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = facesContext.getApplication().getResourceBundle(facesContext, resourceBundleName);
+		return bundle.getString(resourceBundleKey);
 	}
 
 }

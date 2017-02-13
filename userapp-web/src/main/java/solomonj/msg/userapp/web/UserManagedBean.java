@@ -107,8 +107,8 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().insertUser(user);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
 		}
 	}
 
@@ -116,8 +116,8 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().deleteUserById(user);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
 		}
 
 	}
@@ -126,8 +126,8 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().updateUser(user);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "User's name already exists", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
 		}
 
 	}
@@ -179,18 +179,18 @@ public class UserManagedBean implements Serializable {
 		searchName = "";
 	}
 
-	public User login(String n, String p) {		
+	public User login(String n, String p) {
 		if (checkUserName(n)) {
 			try {
 				return getUserBean().login(n, p);
 			} catch (ServiceException e) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
 				return new User();
-			} 
-		} else {	
+			}
+		} else {
 			return new User();
 		}
-	}		
+	}
 
 }

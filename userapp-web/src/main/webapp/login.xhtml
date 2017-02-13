@@ -5,16 +5,16 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-	<title>Login</title>
+	<title>#{msg['web.login.title']}</title>
 </h:head>
 
 <h:body>	
 
-	<h2>Please log in.</h2>
+	<h2>#{msg['web.login.pleaseLogIn']}</h2>
 	<br />
 	<h:form>
-		Username:<h:inputText binding="#{name}" /><br />
-		Password:<h:inputText binding="#{pass}" /><br />
+		#{msg['web.login.username']}:<h:inputText binding="#{name}" /><br />
+		#{msg['web.login.password']}:<h:inputText binding="#{pass}" /><br />
 		<h:commandButton value="#{msg['web.logIn']}"
 			actionListener="#{loginmanagedbean.login(name.value,pass.value)}"
 			action="user?faces-redirect=true"/>
