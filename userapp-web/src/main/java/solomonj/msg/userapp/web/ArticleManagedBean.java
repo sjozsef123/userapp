@@ -14,7 +14,11 @@ import javax.naming.NamingException;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IArticleService;
 import solomonj.msg.userapp.jpa.model.Article;
-
+/**
+ * 
+ * @author szocsc
+ *
+ */
 @Named("articleManagedBean")
 @ApplicationScoped
 public class ArticleManagedBean implements Serializable {

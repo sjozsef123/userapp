@@ -14,7 +14,11 @@ import javax.naming.NamingException;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IAuthorService;
 import solomonj.msg.userapp.jpa.model.Author;
-
+/**
+ * 
+ * @author szocsc
+ *
+ */
 @Named("authorManagedBean")
 @ApplicationScoped
 public class AuthorManagedBean implements Serializable {

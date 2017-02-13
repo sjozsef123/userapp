@@ -4,7 +4,11 @@ import java.util.List;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.jpa.model.Author;
-
+/**
+ * interface for Author CRUD operations.
+ * @author szocsc
+ *
+ */
 public interface IAuthorService {
 	public static final String jndiNAME = "java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/AuthorServiceBean";
 	/**

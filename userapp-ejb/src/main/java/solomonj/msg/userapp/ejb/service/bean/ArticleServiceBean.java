@@ -10,7 +10,11 @@ import solomonj.msg.appuser.common.service.IArticleService;
 import solomonj.msg.userapp.ejb.repository.IArticleRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Article;
-
+/**
+ * 
+ * @author szocsc
+ *
+ */
 @Stateless
 public class ArticleServiceBean implements IArticleService {
 	@EJB

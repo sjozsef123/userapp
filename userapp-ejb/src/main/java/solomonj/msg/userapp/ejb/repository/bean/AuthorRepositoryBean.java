@@ -12,6 +12,11 @@ import org.jboss.logging.Logger;
 import solomonj.msg.userapp.ejb.repository.IAuthorRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Author;
+/**
+ * Implement methods of IAuthorRepository
+ * @author szocsc
+ *
+ */
 @Stateless
 public class AuthorRepositoryBean extends BasicRepositoryBean<Author> implements IAuthorRepository {
 	@PersistenceContext(unitName = "userapp-jpa")
