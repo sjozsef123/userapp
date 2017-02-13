@@ -41,7 +41,16 @@ public interface IUserService {
 	 * This method searches for the User with the specified name.
 	 * @param name
 	 * @return users
-	 * @throws RepositoryException
+	 * @throws ServiceException, when Server could not finish request
 	 */
 	public List<User> searchUserByName(String name) throws ServiceException;
+	
+	/**
+	 * 
+	 * @param name
+	 * @param pass
+	 * @return
+	 * @throws ServiceException
+	 */
+	public User login(String name, String pass) throws ServiceException;
 }

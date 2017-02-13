@@ -15,7 +15,7 @@
 	<h:form>
 		Username:<h:inputText binding="#{name}" /><br />
 		Password:<h:inputText binding="#{pass}" /><br />
-		<h:commandButton value="Login as admin"
+		<h:commandButton value="#{msg['web.logIn']}"
 			actionListener="#{loginmanagedbean.login(name.value,pass.value)}"
 			action="user?faces-redirect=true"/>
 	</h:form>

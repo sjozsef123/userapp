@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -179,11 +181,18 @@ public class UserManagedBean implements Serializable {
 		searchName = "";
 	}
 
-	public boolean login(String n, String p) {		
+	public User login(String n, String p) {		
 		if (checkUserName(n)) {
-			return false;
-		} else {			
-			return true;
+			user.setUsername(n);
+			try {
+				return getUserBean().login(n, p);
+			} catch (ServiceException e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+				return new User();
+			} 
+		} else {	
+			return new User();
 		}
 	}		
 

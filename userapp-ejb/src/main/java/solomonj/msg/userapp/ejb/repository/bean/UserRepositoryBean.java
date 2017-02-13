@@ -17,9 +17,11 @@ import org.jboss.logging.Logger;
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
+
 /**
  * Implement methods of IUserRepository
- * @author 
+ * 
+ * @author
  *
  */
 @Stateless
@@ -35,15 +37,15 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 
 	@Override
-	public List<User> searchUserByName(String name) throws RepositoryException {	
+	public List<User> searchUserByName(String name) throws RepositoryException {
 		List<User> resultList;
 		try {
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
 			Root<User> root = criteriaQuery.from(User.class);
-			root.fetch("borrowings", JoinType.LEFT);			
-			criteriaQuery.select(root).where(builder.like(root.get("username"), "%"+name+"%")).distinct(true);
-			
+			root.fetch("borrowings", JoinType.LEFT);
+			criteriaQuery.select(root).where(builder.like(root.get("username"), "%" + name + "%")).distinct(true);
+
 			resultList = entityManager.createQuery(criteriaQuery).getResultList();
 			return (resultList == null) ? new ArrayList<>() : resultList;
 		} catch (PersistenceException e) {
@@ -56,7 +58,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 	public User getUserById(int id) {
 		return entityManager.find(User.class, id);
 	}
-	
+
 	@Override
 	public void decreaseLoyaltyIndex(int id) throws RepositoryException {
 		try {
@@ -68,5 +70,28 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			throw new RepositoryException("user.loyalty");
 		}
 	}
-	
+
+	@Override
+	public User login(String name, String pass) throws RepositoryException {
+		try {
+			User user;
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+			Root<User> root = criteriaQuery.from(User.class);
+			root.fetch("borrowings", JoinType.LEFT);
+			criteriaQuery.select(root).where(builder.and(builder.like(root.get("username"), name + "%")),
+					builder.equal(root.get("password"), pass));
+
+			user = entityManager.createQuery(criteriaQuery).getSingleResult();
+			if (user == null) {
+				oLogger.error("No user with given password and name.");
+				throw new RepositoryException("user.login");
+			}
+			return user;
+		} catch (PersistenceException e) {
+			oLogger.error("Failed to login user.", e);
+			throw new RepositoryException("user.login");
+		}
+	}
+
 }

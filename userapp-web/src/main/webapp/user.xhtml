@@ -2,10 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<f:metadata>
+	<f:viewAction action="#{loginmanagedbean.isLoggedIn()}" />
+</f:metadata>
 <title>users</title>
 </head>
 <body>
@@ -129,8 +133,8 @@
 					action="#{usermanagedbean.clearFilter()}" render="userList" />
 			</p>
 		</h:form>
-	</h:panelGrid>	
-	
+	</h:panelGrid>
+
 	<ui:include src="/includes/footer.xhtml" />
 </body>
 </html>

@@ -24,4 +24,5 @@ public interface IUserRepository extends IBasicRepository<User> {
 	
 	public void decreaseLoyaltyIndex(int id) throws RepositoryException;
 
+	public User login(String name, String pass) throws RepositoryException;
 }

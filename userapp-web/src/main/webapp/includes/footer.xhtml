@@ -9,11 +9,16 @@
 	<footer>
 		<h:form>
 			<h:column>
-				<h:column>
-					<h:commandButton value="#{msg['web.changelanguage']}"
-						action="#{loginmanagedbean.changeLanguage()}" />
-				</h:column>
+				<h:commandButton value="#{msg['web.changelanguage']}"
+					action="#{loginmanagedbean.changeLanguage()}" />
 			</h:column>
+
+			<h:column>
+				<h:commandButton value="#{msg['web.logOut']}"
+					actionListener="#{loginmanagedbean.logout()}"
+					action="login?faces-redirect=true" />
+			</h:column>
+
 		</h:form>
 		<p>#{msg['web.team']}: Csilla, Jocó, Robi, Zolti</p>
 	</footer>
