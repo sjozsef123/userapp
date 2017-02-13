@@ -2,21 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
 <f:metadata>
 	<f:viewAction action="#{loginmanagedbean.isLoggedIn()}" />
 </f:metadata>
-<title>users</title>
+<title>#{msg['web.user.title']}</title>
 </head>
 <body>
 	<ui:include src="/includes/navigation.xhtml" />
 
 	<h:panelGrid>
-		<h2>List users</h2>
+		<h2>#{msg['web.user.header.users']}</h2>
 
 		<h:form rendered="#{not empty usermanagedbean.allUsers}">
 			<h:dataTable id="userList" value="#{usermanagedbean.allUsers}"
@@ -24,54 +23,54 @@
 				<h:column>
 					<f:facet name="header">ID</f:facet>#{item.id}</h:column>
 				<h:column>
-					<f:facet name="header">Name</f:facet>#{item.username}</h:column>
+					<f:facet name="header">#{msg['web.user.name']}</f:facet>#{item.username}</h:column>
 				<h:column>
-					<f:facet name="header">Loyalty i.</f:facet>#{item.loyaltyIndex}</h:column>
+					<f:facet name="header">#{msg['web.user.loyalty']}</f:facet>#{item.loyaltyIndex}</h:column>
 
 				<h:column>
 
-					<f:facet name="header"> Roles </f:facet>
+					<f:facet name="header">#{msg['web.role.header.roles']} </f:facet>
 				(<ui:repeat value="#{item.roles}" var="roles">
 					-<h:outputText value="#{roles.rolename}" />-
 				</ui:repeat>)
 			</h:column>
 				<h:column>
-					<h:commandButton value="edit"
+					<h:commandButton value="#{msg['web.edit']}"
 						action="#{usermanagedbean.editUser(item)}" />
 				</h:column>
 				<h:column>
-					<h:commandButton value="delete"
-						onclick="if(!confirm('Do you really wanna do that?')) return false"
+					<h:commandButton value="#{msg['web.delete']}"
+						onclick="if(!confirm('#{msg['web.confirm']}')) return false"
 						action="#{usermanagedbean.delete(item)}" />
 				</h:column>
 			</h:dataTable>
 		</h:form>
 
 		<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
-			<p>No Users!.</p>
+			<p>#{msg['web.user.nouser']}</p>
 		</h:panelGroup>
 
 		<br />
 		<h:panelGroup rendered="#{!usermanagedbean.edit}">
-			<h2>Add user</h2>
+			<h2>#{msg['web.user.adduser']}</h2>
 
 			<h:form>
 				<p>
-					Name:
+					#{msg['web.user.name']}:
 					<h:inputText id="nameInput"
 						value="#{usermanagedbean.user.username}" required="true">
 					</h:inputText>
 				</p>
 
 				<p>
-					Loyalty i.:
+					#{msg['web.user.loyalty']}:
 					<h:inputText id="loyalyInput"
 						value="#{usermanagedbean.user.loyaltyIndex}" required="true">
 					</h:inputText>
 				</p>
 
 				<p>
-					Password:
+					#{msg['web.user.password']}:
 					<h:inputText id="passwordInput"
 						value="#{usermanagedbean.user.password}" required="true">
 					</h:inputText>
@@ -88,22 +87,22 @@
 				</p>
 
 				<p>
-					<h:commandButton value="add" action="#{usermanagedbean.add}" />
-					<h:commandButton value="reset" action="#{usermanagedbean.resetAdd}" />
+					<h:commandButton value="#{msg['web.user.add']}" action="#{usermanagedbean.add}" />
+					<h:commandButton value="#{msg['web.user.reset']}" action="#{usermanagedbean.resetAdd}" />
 				</p>
 
 			</h:form>
 		</h:panelGroup>
 
 		<h:panelGroup rendered="#{usermanagedbean.edit}">
-			<h3>Edit user with id: #{usermanagedbean.user.id}</h3>
+			<h3>#{msg['web.edit']} : #{usermanagedbean.user.id}</h3>
 			<h:form>
 				<p>
-					Name:
+					#{msg['web.user.name']}:
 					<h:inputText value="#{usermanagedbean.user.username}" />
 				</p>
 				<p>
-					Loyalty i:
+					#{msg['web.user.loyalty']}:
 					<h:inputText value="#{usermanagedbean.user.loyaltyIndex}" />
 
 
@@ -115,21 +114,21 @@
 
 				</p>
 				<p>
-					<h:commandButton value="save" action="#{usermanagedbean.saveEdit}" />
-					<h:commandButton value="cancel"
+					<h:commandButton value="#{msg['web.save']}" action="#{usermanagedbean.saveEdit}" />
+					<h:commandButton value="#[msg['web.cancel']]"
 						action="#{usermanagedbean.cancelEdit}" />
 				</p>
 			</h:form>
 		</h:panelGroup>
 
-		<h3>Filter by name:</h3>
+		<h3>#{msg['web.user.filter']}:</h3>
 		<h:form>
 			<p>
 				<h:inputText value="#{usermanagedbean.searchName}">
 				</h:inputText>
 				<br />
-				<h:commandButton value="Search" render="userList" />
-				<h:commandButton value="Clear"
+				<h:commandButton value="#{msg['web.search']}" render="userList" />
+				<h:commandButton value="#{msg['web.clear']}"
 					action="#{usermanagedbean.clearFilter()}" render="userList" />
 			</p>
 		</h:form>
