@@ -1,0 +1,31 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+
+</head>
+<body>
+
+	<h:form>
+
+		<h:panelGrid id="meuGrid" columns="2">
+
+			<h:outputText value="Servidor" />
+			<h:selectOneRadio id="teste" value="#{testController.teste}">
+				<f:selectItem itemLabel="JBoss AS7" itemValue="AS7" />
+				<f:selectItem itemLabel="GlassFish" itemValue="GF3" />
+				<f:ajax process="@this" event ="click" render="resultado" />
+			</h:selectOneRadio>
+
+			<h:outputText value="Selecionado" />
+			<h:outputText id="resultado" value="#{testController.teste}" />
+
+		</h:panelGrid>
+
+	</h:form>
+</body>
+</html>

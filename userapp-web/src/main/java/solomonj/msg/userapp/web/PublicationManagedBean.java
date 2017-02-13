@@ -25,6 +25,7 @@ public class PublicationManagedBean implements Serializable {
 	private IPublicationService publicationBean;
 	private List<Publication> publicationList;
 	private String filter = "";
+	private String selectedPublicationType = "";
 	
 	public IPublicationService getpublicationBean() {
 		if (publicationBean == null) {
@@ -95,6 +96,16 @@ public class PublicationManagedBean implements Serializable {
 	public void clearFilter() {
 		
 		filter = "";
+	}
+
+
+	public String getSelectedPublicationType() {
+		return selectedPublicationType;
+	}
+
+
+	public void setSelectedPublicationType(String selectedPublicationType) {
+		this.selectedPublicationType = selectedPublicationType;
 	}
 	
 }
