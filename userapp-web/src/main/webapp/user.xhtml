@@ -58,22 +58,25 @@
 				<p>
 					#{msg['web.user.name']}:
 					<h:inputText id="nameInput"
-						value="#{usermanagedbean.user.username}" required="true">
+						value="#{usermanagedbean.user.username}" required="true" requiredMessage="name is required">
 					</h:inputText>
+					<h:message id="m1" for="nameInput" style="color:red"/> 
 				</p>
 
 				<p>
 					#{msg['web.user.loyalty']}:
 					<h:inputText id="loyalyInput"
-						value="#{usermanagedbean.user.loyaltyIndex}" required="true">
+						value="#{usermanagedbean.user.loyaltyIndex}" required="true" converterMessage="Please enter digits only." requiredMessage="loyalty index is required">
 					</h:inputText>
+					<h:message id="m2" for="loyalyInput" style="color:red"/> 
 				</p>
 
 				<p>
 					#{msg['web.user.password']}:
-					<h:inputText id="passwordInput"
-						value="#{usermanagedbean.user.password}" required="true">
-					</h:inputText>
+					<h:inputSecret id="passwordInput"
+						value="#{usermanagedbean.user.password}" required="true" requiredMessage="Password is required">
+					</h:inputSecret>
+					<h:message id="m3" for="passwordInput" style="color:red"/> 
 				</p>
 
 
@@ -103,7 +106,8 @@
 				</p>
 				<p>
 					#{msg['web.user.loyalty']}:
-					<h:inputText value="#{usermanagedbean.user.loyaltyIndex}" />
+					<h:inputText value="#{usermanagedbean.user.loyaltyIndex}" converterMessage="Please enter digits only." 
+					 />
 
 
 
@@ -115,7 +119,7 @@
 				</p>
 				<p>
 					<h:commandButton value="#{msg['web.save']}" action="#{usermanagedbean.saveEdit}" />
-					<h:commandButton value="#[msg['web.cancel']]"
+					<h:commandButton value="#{msg['web.cancel']}"
 						action="#{usermanagedbean.cancelEdit}" />
 				</p>
 			</h:form>

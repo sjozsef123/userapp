@@ -14,7 +14,7 @@
 	<br />
 	<h:form>
 		#{msg['web.login.username']}:<h:inputText binding="#{name}" /><br />
-		#{msg['web.login.password']}:<h:inputText binding="#{pass}" /><br />
+		#{msg['web.login.password']}:<h:inputSecret binding="#{pass}" /><br />
 		<h:commandButton value="#{msg['web.logIn']}"
 			actionListener="#{loginmanagedbean.login(name.value,pass.value)}"
 			action="user?faces-redirect=true"/>
