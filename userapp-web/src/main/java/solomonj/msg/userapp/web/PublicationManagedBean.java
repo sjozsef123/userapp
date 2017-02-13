@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -16,7 +16,7 @@ import solomonj.msg.appuser.common.service.IPublicationService;
 import solomonj.msg.userapp.jpa.model.Publication;
 
 @Named("publicationmanagedbean")
-@ApplicationScoped
+@SessionScoped
 public class PublicationManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1565015472267456236L;
@@ -39,7 +39,6 @@ public class PublicationManagedBean implements Serializable {
 		}
 		return publicationBean;
 	}
-
 
 	public String getType(Publication pub) {
 		return pub.getClass().getSimpleName();

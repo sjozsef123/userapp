@@ -1,9 +1,10 @@
 package solomonj.msg.userapp.web;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Locale;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
@@ -15,6 +16,7 @@ import javax.naming.NamingException;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IBorrowingService;
 import solomonj.msg.userapp.jpa.model.Publication;
+import solomonj.msg.userapp.jpa.model.PublicationBorrowing;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
 import solomonj.msg.userapp.jpa.model.User;
 
@@ -29,51 +31,67 @@ public class BorrowingManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 7044748365143600630L;
 	private IBorrowingService borrowingBean = null;
-	
+
+	private PublicationBorrowing borrowing = new PublicationBorrowing();
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
 	private User user = new User();
-	//private Publication publication;
-	
+	private Publication publication;
+
 	private IBorrowingService getBorrowingBean() {
-	if (borrowingBean == null) {
-		try {
-			InitialContext jndi = new InitialContext();
-			borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
-		} catch (NamingException e) {
-			e.printStackTrace();
+		if (borrowingBean == null) {
+			try {
+				InitialContext jndi = new InitialContext();
+				borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
+			} catch (NamingException e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "borrowing.naming", null));
+			}
 		}
+		return borrowingBean;
 	}
-	return borrowingBean;
-}
-	
+
 	public boolean getBorrowingIdCompleted() {
-		return (borrowingId == null) || ((borrowingId.getUserId() == 0) || (borrowingId.getPublicationId() == 0)) ? false : true;
+		return (getBorrowingId() == null)
+				|| ((getBorrowingId().getUserId() == 0) || (getBorrowingId().getPublicationId() == 0)) ? false : true;
 	}
 
 	public void selectUser(User u) {
-		setUser(u);	
-		borrowingId = new PublicationBorrowingPK();	
-		borrowingId.setUserId(u.getId());		 
+		clearVariables();
+		setUser(u);
+		getBorrowingId().setUserId(u.getId());
 	}
-	
-	public void selectPublication(Publication p) {		
-		borrowingId.setPublicationId(p.getId());		
+
+	public void selectPublication(Publication p) {
+		setPublication(p);
+		getBorrowingId().setPublicationId(p.getId());
+	}
+
+	public void setBorrowingId(PublicationBorrowingPK borrowingId) {
+		this.borrowingId = borrowingId;
+	}
+
+	public PublicationBorrowingPK getBorrowingId() {
+		return borrowingId;
 	}
 
 	public User getUser() {
-		return user;		
+		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+	public void setPublication(Publication publication) {
+		this.publication = publication;
+	}
+
 	private void clearVariables() {
-		borrowingId = null;
+		setBorrowingId(new PublicationBorrowingPK());
 		setUser(new User());
 	}
-			
-	public void returnBorrowing() {	
+
+	public void returnBorrowing() {
 		try {
 			getBorrowingBean().returnPublication(borrowingId);
 			clearVariables();
@@ -82,14 +100,20 @@ public class BorrowingManagedBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
 		}
 	}
-	
-	public void changeLanguage() {
-		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
-		if (viewRoot.getLocale() == Locale.ENGLISH) {
-			viewRoot.setLocale(new Locale("hu", "hu"));
-		} else {
-			viewRoot.setLocale(Locale.ENGLISH);
-		}		
+
+	public void borrowBorrowing() {
+		try {
+			user.setBorrowing(null);
+			borrowing.setId(getBorrowingId());
+			borrowing.setUser(user);
+			borrowing.setBorrowingDate(Date.valueOf(LocalDate.now()));
+			borrowing.setDeadline(Date.valueOf(LocalDate.now().plusDays(20)));
+			getBorrowingBean().borrowPublication(borrowing);
+			clearVariables();
+		} catch (ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+		}
 	}
-	
+
 }

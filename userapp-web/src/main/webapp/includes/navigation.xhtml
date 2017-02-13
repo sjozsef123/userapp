@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+	#{loginmanagedbean.setLanguage()}
+	<nav style="float: left; max-width: 200px; margin: 0; padding: 1em;">	
+		<h2>#{msg['web.navigation']}</h2>
+		<h:form>
+			<p>
+				<h:link value="#{msg['web.user.title']}" outcome="user" />
+			</p>
+			<p>
+				<h:link value="#{msg['web.role.title']}" outcome="role" />
+			</p>
+			<p>
+				<h:link value="#{msg['web.publication.title']}"
+					outcome="publication" />
+			</p>
+			<p>
+				<h:link value="#{msg['web.author.title']}" outcome="author" />
+			</p>
+			<p>
+				<h:link value="#{msg['web.article.title']}" outcome="article" />
+			</p>
+			<p>
+				<h:link value="#{msg['web.borrowing.title']}" outcome="borrowing" />
+			</p>
+		</h:form>
+	</nav>
+
+</ui:composition>

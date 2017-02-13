@@ -9,9 +9,13 @@
 <title>#{msg['`']}</title>
 </head>
 <body>
-	<h:panelGrid id="panel" columns="3" border="1" cellpadding="10"
-		cellspacing="1">
 
+	<h:panelGrid id="panel" columns="4" border="1" cellpadding="10"
+		cellspacing="1">		
+		<h:column>
+			<ui:include src="/includes/navigation.xhtml" />
+		</h:column>
+		
 		<h:column>
 			<h2>#{msg['web.borrowing.header.users']}</h2>
 			<h:form rendered="#{not empty usermanagedbean.allUsers}">
@@ -38,19 +42,54 @@
 					<h:commandButton value="#{msg['web.search']}" outcome="user" />
 				</p>
 			</h:form>
-
-			<h:link value="#{msg['web.user.title']}" outcome="user" />
 		</h:column>
 
 		<h:column>
 			<h2>#{msg['web.borrowing.header.borrowpublication']}</h2>
+			<h:form
+				rendered="#{not empty publicationmanagedbean.publicationList}">
+				<h:dataTable id="publicationList"
+					value="#{publicationmanagedbean.publicationList}" var="item">
+					<h:column>
+						<f:facet name="header">#{msg['web.title']}</f:facet>#{item.title}</h:column>
+					<h:column>
+						<f:facet name="header">Type</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
+					<h:column>
+						<f:facet name="header">Copies Left</f:facet>#{item.copiesLeft}</h:column>
 
-			<h:link value="#{msg['web.publication.title']}" outcome="publication" />
+					<h:column>
+						<h:commandButton value="#{msg['web.select']}"
+							action="#{borrowingmanagedbean.selectPublication(item)}"/>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+
+			<h4>Filter by name:</h4>
+			<h:form>
+				<p>
+					<h:inputText value="#{publicationmanagedbean.filter}">
+					</h:inputText>
+					<br />
+					<h:commandButton value="Search" render="publicationList" />
+					<h:commandButton value="Clear"
+						action="#{publicationmanagedbean.clearFilter()}"
+						render="publicationList" />
+				</p>
+			</h:form>
+			
+			<h:form rendered="#{borrowingmanagedbean.borrowingIdCompleted}">
+				<p>
+					<h:column>
+						<h:commandButton value="#{msg['web.borrow']}"
+							action="#{borrowingmanagedbean.borrowBorrowing()}" />
+					</h:column>
+				</p>
+			</h:form>
 		</h:column>
 
-		<h:column>
-			<h2>#{msg['web.borrowing.header.returnpublication']}</h2>
-			<h:form rendered="#{not empty borrowingmanagedbean.user.borrowing}">
+		<h:column rendered="#{not empty borrowingmanagedbean.user.borrowing}">
+			<h2> #{msg['web.borrowing.header.returnpublication']}</h2>
+			<h:form>
 				<h:dataTable value="#{borrowingmanagedbean.user.borrowing}"
 					var="item">
 					<h:column>
@@ -75,11 +114,8 @@
 			</h:form>
 		</h:column>
 
-	</h:panelGrid>
+	</h:panelGrid>	
 
-	<h:messages globalOnly="true" />
-	<br />
-	
-	<ui:include src="/includes/footer.xhtml" /> 
+	<ui:include src="/includes/footer.xhtml" />
 </body>
 </html>

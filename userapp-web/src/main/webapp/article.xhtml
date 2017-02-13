@@ -9,91 +9,92 @@
 <title>#{msg['web.article.title']}</title>
 </head>
 <body>
+	<ui:include src="/includes/navigation.xhtml" />
 
-	<h2>#{msg['web.article.header.articles']}</h2>
+	<h:panelGrid>
+		<h2>#{msg['web.article.header.articles']}</h2>
 
-	<h:form rendered="#{not empty articleManagedBean.allArticles}">
-		<h:dataTable id="article" value="#{articleManagedBean.allArticles}"
-			var="item">
-			<h:column>
-				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+		<h:form rendered="#{not empty articleManagedBean.allArticles}">
+			<h:dataTable id="article" value="#{articleManagedBean.allArticles}"
+				var="item">
+				<h:column>
+					<f:facet name="header">ID</f:facet>#{item.id}</h:column>
 
-			<h:column>
-				<f:facet name="header">#{msg['web.title']}</f:facet>#{item.title}</h:column>
+				<h:column>
+					<f:facet name="header">#{msg['web.title']}</f:facet>#{item.title}</h:column>
 
-			<h:column>
-				<h:commandButton value="#{msg['web.edit']}"
-					action="#{articleManagedBean.editArticle(item)}" />
-			</h:column>
-			<h:column>
-				<h:commandButton value="#{msg['web.delete']}"
-					action="#{articleManagedBean.delete(item)}"
-					onclick="if(!confirm('Do you really wanna do that?')) return false" />
-			</h:column>
-		</h:dataTable>
-	</h:form>
+				<h:column>
+					<h:commandButton value="#{msg['web.edit']}"
+						action="#{articleManagedBean.editArticle(item)}" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="#{msg['web.delete']}"
+						action="#{articleManagedBean.delete(item)}"
+						onclick="if(!confirm('Do you really wanna do that?')) return false" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
 
-	<h:panelGroup rendered="#{empty articleManagedBean.allArticles}">
-		<p>#{msg['web.empty']}</p>
-	</h:panelGroup>
+		<h:panelGroup rendered="#{empty articleManagedBean.allArticles}">
+			<p>#{msg['web.empty']}</p>
+		</h:panelGroup>
 
-	<br />
-	<h:panelGroup rendered="#{!articleManagedBean.edit}">
-		<h2>#{msg['web.article.header.createarticle']}</h2>
+		<br />
+		<h:panelGroup rendered="#{!articleManagedBean.edit}">
+			<h2>#{msg['web.article.header.createarticle']}</h2>
 
+			<h:form>
+				<p>
+					#{msg['web.title']}
+					<h:inputText id="nameInput"
+						value="#{articleManagedBean.article.title}" required="true">
+					</h:inputText>
+				</p>
+
+				<p>
+					<h:commandButton value="#{msg['web.create']}"
+						action="#{articleManagedBean.add}" />
+					<h:commandButton value="#{msg['web.reset']}"
+						action="#{articleManagedBean.resetAdd}" />
+				</p>
+
+			</h:form>
+		</h:panelGroup>
+
+
+
+		<h:panelGroup rendered="#{articleManagedBean.edit}">
+			<h3>Edit article with id: #{articleManagedBean.article.id}</h3>
+			<h:form>
+				<p>
+					#{msg['web.title']}
+					<h:inputText value="#{articleManagedBean.article.title}" />
+				</p>
+
+				<p>
+					<h:commandButton value="#{msg['web.save']}"
+						action="#{articleManagedBean.saveEdit}" />
+					<h:commandButton value="#{msg['web.cancel']}"
+						action="#{articleManagedBean.cancelEdit}" />
+				</p>
+			</h:form>
+		</h:panelGroup>
+
+		<h:messages globalOnly="true" />
+		<br />
+
+		<h3>#{msg['web.article.header.filterarticle']}</h3>
 		<h:form>
 			<p>
-				#{msg['web.title']}
-				<h:inputText id="nameInput"
-					value="#{articleManagedBean.article.title}" required="true">
+				<h:inputText value="#{articleManagedBean.searchName}">
 				</h:inputText>
-			</p>
-
-			<p>
-				<h:commandButton value="#{msg['web.create']}"
-					action="#{articleManagedBean.add}" />
-				<h:commandButton value="#{msg['web.reset']}"
-					action="#{articleManagedBean.resetAdd}" />
-			</p>
-
-		</h:form>
-	</h:panelGroup>
-
-
-
-	<h:panelGroup rendered="#{articleManagedBean.edit}">
-		<h3>Edit article with id: #{articleManagedBean.article.id}</h3>
-		<h:form>
-			<p>
-				#{msg['web.title']}
-				<h:inputText value="#{articleManagedBean.article.title}" />
-			</p>
-
-			<p>
-				<h:commandButton value="#{msg['web.save']}"
-					action="#{articleManagedBean.saveEdit}" />
-				<h:commandButton value="#{msg['web.cancel']}"
-					action="#{articleManagedBean.cancelEdit}" />
+				<h:commandButton value="#{msg['web.search']}" render="article" />
+				<h:commandButton value="#{msg['web.delete']}" render="article"
+					action="#{articleManagedBean.clearFilter}" />
 			</p>
 		</h:form>
-	</h:panelGroup>
-
-	<h:messages globalOnly="true" />
-	<br />
-
-	<h3>#{msg['web.article.header.filterarticle']}</h3>
-	<h:form>
-		<p>
-			<h:inputText value="#{articleManagedBean.searchName}">
-			</h:inputText>
-			<h:commandButton value="#{msg['web.search']}" render="article" />
-			<h:commandButton value="#{msg['web.delete']}" render="article"
-				action="#{articleManagedBean.clearFilter}" />
-		</p>
-	</h:form>
-
-	<h:link value="Role management" outcome="role" />
-
+			
+	</h:panelGrid>
 	<ui:include src="/includes/footer.xhtml" />
 </body>
 </html>

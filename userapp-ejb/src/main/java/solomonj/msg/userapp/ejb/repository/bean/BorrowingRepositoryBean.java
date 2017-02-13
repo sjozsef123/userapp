@@ -74,15 +74,12 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 	public PublicationBorrowing getBorrowById(PublicationBorrowingPK borrowingPK) throws RepositoryException {
 
 		try {
-			System.out.println("ASD0");
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<PublicationBorrowing> borrow = builder.createQuery(PublicationBorrowing.class);
 			Root<PublicationBorrowing> borrowRoot = borrow.from(PublicationBorrowing.class);
      			
 			borrow.select(borrowRoot);
-			System.out.println("ASD1");
 			borrow.where(builder.and(builder.equal(borrowRoot.get(PublicationBorrowing_.id), borrowingPK)));
-			System.out.println("ASD2");
 			TypedQuery<PublicationBorrowing> borrowQuery = entityManager.createQuery(borrow);
 			
 			oLogger.info("Borrow get was successful");

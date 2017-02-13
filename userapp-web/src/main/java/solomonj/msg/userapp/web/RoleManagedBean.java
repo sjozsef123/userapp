@@ -3,7 +3,7 @@ package solomonj.msg.userapp.web;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -15,7 +15,7 @@ import solomonj.msg.appuser.common.service.IRoleService;
 import solomonj.msg.userapp.jpa.model.Role;
 
 @Named("rolemanagedbean")
-@ApplicationScoped
+@SessionScoped
 public class RoleManagedBean implements Serializable {
 
 	private static final long serialVersionUID = -6796469792037802850L;
