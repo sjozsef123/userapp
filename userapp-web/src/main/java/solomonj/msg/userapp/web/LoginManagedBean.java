@@ -13,6 +13,11 @@ import javax.inject.Named;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * 
+ * @author Simo Zoltan
+ *
+ */
 @Named("loginmanagedbean")
 @SessionScoped
 public class LoginManagedBean implements Serializable {

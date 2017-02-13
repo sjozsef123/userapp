@@ -79,10 +79,10 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
 			Root<User> root = criteriaQuery.from(User.class);
 			root.fetch("borrowings", JoinType.LEFT);
-			criteriaQuery.select(root).where(builder.and(builder.like(root.get("username"), name + "%")),
+			criteriaQuery.select(root).where(builder.and(builder.equal(root.get("username"), name)),
 					builder.equal(root.get("password"), pass));
 
-			user = entityManager.createQuery(criteriaQuery).getSingleResult();
+			user = entityManager.createQuery(criteriaQuery).getSingleResult();			
 			if (user == null) {
 				oLogger.error("No user with given password and name.");
 				throw new RepositoryException("user.login");

@@ -26,7 +26,8 @@
 
 				<h:column>
 					<h:commandButton value="#{msg['web.delete']}"
-						action="#{rolemanagedbean.delete(item)}" />
+						action="#{rolemanagedbean.delete(item)}" 
+						onclick="if(!confirm('Do you really wanna do that?')) return false" />
 				</h:column>
 
 			</h:dataTable>

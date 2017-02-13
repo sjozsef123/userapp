@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.ManagedBean;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
@@ -183,7 +181,6 @@ public class UserManagedBean implements Serializable {
 
 	public User login(String n, String p) {		
 		if (checkUserName(n)) {
-			user.setUsername(n);
 			try {
 				return getUserBean().login(n, p);
 			} catch (ServiceException e) {

@@ -65,8 +65,8 @@ public class UserServiceBean implements IUserService {
 	@Override
 	public User login(String name, String pass) throws ServiceException {
 		//check name length password, encrypt
-		try {
-			return userRepositoryBean.login(name, pass);
+		try {			
+			return userRepositoryBean.login(name, pass); 
 		} catch (RepositoryException e) {
 			throw new ServiceException(e.getMessage());		
 		}
