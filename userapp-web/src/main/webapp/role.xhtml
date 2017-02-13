@@ -6,23 +6,23 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
-<title>roles</title>
+<title>#{msg['web.role.title']}</title>
 </head>
 <body>
 	<ui:include src="/includes/navigation.xhtml" />
 
 	<h:panelGrid>
-		<h2>List roles</h2>
+		<h2>#{msg['web.role.header.roles']}</h2>
 
 		<h:form rendered="#{not empty rolemanagedbean.roles}">
 			<h:dataTable value="#{rolemanagedbean.roles}" var="item">
 				<h:column>
-					<f:facet name="header">Role name</f:facet> 
+					<f:facet name="header">#{msg['web.role.header.rolename']}</f:facet> 
 				#{item.rolename}
 				</h:column>
 
 				<h:column>
-					<h:commandButton value="delete"
+					<h:commandButton value="#{msg['web.delete']}"
 						action="#{rolemanagedbean.delete(item)}" />
 				</h:column>
 
@@ -30,16 +30,16 @@
 		</h:form>
 
 
-		<h3>Add role</h3>
+		<h3>#{msg['web.role.addrole']}</h3>
 		<h:form>
 			<p>
-				Name:
+				#{msg['web.name']}:
 				<h:inputText value="#{rolemanagedbean.role.rolename}" />
 			</p>
 
 			<p>
-				<h:commandButton value="add" action="#{rolemanagedbean.add}" />
-				<h:commandButton value="reset" action="#{rolemanagedbean.resetAdd}" />
+				<h:commandButton value="#{msg['web.save']}" action="#{rolemanagedbean.add}" />
+				<h:commandButton value="#{msg['web.reset']}" action="#{rolemanagedbean.resetAdd}" />
 			</p>
 		</h:form>
 	</h:panelGrid>
