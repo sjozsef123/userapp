@@ -43,6 +43,9 @@
 						action="#{publicationmanagedbean.deletePublication(item)}"
 						onclick="if(!confirm('Do you really wanna do that?')) return false" />
 				</h:column>
+				<h:column>
+					<h:commandButton value="details" />
+				</h:column>
 
 			</h:dataTable>
 		</h:form>
@@ -88,23 +91,23 @@
 					// 		alert(document.getElementById("form:publicationType").value);
 
 					if (selected == 'book') {
-						document.getElementById("form:bookPanel").style.display = "";
-						document.getElementById("form:magazinePanel").style.display = "none;";
-						document.getElementById("form:newspaperPanel").style.display = "none;";
+						document.getElementById('form:bookPanel').style.display = 'block';
+						document.getElementById('form:magazinePanel').style.display = 'none';
+						document.getElementById('form:newspaperPanel').style.display = 'none';
 					} else {
 
 						if (selected == 'magazine') {
-							document.getElementById("form:bookPanel").style.display = "none;";
-							document.getElementById("form:magazinePanel").style.display = "";
-							document.getElementById("form:newspaperPanel").style.display = "none;";
+							document.getElementById('form:bookPanel').style.display = 'none';
+							document.getElementById('form:magazinePanel').style.display = 'block';
+							document.getElementById('form:newspaperPanel').style.display = 'none';
 						} else {
 
 						}
 
 						if (selected == 'newspaper') {
-							document.getElementById("form:bookPanel").style.display = "none;";
-							document.getElementById("form:magazinePanel").style.display = "none;";
-							document.getElementById("form:newspaperPanel").style.display = "";
+							document.getElementById('form:bookPanel').style.display = 'none';
+							document.getElementById('form:magazinePanel').style.display = 'none';
+							document.getElementById('form:newspaperPanel').style.display = 'block';
 						}
 					}
 				}
@@ -122,6 +125,9 @@
 
 				<!-- 				<h:panelGroup id="changePane"> -->
 				<h:outputText id="bookPanel" value="book" style="display: none;" />
+				
+				
+								
 				<h:outputText id="magazinePanel" value="magazine" style="display: none;" />
 				<h:outputText id="newspaperPanel" value="newspaper" style="display: none;" />
 
