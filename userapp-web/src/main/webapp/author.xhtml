@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<title>#{msg['web.author.title']}</title>
+</head>
+<body>
+
+	<h2>#{msg['web.author.authors']}</h2>
+
+	<h:form rendered="#{not empty authorManagedBean.allAuthor}">
+		<h:dataTable id="authorList" value="#{authorManagedBean.allAuthor}"
+			var="item">
+			<h:column>
+				<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+			<h:column>
+				<f:facet name="header">#{msg['web.name']}</f:facet>#{item.name}</h:column>
+
+			<h:column>
+				<h:commandButton value="#{msg['web.edit']}"
+					action="#{authorManagedBean.editAuthor(item)}" />
+			</h:column>
+			<h:column>
+				<h:commandButton value="#{msg['web.delete']}"
+					action="#{authorManagedBean.delete(item)}"
+					onclick="if(!confirm('Do you really wanna do that?')) return false" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+
+	<h:panelGroup rendered="#{empty authorManagedBean.allAuthor}">
+		<p>#{msg['web.empty']}.</p>
+	</h:panelGroup>
+
+	<br />
+	<h:panelGroup rendered="#{!authorManagedBean.edit}">
+		<h2>#{msg['web.author.header.createauthor']}r</h2>
+
+		<h:form>
+			<p>
+				#{msg['web.name']}
+				<h:inputText id="nameInput" value="#{authorManagedBean.author.name}"
+					required="true">
+				</h:inputText>
+			</p>
+
+			<p>
+				<h:commandButton value="#{msg['web.create']}"
+					action="#{authorManagedBean.add}" />
+				<h:commandButton value="#{msg['web.reset']}"
+					action="#{authorManagedBean.resetAdd}" />
+			</p>
+
+		</h:form>
+	</h:panelGroup>
+
+
+
+	<h:panelGroup rendered="#{authorManagedBean.edit}">
+		<h3>Edit user with id: #{authorManagedBean.author.id}</h3>
+		<h:form>
+			<p>
+				#{msg['web.name']}
+				<h:inputText value="#{authorManagedBean.author.name}" />
+			</p>
+			<p>
+				<h:commandButton value="#{msg['web.save']}" action="#{authorManagedBean.saveEdit}" />
+				<h:commandButton value="#{msg['web.cancel']}"
+					action="#{authorManagedBean.cancelEdit}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+
+	<h:messages globalOnly="true" />
+	<br />
+
+	<h3>#{msg['web.author.header.searchauthor']}</h3>
+	
+	<h:form>
+		<p>
+			<h:inputText value="#{authorManagedBean.searchName}">
+			</h:inputText>
+			<h:commandButton value="#{msg['web.search']}" outcome="author" />
+			<h:commandButton value="#{msg['web.delete']}" render=""
+				action="#{authorManagedBean.clearFilter}" />
+		</p>
+	</h:form>
+
+
+	<ui:include src="/includes/footer.xhtml" />
+
+</body>
+</html>
