@@ -17,7 +17,11 @@ import org.jboss.logging.Logger;
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
-
+/**
+ * Implement methods of IUserRepository
+ * @author 
+ *
+ */
 @Stateless
 public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUserRepository {
 
@@ -64,5 +68,5 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			throw new RepositoryException("user.loyalty");
 		}
 	}
-
+	
 }
