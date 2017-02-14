@@ -68,12 +68,12 @@ public class BorrowingServiceBean implements IBorrowingService {
 					borrowing.setPublication(publication);
 					borrowingRepositoryBean.insertBorrowing(borrowing);
 				} else {
-					oLogger.error("User Loyalty index is low, can't borrow Publication");
-					throw new ServiceException("User Loyalty index is low, can't borrow Publication");
+					oLogger.error("borrowing.lowloyalty");
+					throw new ServiceException("borrowing.lowloyalty");
 				}
 			} else {
-				oLogger.error("No copies left, can't borrow this Publication");
-				throw new ServiceException("No copies left, can't borrow this Publication");
+				oLogger.error("borrowing.nocopiesleft");
+				throw new ServiceException("borrowing.nocopiesleft");
 			}
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
