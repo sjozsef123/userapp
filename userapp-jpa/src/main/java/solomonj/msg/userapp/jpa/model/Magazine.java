@@ -1,6 +1,7 @@
 package solomonj.msg.userapp.jpa.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -33,6 +34,16 @@ public class Magazine extends Publication {
 	public void setmAuthors(List<Author> mAuthors) {
 		this.mAuthors = mAuthors;
 	}
-
 	
+	public int getReleaseYear() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getReleaseDate());
+		return calendar.get(Calendar.YEAR);
+	}
+	
+	public int getReleaseMonth() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getReleaseDate());
+		return calendar.get(Calendar.MONTH);
+	}
 }

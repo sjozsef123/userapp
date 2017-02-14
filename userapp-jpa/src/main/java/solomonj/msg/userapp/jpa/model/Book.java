@@ -1,6 +1,8 @@
 package solomonj.msg.userapp.jpa.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -34,5 +36,9 @@ public class Book extends Publication {
 		this.bAuthors = bAuthors;
 	}
 	
-	
+	public int getReleaseYear() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getReleaseDate());
+		return calendar.get(Calendar.YEAR);
+	}
 }

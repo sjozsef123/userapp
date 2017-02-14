@@ -54,4 +54,15 @@ public class PublicationServiceBean implements IPublicationService {
 		}
 	}
 
+	@Override
+	public void createPublication(Publication publication) throws ServiceException {
+
+		try {
+			publicationBean.create(publication);
+		} catch (RepositoryException e) {
+			oLogger.error(e.getMessage());
+			throw new ServiceException("publication.create");
+		}
+	}
+
 }
