@@ -9,6 +9,7 @@ import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.ejb.service.util.PasswordEncrypting;
 import solomonj.msg.userapp.jpa.model.User;
 
 @Stateless
@@ -28,6 +29,7 @@ public class UserServiceBean implements IUserService {
 
 	@Override
 	public void insertUser(User user) throws ServiceException {
+		user.setPassword(PasswordEncrypting.encrypt(user.getPassword(), "user"));
 		try {
 			userRepositoryBean.create(user);
 		} catch (Exception e) {
@@ -63,8 +65,9 @@ public class UserServiceBean implements IUserService {
 	}
 
 	@Override
-	public User login(String name, String pass) throws ServiceException {
+	public User login(String name, String password) throws ServiceException {
 		//check name length password, encrypt
+		String pass = PasswordEncrypting.encrypt(password, "user");
 		try {			
 			return userRepositoryBean.login(name, pass); 
 		} catch (RepositoryException e) {
