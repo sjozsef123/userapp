@@ -33,7 +33,6 @@ public class BorrowingManagedBean implements Serializable {
 	private PublicationBorrowing borrowing = new PublicationBorrowing();
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
 	private User user = new User();
-	private Publication publication;
 
 	private IBorrowingService getBorrowingBean() {
 		if (borrowingBean == null) {
@@ -41,8 +40,8 @@ public class BorrowingManagedBean implements Serializable {
 				InitialContext jndi = new InitialContext();
 				borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
 			} catch (NamingException e) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "borrowing.naming", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						LoginManagedBean.getResourceBundleString("borrowing.naming"), null));
 			}
 		}
 		return borrowingBean;
@@ -60,7 +59,6 @@ public class BorrowingManagedBean implements Serializable {
 	}
 
 	public void selectPublication(Publication p) {
-		setPublication(p);
 		getBorrowingId().setPublicationId(p.getId());
 	}
 
@@ -80,10 +78,6 @@ public class BorrowingManagedBean implements Serializable {
 		this.user = user;
 	}
 
-	public void setPublication(Publication publication) {
-		this.publication = publication;
-	}
-
 	private void clearVariables() {
 		setBorrowingId(new PublicationBorrowingPK());
 		setUser(new User());
@@ -94,8 +88,8 @@ public class BorrowingManagedBean implements Serializable {
 			getBorrowingBean().returnPublication(borrowingId);
 			clearVariables();
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
@@ -109,8 +103,8 @@ public class BorrowingManagedBean implements Serializable {
 			getBorrowingBean().borrowPublication(borrowing);
 			clearVariables();
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 

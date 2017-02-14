@@ -60,8 +60,8 @@ public class AuthorManagedBean implements Serializable {
 		try {
 			getAuthorBean().insertAuthor(author);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
@@ -76,9 +76,8 @@ public class AuthorManagedBean implements Serializable {
 		try {
 			getAuthorBean().updateAuthor(author);
 		} catch (ServiceException e) {
-
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Author's name already exists", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
@@ -94,8 +93,8 @@ public class AuthorManagedBean implements Serializable {
 		try {
 			getAuthorBean().deleteAuthor(author);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
@@ -140,7 +139,8 @@ public class AuthorManagedBean implements Serializable {
 				InitialContext jndi = new InitialContext();
 				authorBean = (IAuthorService) jndi.lookup(IAuthorService.jndiNAME);
 			} catch (NamingException e) {
-				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						LoginManagedBean.getResourceBundleString("author.naming"), null));
 			}
 		}
 		return authorBean;

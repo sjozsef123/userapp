@@ -34,7 +34,8 @@ public class UserManagedBean implements Serializable {
 				InitialContext jndi = new InitialContext();
 				userBean = (IUserService) jndi.lookup(IUserService.jndiNAME);
 			} catch (NamingException e) {
-				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						LoginManagedBean.getResourceBundleString("user.naming"), null));
 			}
 		}
 		return userBean;
@@ -107,8 +108,8 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().insertUser(user);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
@@ -116,8 +117,8 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().deleteUserById(user);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 
 	}
@@ -126,8 +127,8 @@ public class UserManagedBean implements Serializable {
 		try {
 			getUserBean().updateUser(user);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 
 	}
@@ -180,15 +181,11 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public User login(String n, String p) {
-		if (checkUserName(n)) {
-			try {
-				return getUserBean().login(n, p);
-			} catch (ServiceException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-						LoginManagedBean.getResourceBundleString("msg", e.getMessage()), null));
-				return new User();
-			}
-		} else {
+		try {
+			return getUserBean().login(n, p);
+		} catch (ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 			return new User();
 		}
 	}

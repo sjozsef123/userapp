@@ -25,12 +25,13 @@ import solomonj.msg.userapp.jpa.model.User;
 public class LoginManagedBean implements Serializable {
 
 	@Inject
-	private UserManagedBean userManagedBean;
+	private UserManagedBean userManagedBean;	
 
 	private static final long serialVersionUID = 9036899636413702756L;
 	private static final Locale LOCALE_HU = new Locale("hu", "hu");
 	private static Locale currentLocale = null;
 	private User loggedInUser = null;
+	private static final String RESOURCE_BUNDLE_NAME = "msg";
 
 	public void login(String n, String p) {
 		setLoggedInUser(userManagedBean.login(n, p));
@@ -91,10 +92,10 @@ public class LoginManagedBean implements Serializable {
 		return "login.xhtml";
 	}
 
-	public static String getResourceBundleString(String resourceBundleName, String resourceBundleKey)
+	public static String getResourceBundleString(String resourceBundleKey)
 			throws MissingResourceException {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = facesContext.getApplication().getResourceBundle(facesContext, resourceBundleName);
+		ResourceBundle bundle = facesContext.getApplication().getResourceBundle(facesContext, RESOURCE_BUNDLE_NAME);
 		return bundle.getString(resourceBundleKey);
 	}
 
