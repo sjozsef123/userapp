@@ -159,15 +159,7 @@ public class UserManagedBean implements Serializable {
 		return roles;
 	}
 
-	private boolean checkUserName(String name) {
-		if (name.length() < 3) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min 3 character", null));
-			return false;
-		} else {
-			return true;
-		}
-	}
+
 
 	public String getSearchName() {
 		return searchName;

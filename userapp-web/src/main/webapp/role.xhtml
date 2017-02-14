@@ -47,7 +47,7 @@
 
 			<p>
 				<h:commandButton value="#{msg['web.save']}" action="#{rolemanagedbean.add}" />
-				<h:commandButton value="#{msg['web.reset']}" action="#{rolemanagedbean.resetAdd}" />
+				<h:commandButton value="#{msg['web.reset']}" action="#{rolemanagedbean.resetAdd}" immediate="true" />
 			</p>
 		</h:form>
 	</h:panelGrid>
