@@ -15,7 +15,13 @@ import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Publication;
 import solomonj.msg.userapp.jpa.model.Publication_;
 import solomonj.msg.userapp.jpa.model.User;
-
+/**
+ * Basic repository generic functions for publications.
+ * 
+ * @author Majai Robert
+ * @author Solomon Jozsef
+ *
+ */
 public abstract class PublicationRepositoryBean<T extends Publication> extends BasicRepositoryBean<T> implements IPublicationRepository<T>{
 
 	@PersistenceContext

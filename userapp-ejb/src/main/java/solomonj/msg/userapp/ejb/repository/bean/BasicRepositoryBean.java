@@ -17,24 +17,30 @@ import solomonj.msg.userapp.ejb.repository.IBasicRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.BaseEntity;
 
-public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasicRepository<T>{
+/**
+ * Basic repository generic functions.
+ * 
+ * @author Majai Robert
+ * @author Solomon Jozsef
+ * @param <T>
+ */
+public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasicRepository<T> {
 
 	private Class<T> cls;
 	private Logger oLogger;
-	
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	public BasicRepositoryBean() {
-		
+
 	}
-	
+
 	public BasicRepositoryBean(Class<T> cls) {
 		this.cls = cls;
-		 oLogger = Logger.getLogger(cls);
+		oLogger = Logger.getLogger(cls);
 	}
-	
+
 	@Override
 	public List<T> getlAll() throws RepositoryException {
 
@@ -50,7 +56,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 			oLogger.error("Failed to query " + cls.getSimpleName() + "list.", e);
 			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".read");
 		}
-	
+
 	}
 
 	@Override
@@ -58,12 +64,12 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 		try {
 			entityManager.persist(t);
 			entityManager.flush();
-		} catch (EntityExistsException  e) {
-			
+		} catch (EntityExistsException e) {
+
 			oLogger.error("Duplicate entry for " + cls.getSimpleName(), e);
 			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".create", e);
 		} catch (PersistenceException e) {
-			
+
 			oLogger.error("Failed to create" + cls.getSimpleName(), e);
 			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".create", e);
 		}
@@ -71,7 +77,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 
 	@Override
 	public void delete(T t) throws RepositoryException {
-		
+
 		try {
 			T toDelete = entityManager.find(cls, t.getId());
 			entityManager.remove(toDelete);
@@ -81,10 +87,10 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".delete", e);
 		}
 	}
-	
+
 	@Override
 	public void update(T t) throws RepositoryException {
-		
+
 		try {
 			entityManager.merge(t);
 			entityManager.flush();
@@ -93,6 +99,5 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".update", e);
 		}
 	}
-
 
 }

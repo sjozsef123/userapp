@@ -5,8 +5,14 @@ import javax.ejb.Stateless;
 import solomonj.msg.userapp.ejb.repository.INewspaperRepository;
 import solomonj.msg.userapp.jpa.model.Newspaper;
 
+/**
+ * This session bean manages the newspapers.
+ * 
+ * @author Majai Robert
+ *
+ */
 @Stateless
-public class NewspaperRepositoryBean extends PublicationRepositoryBean<Newspaper> implements INewspaperRepository{
+public class NewspaperRepositoryBean extends PublicationRepositoryBean<Newspaper> implements INewspaperRepository {
 
 	public NewspaperRepositoryBean() {
 		super(Newspaper.class);

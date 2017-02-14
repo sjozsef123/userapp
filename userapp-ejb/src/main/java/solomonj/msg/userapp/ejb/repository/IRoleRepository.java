@@ -4,7 +4,12 @@ import javax.ejb.Local;
 
 import solomonj.msg.userapp.jpa.model.Role;
 
+/**
+ * Interface for handling roles.
+ * 
+ * @author Solomon Jozsef
+ */
 @Local
-public interface IRoleRepository extends IBasicRepository<Role> {	
-		
+public interface IRoleRepository extends IBasicRepository<Role> {
+
 }

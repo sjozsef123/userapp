@@ -6,8 +6,14 @@ import solomonj.msg.userapp.ejb.repository.IPubRepository;
 import solomonj.msg.userapp.jpa.model.Publication;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * This session bean manages the publications.
+ * 
+ * @author Majai Robert
+ *
+ */
 @Stateless
-public class PubRepositoryBean extends PublicationRepositoryBean<Publication> implements IPubRepository{
+public class PubRepositoryBean extends PublicationRepositoryBean<Publication> implements IPubRepository {
 
 	public PubRepositoryBean() {
 		super(Publication.class);
