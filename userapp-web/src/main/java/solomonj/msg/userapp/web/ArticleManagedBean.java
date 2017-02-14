@@ -16,8 +16,9 @@ import solomonj.msg.appuser.common.service.IArticleService;
 import solomonj.msg.userapp.jpa.model.Article;
 
 /**
+ * Managed bean for articles.
  * 
- * @author szocsc
+ * @author Szocs Csilla
  *
  */
 @Named("articleManagedBean")

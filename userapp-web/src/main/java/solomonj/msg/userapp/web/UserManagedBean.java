@@ -16,6 +16,12 @@ import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * Managed bean for users.
+ * 
+ * @author Solomon Jozsef.
+ *
+ */
 @Named("usermanagedbean")
 @SessionScoped
 public class UserManagedBean implements Serializable {
@@ -158,8 +164,6 @@ public class UserManagedBean implements Serializable {
 		}
 		return roles;
 	}
-
-
 
 	public String getSearchName() {
 		return searchName;

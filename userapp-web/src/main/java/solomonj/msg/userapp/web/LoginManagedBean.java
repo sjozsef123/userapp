@@ -16,6 +16,7 @@ import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
 /**
+ * Managed bean for login.
  * 
  * @author Simo Zoltan
  *
@@ -25,7 +26,7 @@ import solomonj.msg.userapp.jpa.model.User;
 public class LoginManagedBean implements Serializable {
 
 	@Inject
-	private UserManagedBean userManagedBean;	
+	private UserManagedBean userManagedBean;
 
 	private static final long serialVersionUID = 9036899636413702756L;
 	private static final Locale LOCALE_HU = new Locale("hu", "hu");
@@ -92,8 +93,7 @@ public class LoginManagedBean implements Serializable {
 		return "login.xhtml";
 	}
 
-	public static String getResourceBundleString(String resourceBundleKey)
-			throws MissingResourceException {
+	public static String getResourceBundleString(String resourceBundleKey) throws MissingResourceException {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = facesContext.getApplication().getResourceBundle(facesContext, RESOURCE_BUNDLE_NAME);
 		return bundle.getString(resourceBundleKey);

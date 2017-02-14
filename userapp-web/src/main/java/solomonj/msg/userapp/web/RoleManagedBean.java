@@ -14,6 +14,12 @@ import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IRoleService;
 import solomonj.msg.userapp.jpa.model.Role;
 
+/**
+ * Managed bean for roles.
+ * 
+ * @author Solomon Fozsef
+ *
+ */
 @Named("rolemanagedbean")
 @SessionScoped
 public class RoleManagedBean implements Serializable {

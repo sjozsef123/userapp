@@ -15,6 +15,12 @@ import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IPublicationService;
 import solomonj.msg.userapp.jpa.model.Publication;
 
+/**
+ * Managed bean for publications.
+ * 
+ * @author Majai Robert
+ *
+ */
 @Named("publicationmanagedbean")
 @SessionScoped
 public class PublicationManagedBean implements Serializable {
@@ -26,7 +32,7 @@ public class PublicationManagedBean implements Serializable {
 	private List<Publication> publicationList;
 	private String filter = "";
 	private String selectedPublicationType = "";
-	
+
 	public IPublicationService getpublicationBean() {
 		if (publicationBean == null) {
 			try {
@@ -43,27 +49,27 @@ public class PublicationManagedBean implements Serializable {
 	public String getType(Publication pub) {
 		return pub.getClass().getSimpleName();
 	}
-	
+
 	public void deletePublication(Publication publication) {
-		
+
 		try {
-			
+
 			publicationBean.deletePublication(publication);
 		} catch (ServiceException e) {
-			
+
 			oLogger.error("Failed to delete publication");
 		}
 	}
 
 	public List<Publication> getPublicationList() {
-		
+
 		publicationList = new ArrayList<>();
-		
+
 		try {
 			publicationList = getpublicationBean().filterPublicationByName(filter);
 			return publicationList;
 		} catch (ServiceException e) {
-			
+
 			oLogger.equals("Failed to query publication list.");
 			return publicationList;
 		}
@@ -72,39 +78,35 @@ public class PublicationManagedBean implements Serializable {
 	public void setPublicationList(List<Publication> publicationList) {
 		this.publicationList = publicationList;
 	}
-	
+
 	public void add(Publication publication) {
-			
-	}
-	
-	public void test(String a) {
-		System.out.println("retek");
-			System.out.println(a);
+
 	}
 
+	public void test(String a) {
+		System.out.println("retek");
+		System.out.println(a);
+	}
 
 	public String getFilter() {
 		return filter;
 	}
 
-
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
-	
+
 	public void clearFilter() {
-		
+
 		filter = "";
 	}
-
 
 	public String getSelectedPublicationType() {
 		return selectedPublicationType;
 	}
 
-
 	public void setSelectedPublicationType(String selectedPublicationType) {
 		this.selectedPublicationType = selectedPublicationType;
 	}
-	
+
 }

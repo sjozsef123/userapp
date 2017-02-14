@@ -19,6 +19,7 @@ import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
 import solomonj.msg.userapp.jpa.model.User;
 
 /**
+ * Managed bean for borrowings.
  * 
  * @author Simo Zoltan
  *

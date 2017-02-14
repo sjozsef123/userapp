@@ -14,9 +14,11 @@ import javax.naming.NamingException;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IAuthorService;
 import solomonj.msg.userapp.jpa.model.Author;
+
 /**
+ * Managed bean for authors.
  * 
- * @author szocsc
+ * @author Szocs Csilla
  *
  */
 @Named("authorManagedBean")
