@@ -13,7 +13,11 @@
 	<h2>#{msg['web.login.pleaseLogIn']}</h2>
 	<br />
 	<h:form>
-		#{msg['web.login.username']}:<h:inputText binding="#{name}" /><br />
+		#{msg['web.login.username']}:<h:inputText id ="login" binding="#{name}" validatorMessage="#{msg['error.validation.mincharacter']}" >
+		<f:validateLength minimum="3" />
+		</h:inputText>
+		<h:message id="m2" for="login" style="color:red" />
+		<br/>
 		#{msg['web.login.password']}:<h:inputSecret binding="#{pass}" /><br />
 		<h:commandButton value="#{msg['web.logIn']}"
 			actionListener="#{loginmanagedbean.login(name.value,pass.value)}"

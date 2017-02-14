@@ -38,7 +38,11 @@
 		<h:form>
 			<p>
 				#{msg['web.name']}:
-				<h:inputText value="#{rolemanagedbean.role.rolename}" />
+				<h:inputText id="roleInput" value="#{rolemanagedbean.role.rolename}" required="true" requiredMessage="#{msg['error.validation.required']}" 
+				validatorMessage="#{msg['error.validation.mincharacter']}">
+				<f:validateLength minimum="3" />
+			</h:inputText>
+			<h:message id="m1" for="roleInput" style="color:red" />
 			</p>
 
 			<p>

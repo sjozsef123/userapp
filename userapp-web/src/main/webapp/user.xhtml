@@ -58,25 +58,31 @@
 				<p>
 					#{msg['web.user.name']}:
 					<h:inputText id="nameInput"
-						value="#{usermanagedbean.user.username}" required="true" requiredMessage="name is required">
+						value="#{usermanagedbean.user.username}" required="true"
+						requiredMessage="#{msg['error.validation.required']}"
+						validatorMessage="#{msg['error.validation.mincharacter']}">
+						<f:validateLength minimum="3" />
 					</h:inputText>
-					<h:message id="m1" for="nameInput" style="color:red"/> 
+					<h:message id="m1" for="nameInput" style="color:red" />
 				</p>
 
 				<p>
 					#{msg['web.user.loyalty']}:
 					<h:inputText id="loyalyInput"
-						value="#{usermanagedbean.user.loyaltyIndex}" required="true" converterMessage="Please enter digits only." requiredMessage="loyalty index is required">
+						value="#{usermanagedbean.user.loyaltyIndex}" required="true"
+						converterMessage="#{msg['error.validation.digitonly']}"
+						requiredMessage="#{msg['error.validation.required']}">
 					</h:inputText>
-					<h:message id="m2" for="loyalyInput" style="color:red"/> 
+					<h:message id="m2" for="loyalyInput" style="color:red" />
 				</p>
 
 				<p>
 					#{msg['web.user.password']}:
 					<h:inputSecret id="passwordInput"
-						value="#{usermanagedbean.user.password}" required="true" requiredMessage="Password is required">
+						value="#{usermanagedbean.user.password}" required="true"
+						requiredMessage="#{msg['error.validation.required']}">
 					</h:inputSecret>
-					<h:message id="m3" for="passwordInput" style="color:red"/> 
+					<h:message id="m3" for="passwordInput" style="color:red" />
 				</p>
 
 
@@ -90,8 +96,11 @@
 				</p>
 
 				<p>
-					<h:commandButton value="#{msg['web.user.add']}" action="#{usermanagedbean.add}" />
-					<h:commandButton value="#{msg['web.user.reset']}" action="#{usermanagedbean.resetAdd}" />
+					<h:commandButton value="#{msg['web.user.add']}"
+						action="#{usermanagedbean.add}" />
+					<h:commandButton value="#{msg['web.user.reset']}"
+						action="#{usermanagedbean.resetAdd}" immediate="true" />
+
 				</p>
 
 			</h:form>
@@ -102,13 +111,23 @@
 			<h:form>
 				<p>
 					#{msg['web.user.name']}:
-					<h:inputText value="#{usermanagedbean.user.username}" />
+					<h:inputText id="nameInput"
+						value="#{usermanagedbean.user.username}" required="true"
+						requiredMessage="#{msg['error.validation.required']}"
+						validatorMessage="#{msg['error.validation.mincharacter']}">
+						<f:validateLength minimum="3" />
+					</h:inputText>
+					<h:message id="m1" for="nameInput" style="color:red" />
+
 				</p>
 				<p>
 					#{msg['web.user.loyalty']}:
-					<h:inputText value="#{usermanagedbean.user.loyaltyIndex}" converterMessage="Please enter digits only." 
-					 />
-
+					<h:inputText id="loyalyInput"
+						value="#{usermanagedbean.user.loyaltyIndex}" required="true"
+						converterMessage="#{msg['error.validation.digitonly']}"
+						requiredMessage="#{msg['error.validation.required']}">
+					</h:inputText>
+					<h:message id="m2" for="loyalyInput" style="color:red" />
 
 
 					<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
@@ -118,9 +137,11 @@
 
 				</p>
 				<p>
-					<h:commandButton value="#{msg['web.save']}" action="#{usermanagedbean.saveEdit}" />
+					<h:commandButton value="#{msg['web.save']}"
+						action="#{usermanagedbean.saveEdit}" />
 					<h:commandButton value="#{msg['web.cancel']}"
 						action="#{usermanagedbean.cancelEdit}" />
+
 				</p>
 			</h:form>
 		</h:panelGroup>
@@ -136,7 +157,7 @@
 					action="#{usermanagedbean.clearFilter()}" render="userList" />
 			</p>
 		</h:form>
-	</h:panelGrid>	
+	</h:panelGrid>
 
 	<ui:include src="/includes/footer.xhtml" />
 </body>

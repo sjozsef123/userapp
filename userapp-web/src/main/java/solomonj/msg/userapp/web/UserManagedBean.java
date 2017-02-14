@@ -60,6 +60,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void cancelEdit() {
+
 		this.user = new User();
 		selectedRoles = new ArrayList<>();
 		edit = false;
@@ -67,27 +68,27 @@ public class UserManagedBean implements Serializable {
 
 	public void add() {
 
-		if (checkUserName(user.getUsername())) {
-			user.setRoles(rolesToInt());
-			insertUser(user);
-			user = new User();
-			selectedRoles = new ArrayList<>();
-		}
+		user.setRoles(rolesToInt());
+		insertUser(user);
+		user = new User();
+		selectedRoles = new ArrayList<>();
+
 	}
 
 	public void resetAdd() {
+		System.out.println(user.getUsername());
 		user = new User();
 		selectedRoles = new ArrayList<>();
 	}
 
 	public void saveEdit() {
-		if (checkUserName(user.getUsername())) {
-			user.setRoles(rolesToInt());
-			updateUser(user);
-			this.user = new User();
-			selectedRoles = new ArrayList<>();
-			edit = false;
-		}
+
+		user.setRoles(rolesToInt());
+		updateUser(user);
+		this.user = new User();
+		selectedRoles = new ArrayList<>();
+		edit = false;
+
 	}
 
 	public List<User> getAllUsers() {
