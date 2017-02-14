@@ -11,7 +11,6 @@ CREATE TABLE `userapp`.`users` (
 PRIMARY KEY `pk_users` (`id`),
 UNIQUE KEY  `uk_users` (`username`)
 );
-
 insert into users (`id`, `username`, `loyalty_index`, `password`)  values (1, 'Robi', 10, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
 insert into users (`id`, `username`, `loyalty_index`, `password`)  values (2, 'Joco', 10, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
 insert into users (`id`, `username`, `loyalty_index`, `password`)  values (3, 'Zolti', 2, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
