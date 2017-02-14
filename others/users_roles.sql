@@ -12,9 +12,9 @@ PRIMARY KEY `pk_users` (`id`),
 UNIQUE KEY  `uk_users` (`username`)
 );
 
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (1, 'Robi', 10, '���N�@�c�0�GW��d>');
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (2, 'Joco', 10, '1');
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (3, 'Zolti', 0, '1');
+insert into users (`id`, `username`, `loyalty_index`, `password`)  values (1, 'Robi', 10, '�0\”ÙPnŽjgÓ¹ÔWnô');
+insert into users (`id`, `username`, `loyalty_index`, `password`)  values (2, 'Joco', 10, '�0\”ÙPnŽjgÓ¹ÔWnô');
+insert into users (`id`, `username`, `loyalty_index`, `password`)  values (3, 'Zolti', 0, '�0\”ÙPnŽjgÓ¹ÔWnô');
 
 CREATE TABLE `userapp`.`roles` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,
