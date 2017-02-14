@@ -7,7 +7,12 @@ import java.security.NoSuchAlgorithmException;
 import org.jboss.logging.Logger;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
-
+/**
+ * Password encryption class
+ * 
+ * @author Solomon Jozsef
+ *
+ */
 public class PasswordEncrypting {
 	private static Logger oLogger = Logger.getLogger(PasswordEncrypting.class);
 
@@ -16,8 +21,7 @@ public class PasswordEncrypting {
 	}
 
 	/**
-	 * This method use property provider to get algorithm and encoding to
-	 * encrypt password with salt
+	 * This function encrypts the password.
 	 * 
 	 * @param password
 	 * @param salt

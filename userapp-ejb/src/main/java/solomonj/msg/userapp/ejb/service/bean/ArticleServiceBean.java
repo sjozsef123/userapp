@@ -10,9 +10,11 @@ import solomonj.msg.appuser.common.service.IArticleService;
 import solomonj.msg.userapp.ejb.repository.IArticleRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Article;
+
 /**
+ * This session bean manages the articles.
  * 
- * @author szocsc
+ * @author Szocs Csilla
  *
  */
 @Stateless

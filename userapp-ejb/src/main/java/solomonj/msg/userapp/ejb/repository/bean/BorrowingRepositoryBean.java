@@ -69,7 +69,6 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 
 			oLogger.info("Borrowing deleted.");
 		} catch (PersistenceException e) {
-			entityManager.getTransaction().rollback();
 			oLogger.error("Could not delete a borrowing.", e);
 			throw new RepositoryException("borrowing.delete");
 		}

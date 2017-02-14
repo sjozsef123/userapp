@@ -11,6 +11,12 @@ import solomonj.msg.userapp.ejb.repository.IRoleRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Role;
 
+/**
+ * This session bean manages the roles.
+ * 
+ * @author Solomon Jozsef
+ *
+ */
 @Stateless
 public class RoleServiceBean implements IRoleService {
 

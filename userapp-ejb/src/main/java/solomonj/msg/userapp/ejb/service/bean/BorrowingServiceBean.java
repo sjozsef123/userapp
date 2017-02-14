@@ -20,6 +20,12 @@ import solomonj.msg.userapp.jpa.model.PublicationBorrowing;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * This session bean manages the borrowings.
+ * 
+ * @author Simo Zoltan
+ *
+ */
 @Stateless
 public class BorrowingServiceBean implements IBorrowingService {
 
@@ -41,9 +47,9 @@ public class BorrowingServiceBean implements IBorrowingService {
 	public void returnPublication(PublicationBorrowingPK borrowingPK) throws ServiceException {
 		try {
 			Publication publication = PubRepositoryBean.getPublicationById(borrowingPK.getPublicationId());
-		    copiesLeft = publication.getCopiesLeft();
+			copiesLeft = publication.getCopiesLeft();
 			publication.setCopiesLeft(copiesLeft + 1);
-			PubRepositoryBean.update(publication);			
+			PubRepositoryBean.update(publication);
 			if (borrowingRepositoryBean.getBorrowById(borrowingPK).getDeadline()
 					.before(Date.valueOf(LocalDate.now()))) {
 				userRepositoryBean.decreaseLoyaltyIndex(borrowingPK.getUserId());
@@ -64,7 +70,7 @@ public class BorrowingServiceBean implements IBorrowingService {
 				int loyaltyIndex = userRepositoryBean.getUserById(borrowing.getId().getUserId()).getLoyaltyIndex();
 				if (loyaltyIndex > 0) {
 					publication.setCopiesLeft(copiesLeft - 1);
-					PubRepositoryBean.update(publication); 					
+					PubRepositoryBean.update(publication);
 					borrowing.setPublication(publication);
 					borrowingRepositoryBean.insertBorrowing(borrowing);
 				} else {
