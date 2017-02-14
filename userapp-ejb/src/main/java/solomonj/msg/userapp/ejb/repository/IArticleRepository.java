@@ -5,13 +5,16 @@ import java.util.List;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Article;
 /**
- * interface for handling articles
- * @author szocsc
+ * Interface for handling articles.
+ * 
+ * @author Szocs Csilla
  *
  */
 public interface IArticleRepository extends IBasicRepository<Article>{
+	
 	/**
-	 * This method searches for the Article with the specified name.
+	 * This method searches for Articles with the specified name.
+	 * 
 	 * @param name
 	 * @return articles
 	 * @throws RepositoryException

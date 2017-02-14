@@ -12,6 +12,13 @@ import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.ejb.service.util.PasswordEncrypting;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * This session bean manages the users.
+ * 
+ * @author Solomon Jozsef
+ * @author Simo Zoltan
+ *
+ */
 @Stateless
 public class UserServiceBean implements IUserService {
 
@@ -62,21 +69,21 @@ public class UserServiceBean implements IUserService {
 
 	@Override
 	public List<User> searchUserByName(String name) throws ServiceException {
-		try {			
-			return userRepositoryBean.searchUserByName(name);			 
-		} catch (Exception e) {			
-			throw new ServiceException(e.getMessage());					
+		try {
+			return userRepositoryBean.searchUserByName(name);
+		} catch (Exception e) {
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
 	public User login(String name, String password) throws ServiceException {
-		//check name length password, encrypt
+		// check name length password, encrypt
 		String pass = PasswordEncrypting.encrypt(password, "user");
-		try {			
-			return userRepositoryBean.login(name, pass); 
+		try {
+			return userRepositoryBean.login(name, pass);
 		} catch (RepositoryException e) {
-			throw new ServiceException(e.getMessage());		
+			throw new ServiceException(e.getMessage());
 		}
 	}
 

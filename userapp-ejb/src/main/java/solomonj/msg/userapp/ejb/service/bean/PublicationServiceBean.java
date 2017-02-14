@@ -13,16 +13,22 @@ import solomonj.msg.userapp.ejb.repository.IPubRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Publication;
 
+/**
+ * Basic repository generic functions for publications.
+ * 
+ * @author Majai Robert
+ * @author Solomon Jozsef
+ *
+ */
 @Stateless
 public class PublicationServiceBean implements IPublicationService {
 
 	@EJB
 	private IPubRepository publicationBean;
 	private Logger oLogger = Logger.getLogger(PublicationServiceBean.class);
-	
-	
+
 	@Override
-	public List<Publication> getAllPublication() throws ServiceException{
+	public List<Publication> getAllPublication() throws ServiceException {
 
 		try {
 			return publicationBean.getlAll();

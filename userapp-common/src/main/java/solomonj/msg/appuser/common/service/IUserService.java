@@ -6,50 +6,62 @@ import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.jpa.model.User;
 
 /**
- * interface for User CRUD operations.
- * @author 
+ * Interface for user CRUD operations.
+ * 
+ * @author Solomon Jozsef
  *
  */
 public interface IUserService {
 
 	public static final String jndiNAME = "java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/UserServiceBean";
+
 	/**
-	 * This function gets all the Users from DB.
-	 * @return users
-	 * @throws ServiceException ServiceException, when Server could not finish request
+	 * This function gets all the users;
+	 * 
+	 * @return list
+	 * @throws ServiceException
 	 */
 	public List<User> getAllUsers() throws ServiceException;
+
 	/**
-	 * This method inserts a User into DB.
+	 * This function inserts a user.
+	 * 
 	 * @param user
-	 * @throws ServiceException, when Server could not finish request
+	 * @throws ServiceException
 	 */
 	public void insertUser(User user) throws ServiceException;
+
 	/**
-	 * This method deletes the User 
+	 * This function deletes the user.
+	 * 
 	 * @param user
-	 * @throws ServiceException, when Server could not finish request
+	 * @throws ServiceException
 	 */
 	public void deleteUserById(User user) throws ServiceException;
+
 	/**
-	 * This method updates the User 
+	 * This function updates the user
+	 * 
 	 * @param user
-	 * @throws ServiceException, when Server could not finish request
+	 * @throws ServiceException
 	 */
 	public void updateUser(User user) throws ServiceException;
+
 	/**
-	 * This method searches for the User with the specified name.
+	 * This function searches for the user with the specified name.
+	 * 
 	 * @param name
 	 * @return users
-	 * @throws ServiceException, when Server could not finish request
+	 * @throws ServiceException
 	 */
 	public List<User> searchUserByName(String name) throws ServiceException;
-	
+
 	/**
+	 * This function implements login.
 	 * 
 	 * @param name
 	 * @param pass
-	 * @return
+	 * @return user
 	 * @throws ServiceException
 	 */
 	public User login(String name, String pass) throws ServiceException;

@@ -19,6 +19,12 @@ import solomonj.msg.userapp.jpa.model.PublicationBorrowing;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowing_;
 
+/**
+ * This session bean manages the borrowings.
+ * 
+ * @author Simo Zoltan
+ *
+ */
 @Stateless
 public class BorrowingRepositoryBean implements IBorrowingRepository {
 
@@ -28,12 +34,11 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 	private EntityManager entityManager;
 
 	private CriteriaBuilder builder;
-
 	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 
-	public BorrowingRepositoryBean() {		
+	public BorrowingRepositoryBean() {
 	}
-	
+
 	@PostConstruct
 	private void setBuilder() {
 		builder = entityManager.getCriteriaBuilder();
@@ -64,7 +69,6 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 
 			oLogger.info("Borrowing deleted.");
 		} catch (PersistenceException e) {
-			entityManager.getTransaction().rollback();
 			oLogger.error("Could not delete a borrowing.", e);
 			throw new RepositoryException("borrowing.delete");
 		}
@@ -77,11 +81,11 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<PublicationBorrowing> borrow = builder.createQuery(PublicationBorrowing.class);
 			Root<PublicationBorrowing> borrowRoot = borrow.from(PublicationBorrowing.class);
-     			
+
 			borrow.select(borrowRoot);
 			borrow.where(builder.and(builder.equal(borrowRoot.get(PublicationBorrowing_.id), borrowingPK)));
 			TypedQuery<PublicationBorrowing> borrowQuery = entityManager.createQuery(borrow);
-			
+
 			oLogger.info("Borrow get was successful");
 			entityManager.flush();
 			return borrowQuery.getSingleResult();

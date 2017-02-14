@@ -4,51 +4,54 @@ import java.util.List;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.jpa.model.Author;
+
 /**
- * interface for Author CRUD operations.
- * @author szocsc
+ * Interface for author CRUD operations.
+ * 
+ * @author Szocs Csilla
  *
  */
 public interface IAuthorService {
 	public static final String jndiNAME = "java:global/userapp-ear-0.0.1-SNAPSHOT/userapp-ejb-0.0.1-SNAPSHOT/AuthorServiceBean";
-	/**
-	 * This function gets all the Authors from DB.
-	 * 
-	 * @return List of Authors
-	 * @throws ServiceException, when Server could not finish request
-	 */
-	public List<Author> getAllAuthors() throws  ServiceException;
 
 	/**
-	 * This method inserts an Author into DB.
+	 * This function gets all the authors.
+	 * 
+	 * @return list
+	 * @throws ServiceException
+	 */
+	public List<Author> getAllAuthors() throws ServiceException;
+
+	/**
+	 * This function inserts an author.
 	 * 
 	 * @param author
-	 * @throws ServiceException, when Server could not finish request
+	 * @throws ServiceException
 	 */
 	public void insertAuthor(Author author) throws ServiceException;
 
 	/**
-	 * This method updates the Author.
+	 * This function updates the author.
 	 * 
 	 * @param author
-	 * @throws ServiceException, when Server could not finish request
+	 * @throws ServiceException
 	 */
 	public void updateAuthor(Author author) throws ServiceException;
 
 	/**
-	 * This method deletes the Author 
+	 * This function deletes the author
 	 * 
 	 * @param author
-	 * @throws ServiceException, when Server could not finish request
+	 * @throws ServiceException
 	 */
 	public void deleteAuthor(Author author) throws ServiceException;
 
 	/**
-	 * This method searches for an Author with the specified name.
+	 * This function searches for an author with the specified name.
 	 * 
 	 * @param name
-	 * @return List<Author>
-	 * @throws ServiceException, when Server could not finish request
+	 * @return list
+	 * @throws ServiceException
 	 */
 	public List<Author> searchAuthorByName(String name) throws ServiceException;
 }

@@ -19,9 +19,10 @@ import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
 
 /**
- * Implement methods of IUserRepository
+ * This session bean manages the users.
  * 
- * @author
+ * @author Solomon Jozsef
+ * @author Simo Zoltan
  *
  */
 @Stateless
@@ -82,7 +83,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			criteriaQuery.select(root).where(builder.and(builder.equal(root.get("username"), name)),
 					builder.equal(root.get("password"), pass));
 
-			user = entityManager.createQuery(criteriaQuery).getSingleResult();			
+			user = entityManager.createQuery(criteriaQuery).getSingleResult();
 			if (user == null) {
 				oLogger.error("No user with given password and name.");
 				throw new RepositoryException("user.login");

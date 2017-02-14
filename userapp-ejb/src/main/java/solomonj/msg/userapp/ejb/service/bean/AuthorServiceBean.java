@@ -9,9 +9,11 @@ import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IAuthorService;
 import solomonj.msg.userapp.ejb.repository.IAuthorRepository;
 import solomonj.msg.userapp.jpa.model.Author;
+
 /**
+ * This session bean manages the authors.
  * 
- * @author szocsc
+ * @author Szocs Csilla
  *
  */
 @Stateless
@@ -26,16 +28,16 @@ public class AuthorServiceBean implements IAuthorService {
 		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
-		
+
 	}
 
 	@Override
 	public void insertAuthor(Author author) throws ServiceException {
-	try {
-		authorRepositoryBean.create(author);
-	} catch (Exception e) {
-		throw new ServiceException(e.getMessage());
-	}
+		try {
+			authorRepositoryBean.create(author);
+		} catch (Exception e) {
+			throw new ServiceException(e.getMessage());
+		}
 
 	}
 
@@ -64,9 +66,9 @@ public class AuthorServiceBean implements IAuthorService {
 		try {
 			return authorRepositoryBean.searchAuthorByName(name);
 		} catch (Exception e) {
-			throw new ServiceException(e.getMessage());		
+			throw new ServiceException(e.getMessage());
 		}
-		
+
 	}
 
 }
