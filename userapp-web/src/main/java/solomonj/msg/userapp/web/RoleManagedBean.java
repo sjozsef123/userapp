@@ -3,23 +3,23 @@ package solomonj.msg.userapp.web;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import solomonj.msg.appuser.common.IRole;
-import solomonj.msg.appuser.common.ServiceException;
+import solomonj.msg.appuser.common.exception.ServiceException;
+import solomonj.msg.appuser.common.service.IRoleService;
 import solomonj.msg.userapp.jpa.model.Role;
 
 @Named("rolemanagedbean")
-@ApplicationScoped
+@SessionScoped
 public class RoleManagedBean implements Serializable {
 
 	private static final long serialVersionUID = -6796469792037802850L;
-	private IRole roleBean = null;
+	private IRoleService roleBean = null;
 	private Role role = new Role();
 
 	public Role getRole() {
@@ -31,45 +31,47 @@ public class RoleManagedBean implements Serializable {
 	}
 
 	public List<Role> getRoles() {
-
-		return getRoleBean().getRoles();
+		try {
+			return getRoleBean().getRoles();
+		} catch (ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
+			return null;
+		}
 
 	}
 
-	private IRole getRoleBean() {
+	private IRoleService getRoleBean() {
 		if (roleBean == null) {
 			try {
 				InitialContext jndi = new InitialContext();
-				roleBean = (IRole) jndi.lookup(IRole.jndiNAME);
+				roleBean = (IRoleService) jndi.lookup(IRoleService.jndiNAME);
 			} catch (NamingException e) {
-				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						LoginManagedBean.getResourceBundleString("role.naming"), null));
 			}
 		}
 		return roleBean;
 	}
 
 	public void delete(Role role) {
-		deleteRole(role.getId());
+		deleteRole(role);
 	}
 
-	public void deleteRole(int id) {
+	public void deleteRole(Role role) {
 		try {
-			getRoleBean().deleteRole(id);
+			getRoleBean().deleteRole(role);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 
 	}
 
 	public void add() {
-		if (role.getRolename().length() < 3) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min. 3 character", null));
-		} else {
-			insertRole(role);
-			role = new Role();
-		}
+
+		insertRole(role);
+		role = new Role();
 
 	}
 
@@ -78,12 +80,11 @@ public class RoleManagedBean implements Serializable {
 	}
 
 	public void insertRole(Role role) {
-
 		try {
 			getRoleBean().insertRole(role);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 
 	}

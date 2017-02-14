@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>#{msg['web.login.title']}</title>
+</h:head>
+
+<h:body>	
+
+	<h2>#{msg['web.login.pleaseLogIn']}</h2>
+	<br />
+	<h:form>
+		#{msg['web.login.username']}:<h:inputText id ="login" binding="#{name}" validatorMessage="#{msg['error.validation.mincharacter']}" >
+		<f:validateLength minimum="3" />
+		</h:inputText>
+		<h:message id="m2" for="login" style="color:red" />
+		<br/>
+		#{msg['web.login.password']}:<h:inputSecret binding="#{pass}" /><br />
+		<h:commandButton value="#{msg['web.logIn']}"
+			actionListener="#{loginmanagedbean.login(name.value,pass.value)}"
+			action="user?faces-redirect=true"/>
+	</h:form>
+	
+	
+	<ui:include src="/includes/footer.xhtml" />
+
+</h:body>
+</html>

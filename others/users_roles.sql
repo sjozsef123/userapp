@@ -11,10 +11,10 @@ CREATE TABLE `userapp`.`users` (
 PRIMARY KEY `pk_users` (`id`),
 UNIQUE KEY  `uk_users` (`username`)
 );
-
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (1, 'Robi', 10, '���N�@�c�0�GW��d>');
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (2, 'Joco', 10, '1');
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (3, 'Zolti', 0, '1');
+insert into users (`id`, `username`, `loyalty_index`, `password`)  values (1, 'Robi', 10, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
+insert into users (`id`, `username`, `loyalty_index`, `password`)  values (2, 'Joco', 10, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
+insert into users (`id`, `username`, `loyalty_index`, `password`)  values (3, 'Zolti', 2, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
+insert into users (`id`, `username`, `loyalty_index`, `password`)  values (4, 'Csilla', 0, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
 
 CREATE TABLE `userapp`.`roles` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,
@@ -37,7 +37,8 @@ CONSTRAINT `fk_ur_role` FOREIGN KEY (`role_id`) REFERENCES `userapp`.`roles` (`i
 
 insert into users_roles (`user_id`, `role_id`) values ('1', '1');
 insert into users_roles (`user_id`, `role_id`) values ('2', '2');
-insert into users_roles (`user_id`, `role_id`) values ('3', '2');
+insert into users_roles (`user_id`, `role_id`) values ('3', '1');
+insert into users_roles (`user_id`, `role_id`) values ('4', '2');
 
 
 CREATE TABLE `userapp`.`authors` (

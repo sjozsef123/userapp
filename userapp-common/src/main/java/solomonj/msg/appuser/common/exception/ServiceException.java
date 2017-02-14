@@ -1,4 +1,4 @@
-package solomonj.msg.appuser.common;
+package solomonj.msg.appuser.common.exception;
 
 public class ServiceException extends Exception {
 
