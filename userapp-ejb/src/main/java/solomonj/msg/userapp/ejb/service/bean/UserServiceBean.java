@@ -29,7 +29,12 @@ public class UserServiceBean implements IUserService {
 
 	@Override
 	public void insertUser(User user) throws ServiceException {
-		user.setPassword(PasswordEncrypting.encrypt(user.getPassword(), "user"));
+		try {
+			user.setPassword(PasswordEncrypting.encrypt(user.getPassword(), "user"));
+		} catch (Exception e) {
+			throw new ServiceException("user.create");
+		}
+	
 		try {
 			userRepositoryBean.create(user);
 		} catch (Exception e) {
