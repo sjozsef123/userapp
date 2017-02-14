@@ -34,8 +34,8 @@ public class RoleManagedBean implements Serializable {
 		try {
 			return getRoleBean().getRoles();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 			return null;
 		}
 
@@ -47,7 +47,8 @@ public class RoleManagedBean implements Serializable {
 				InitialContext jndi = new InitialContext();
 				roleBean = (IRoleService) jndi.lookup(IRoleService.jndiNAME);
 			} catch (NamingException e) {
-				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						LoginManagedBean.getResourceBundleString("role.naming"), null));
 			}
 		}
 		return roleBean;
@@ -61,8 +62,8 @@ public class RoleManagedBean implements Serializable {
 		try {
 			getRoleBean().deleteRole(role);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 
 	}
@@ -79,12 +80,11 @@ public class RoleManagedBean implements Serializable {
 	}
 
 	public void insertRole(Role role) {
-
 		try {
 			getRoleBean().insertRole(role);
 		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 
 	}

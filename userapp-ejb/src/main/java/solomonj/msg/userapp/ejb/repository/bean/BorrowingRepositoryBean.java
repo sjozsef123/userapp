@@ -47,7 +47,7 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 			oLogger.info("Borrowing inserted.");
 		} catch (PersistenceException e) {
 			oLogger.error("Could not insert borrowing.", e);
-			throw new RepositoryException("borrowingcreate");
+			throw new RepositoryException("borrowing.create");
 		}
 	}
 
@@ -66,7 +66,7 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 		} catch (PersistenceException e) {
 			entityManager.getTransaction().rollback();
 			oLogger.error("Could not delete a borrowing.", e);
-			throw new RepositoryException("borrowingdelete");
+			throw new RepositoryException("borrowing.delete");
 		}
 	}
 
@@ -87,7 +87,7 @@ public class BorrowingRepositoryBean implements IBorrowingRepository {
 			return borrowQuery.getSingleResult();
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to get borrow by id", e);
-			throw new RepositoryException("borrowingread");
+			throw new RepositoryException("borrowing.read");
 		}
 	}
 
