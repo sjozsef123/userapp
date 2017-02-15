@@ -51,6 +51,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 			Root<T> root = criteriaQuery.from(cls);
 			criteriaQuery.select(root);
 			resultList = entityManager.createQuery(criteriaQuery).getResultList();
+			oLogger.info("");
 			return (resultList == null) ? new ArrayList<>() : resultList;
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to query " + cls.getSimpleName() + "list.", e);
@@ -64,6 +65,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 		try {
 			entityManager.persist(t);
 			entityManager.flush();
+			oLogger.info("");
 		} catch (EntityExistsException e) {
 
 			oLogger.error("Duplicate entry for " + cls.getSimpleName(), e);
@@ -82,6 +84,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 			T toDelete = entityManager.find(cls, t.getId());
 			entityManager.remove(toDelete);
 			entityManager.flush();
+			oLogger.info("");
 		} catch (PersistenceException e) {
 			oLogger.error("Can't delete " + cls.getSimpleName(), e);
 			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".delete", e);
@@ -94,6 +97,7 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 		try {
 			entityManager.merge(t);
 			entityManager.flush();
+			oLogger.info("");
 		} catch (PersistenceException e) {
 			oLogger.error("Can't delete " + cls.getSimpleName(), e);
 			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".update", e);

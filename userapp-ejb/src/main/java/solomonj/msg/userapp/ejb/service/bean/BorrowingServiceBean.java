@@ -55,6 +55,7 @@ public class BorrowingServiceBean implements IBorrowingService {
 				userRepositoryBean.decreaseLoyaltyIndex(borrowingPK.getUserId());
 			}
 			borrowingRepositoryBean.deleteBorrowing(borrowingPK);
+			oLogger.info("");
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());

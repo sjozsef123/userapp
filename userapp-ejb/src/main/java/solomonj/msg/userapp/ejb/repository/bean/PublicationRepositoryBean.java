@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.jboss.logging.Logger;
+
 import solomonj.msg.userapp.ejb.repository.IPublicationRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Publication;
@@ -27,7 +29,7 @@ public abstract class PublicationRepositoryBean<T extends Publication> extends B
 	@PersistenceContext
 	private EntityManager entityManager;
 	private Class<T> cls;
-	
+	private Logger oLogger = Logger.getLogger(PublicationRepositoryBean.class);
 	public PublicationRepositoryBean() {
 		
 	}
@@ -50,11 +52,12 @@ public abstract class PublicationRepositoryBean<T extends Publication> extends B
 			criteriaQuery.select(root).where(builder.like(root.get(Publication_.title), "%" + filter + "%"));
 			
 			filteredPublications = entityManager.createQuery(criteriaQuery).getResultList();
+			oLogger.info("pUBLICATION get was successful");
 			return filteredPublications;
 			
 		} catch (PersistenceException e) {
-			
-			throw new RepositoryException();
+			oLogger.error("Failed to get publication by name", e);
+			throw new RepositoryException("publication.read");
 			
 		}
 		

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
@@ -32,10 +33,17 @@ public class ArticleRepositoryBean extends BasicRepositoryBean<Article> implemen
 
 	@Override
 	public List<Article> searchArticleByName(String title) throws RepositoryException {
-		TypedQuery<Article> query = entityManager.createQuery("Select a " + "from Article a where a.title LIKE :title",
-				Article.class);
-		query.setParameter("title", "%" + title + "%");
-		return query.getResultList();
+		try {
+			TypedQuery<Article> query = entityManager.createQuery("Select a " + "from Article a where a.title LIKE :title",
+					Article.class);
+			query.setParameter("title", "%" + title + "%");
+			oLogger.info("Article get was successful");
+			return query.getResultList();
+		} catch (PersistenceException e) {
+			oLogger.error("Failed to get article by name", e);
+			throw new RepositoryException("article.read");
+		}
+		
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
@@ -32,10 +33,16 @@ public class AuthorRepositoryBean extends BasicRepositoryBean<Author> implements
 
 	@Override
 	public List<Author> searchAuthorByName(String name) throws RepositoryException {
-		TypedQuery<Author> query = entityManager.createQuery("Select a " + "from Author a where a.name LIKE :name ",
-				Author.class);
-		query.setParameter("name", "%" + name + "%");
-		return query.getResultList();
+		try {
+			TypedQuery<Author> query = entityManager.createQuery("Select a " + "from Author a where a.name LIKE :name ",
+					Author.class);
+			query.setParameter("name", "%" + name + "%");
+			oLogger.info("Article get was successful.");
+			return query.getResultList();
+		} catch (PersistenceException e) {
+			oLogger.error("Failed to get author by name", e);
+			throw new RepositoryException("author.read");
+		}
 	}
 
 }

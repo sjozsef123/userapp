@@ -48,6 +48,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			criteriaQuery.select(root).where(builder.like(root.get("username"), "%" + name + "%")).distinct(true);
 
 			resultList = entityManager.createQuery(criteriaQuery).getResultList();
+			oLogger.info("");
 			return (resultList == null) ? new ArrayList<>() : resultList;
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to query user list.", e);
@@ -84,10 +85,12 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 					builder.equal(root.get("password"), pass));
 
 			user = entityManager.createQuery(criteriaQuery).getSingleResult();
+			
 			if (user == null) {
 				oLogger.error("No user with given password and name.");
 				throw new RepositoryException("user.login");
 			}
+			oLogger.info("");
 			return user;
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to login user.", e);
