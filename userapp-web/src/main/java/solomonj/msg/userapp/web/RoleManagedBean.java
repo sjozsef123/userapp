@@ -17,7 +17,7 @@ import solomonj.msg.userapp.jpa.model.Role;
 /**
  * Managed bean for roles.
  * 
- * @author Solomon Fozsef
+ * @author Solomon Jozsef
  *
  */
 @Named("rolemanagedbean")
