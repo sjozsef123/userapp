@@ -35,7 +35,7 @@ public class BorrowingServiceBean implements IBorrowingService {
 	private IUserRepository userRepositoryBean;
 
 	@EJB
-	private IPubRepository PubRepositoryBean;
+	private IPubRepository pubRepositoryBean;
 
 	@EJB
 	private IBorrowingRepository borrowingRepositoryBean;
@@ -46,10 +46,10 @@ public class BorrowingServiceBean implements IBorrowingService {
 	@Override
 	public void returnPublication(PublicationBorrowingPK borrowingPK) throws ServiceException {
 		try {
-			Publication publication = PubRepositoryBean.getPublicationById(borrowingPK.getPublicationId());
+			Publication publication = pubRepositoryBean.getPublicationById(borrowingPK.getPublicationId());
 			copiesLeft = publication.getCopiesLeft();
 			publication.setCopiesLeft(copiesLeft + 1);
-			PubRepositoryBean.update(publication);
+			pubRepositoryBean.update(publication);
 			if (borrowingRepositoryBean.getBorrowById(borrowingPK).getDeadline()
 					.before(Date.valueOf(LocalDate.now()))) {
 				userRepositoryBean.decreaseLoyaltyIndex(borrowingPK.getUserId());
@@ -64,13 +64,13 @@ public class BorrowingServiceBean implements IBorrowingService {
 	@Override
 	public void borrowPublication(PublicationBorrowing borrowing) throws ServiceException {
 		try {
-			Publication publication = PubRepositoryBean.getPublicationById(borrowing.getId().getPublicationId());
+			Publication publication = pubRepositoryBean.getPublicationById(borrowing.getId().getPublicationId());
 			copiesLeft = publication.getCopiesLeft();
 			if (copiesLeft > 0) {
 				int loyaltyIndex = userRepositoryBean.getUserById(borrowing.getId().getUserId()).getLoyaltyIndex();
 				if (loyaltyIndex > 0) {
 					publication.setCopiesLeft(copiesLeft - 1);
-					PubRepositoryBean.update(publication);
+					pubRepositoryBean.update(publication);
 					borrowing.setPublication(publication);
 					borrowingRepositoryBean.insertBorrowing(borrowing);
 				} else {
