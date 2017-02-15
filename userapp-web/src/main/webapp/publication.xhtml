@@ -3,8 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:a4j="http://richfaces.org/a4j" >
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" >
 
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
@@ -16,34 +15,6 @@
 	function change(selected) {
 
 		document.getElementById('form:publicationType').value = selected;
-		
-// 		var bookPanel = document.getElementById('form:bookPanel');
-// 		var magazinePanel = document.getElementById('form:magazinePanel');
-// 		var newspaperPanel = document.getElementById('form:newspaperPanel')
-
-// 		switch(selected) {
-
-// 		case 'book':
-// 			bookPanel.style.display = 'block';
-// 			magazinePanel.style.display = 'none';
-// 			newspaperPanel.style.display = 'none';
-// 			clearPubPanel(bookPanel.children);
-// 			break;
-
-// 		case 'magazine':
-// 			bookPanel.style.display = 'none';
-// 			magazinePanel.style.display = 'block';
-// 			newspaperPanel.style.display = 'none';
-// 			clearPubPanel(magazinePanel.children);
-// 			break;
-
-// 		case 'newspaper':
-// 			bookPanel.style.display = 'none';
-// 			magazinePanel.style.display = 'none';
-// 			newspaperPanel.style.display = 'block';
-// 			clearPubPanel(newspaperPanel.children);
-// 			break;
-// 		}
 	}
 	
 	function add(type) {
@@ -100,65 +71,158 @@
 		console.log(publication);
 	}
 	
-	
-	function test() {
-		
-		
-// 		var status = data.status; // Can be "begin", "complete" or "success".
-// 	    var source = data.source; // The parent HTML DOM element.
-
-// 	    var today = new Date();
-
-	    
-// 	    switch (status) {
-// 	        case "begin": // Before the ajax request is sent.
-// 	            // ...
-// 	            console.log('begin');
-// 	            var h = today.getHours();
-// 	    	    var m = today.getMinutes();
-// 	    	    var s = today.getSeconds();
-// 	            var ms = today.getMilliseconds();
-// 	            console.log(h + ':' + m + ':' + s + ':' + ms);
-// 	            console.log('#{publicationmanagedbean.book.title}')
-// 	            break;
-
-// 	        case "complete": // After the ajax response is arrived.
-// 	            // ...
-// 	            console.log('complete');
-// 	            var h = today.getHours();
-// 	    	    var m = today.getMinutes();
-// 	    	    var s = today.getSeconds();
-// 	            var ms = today.getMilliseconds();
-// 	            console.log(h + ':' + m + ':' + s + ':' + ms);
-// 	            console.log('#{publicationmanagedbean.book.title}')
-// 	            break;
-
-// 	        case "success": // After update of HTML DOM based on ajax response.
-// 	            // ...
-// 	            console.log('success');
-// 	            var h = today.getHours();
-// 	    	    var m = today.getMinutes();
-// 	    	    var s = today.getSeconds();
-// 	            var ms = today.getMilliseconds();
-// 	            console.log(h + ':' + m + ':' + s + ':' + ms);
-// 	            console.log('#{publicationmanagedbean.book.title}')
-	           
-// 	            break;
-// 	    }
-		
-	    document.getElementById('j_idt12:publicationList:1:hiddenCast').click();
-	    
-	    document.getElementById('formTitle').innerHTML="Edit Book to...";
-		document.getElementById('form:publicationTitle').value='#{publicationmanagedbean.book.title}'; 
-		document.getElementById('form:publicationStock').value='#{publicationmanagedbean.book.nrOfCopies}';
-		document.getElementById('form:publicationPublisher').value='#{publicationmanagedbean.book.publisher}';
-	}
-	
-	
 </script>
 
+<h:panelGroup id="magazineScript">
+					<script>
+					
+						function editMagazine(data) {
+							switch(data.status) {
+							
+							case 'begin':
+// 								console.log('begin');
+// 								console.log('#{publicationmanagedbean.magazine.title}');
+								break;
+							case 'complete':
+// 								console.log('complete');
+// 								console.log('#{publicationmanagedbean.magazine.title}');
+								break;
+							case 'success':
+// 								console.log('success');
+								
+								document.getElementById('formTitle').innerHTML="Edit Magazine to...";
+								
+								fillMagazineFields();
+
+								document.getElementById('form:publicationType:1').click();
+								
+								setTimeout(function(){ fillMagazinePanel(); }, 50);
+								
+								break;
+							}
+						}
+						
+						function fillMagazineFields() {
+							
+							console.log('#{publicationmanagedbean.magazine.title}');
+							document.getElementById('#{title.clientId}').value='#{publicationmanagedbean.magazine.title}'; 
+							document.getElementById('#{stock.clientId}').value='#{publicationmanagedbean.magazine.nrOfCopies}';
+							document.getElementById('#{publisher.clientId}').value='#{publicationmanagedbean.magazine.publisher}';
+							
+						}
+						
+						function fillMagazinePanel() {
+							
+// 							console.log('fill magazine panel');
+							document.getElementById('#{magazineYear.clientId}').value='#{publicationmanagedbean.magazine.getReleaseYear()}';
+							document.getElementById('#{magazineMonth.clientId}').value='#{publicationmanagedbean.magazine.getReleaseMonth()}';
+							console.log('itt');
+							console.log('#{publicationmanagedbean.magazine.mAuthors[0].name}');
+							
+						}
+						
+					</script>
+					
+</h:panelGroup>
+<h:panelGroup id="bookScript">
+					<script>
+						
+							function editBook(data) {
+								
+								switch(data.status) {
+								
+								case 'begin':
+// 									console.log('begin');
+// 									console.log('#{publicationmanagedbean.book.title}');
+									break;
+								case 'complete':
+// 									console.log('complete');
+// 									console.log('#{publicationmanagedbean.book.title}');
+									break;
+								case 'success':
+// 									console.log('success');
+
+									document.getElementById('formTitle').innerHTML="Edit Book to...";
+									
+									fillBookFields();
+
+									document.getElementById('form:publicationType:0').click();
+								
+									setTimeout(function(){ fillBookPanel(); }, 50);
+								}
+							}
+							
+							function fillBookFields() {
+								
+								console.log('#{publicationmanagedbean.book.title}');
+								document.getElementById('#{title.clientId}').value='#{publicationmanagedbean.book.title}'; 
+								document.getElementById('#{stock.clientId}').value='#{publicationmanagedbean.book.nrOfCopies}';
+								document.getElementById('#{publisher.clientId}').value='#{publicationmanagedbean.book.publisher}';
+								
+							}
+							
+							function fillBookPanel() {
+							
+								console.log('fill book panel');
+								document.getElementById('#{bookYear.clientId}').value='#{publicationmanagedbean.book.getReleaseYear()}';
+								
+							}
+					</script>
+</h:panelGroup>
+
+<h:panelGroup id="newspaperScript">
+					<script>
+					
+						function editNewspaper(data) {
+							switch(data.status) {
+							
+							case 'begin':
+// 								console.log('begin');
+// 								console.log('#{publicationmanagedbean.newspaper.title}');
+								break;
+							case 'complete':
+// 								console.log('complete');
+// 								console.log('#{publicationmanagedbean.newspaper.title}');
+								break;
+							case 'success':
+// 								console.log('success');
+								
+								document.getElementById('formTitle').innerHTML="Edit Newspaper to...";
+								
+								fillNewspaperFields();
+
+								document.getElementById('form:publicationType:2').click();
+								
+								setTimeout(function(){ fillNewspaperPanel(); }, 50);
+								
+								break;
+							}
+						}
+						
+						function fillNewspaperFields() {
+							
+							console.log('#{publicationmanagedbean.newspaper.title}');
+							document.getElementById('#{title.clientId}').value='#{publicationmanagedbean.newspaper.title}'; 
+							document.getElementById('#{stock.clientId}').value='#{publicationmanagedbean.newspaper.nrOfCopies}';
+							document.getElementById('#{publisher.clientId}').value='#{publicationmanagedbean.newspaper.publisher}';
+							
+						}
+						
+						function fillNewspaperPanel() {
+							
+							console.log('fill newspaper panel');
+							document.getElementById('#{newspaperYear.clientId}').value='#{publicationmanagedbean.newspaper.getReleaseYear()}';
+							document.getElementById('#{newspaperMonth.clientId}').value='#{publicationmanagedbean.newspaper.getReleaseMonth()}';
+							document.getElementById('#{newspaperDay.clientId}').value='#{publicationmanagedbean.newspaper.getReleaseDay()}';
+							
+						}
+						
+					</script>
+					
+</h:panelGroup>
+
 </h:head>
-<body>
+<h:body onload="#{publicationmanagedbean.onLoad()}">
 
 	<h2>Publication list</h2>
 
@@ -177,7 +241,7 @@
 
 			</p>
 		</h:form>
-		<h:form rendered="#{not empty publicationmanagedbean.publicationList}">
+		<h:form id="tableForm" rendered="#{not empty publicationmanagedbean.publicationList}">
 			<h:dataTable id="publicationList"
 				value="#{publicationmanagedbean.publicationList}" var="item">
 				<h:column>
@@ -186,40 +250,24 @@
 					<f:facet name="header">Type</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
 
 				<h:column>
+					
 					<h:commandButton id="editBook" value="editB" 
-						rendered="#{publicationmanagedbean.getType(item) eq 'Book'}"
-						onclick="editBook();">
-						<f:ajax />
-						<h:outputScript>
+						rendered="#{publicationmanagedbean.getType(item) eq 'Book'}" >
+						<f:actionListener binding="#{publicationmanagedbean.createBook(item.id)}"/>
+						<f:ajax event="click" listener="#{publicationmanagedbean.castItem(item)}" onevent="editBook" render="bookScript form:savePanel"/>
 						
-							function editBook() {
-							console.log('#{item.title}');
-								document.getElementById('formTitle').innerHTML="Edit Book to...";
-								document.getElementById('#{title.clientId}').value='#{item.title}'; 
-								document.getElementById('#{stock.clientId}').value='#{item.nrOfCopies}';
-								document.getElementById('#{publisher.clientId}').value='#{item.publisher}';
-
-								document.getElementById('form:publicationType:0').click();
-								
-								setTimeout(function(){ fillBookPanel() }, 50);
-							}
-							
-							function fillBookPanel() {
-							
-								document.getElementById('#{bookYear.clientId}').value='#{item.getReleaseYear()}';
-								
-							}
-						
-						</h:outputScript>
 					</h:commandButton>
-					<h:commandButton name="hiddenCast" id="hiddenCast" style="display: none;" action="#{publicationmanagedbean.castItem(item)}"/>
 					
 					<h:commandButton id="editMagazine" value="editM" 
-						rendered="#{publicationmanagedbean.getType(item) eq 'Magazine'}" 
-						action="#{publicationmanagedbean.castItem(item)}"/>
+						rendered="#{publicationmanagedbean.getType(item) eq 'Magazine'}">
+						<f:ajax event="click" listener="#{publicationmanagedbean.castItem(item)}" onevent="editMagazine" render="magazineScript form:savePanel"/>
+					</h:commandButton>
+					
 					<h:commandButton id="editNewspaper" value="editN" 
-						rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}"
-						action="#{publicationmanagedbean.castItem(item)}"/>
+						rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}">
+						<f:ajax event="click" listener="#{publicationmanagedbean.castItem(item)}" onevent="editNewspaper" render="newspaperScript form:savePanel"/>
+					</h:commandButton>
+					
 				</h:column>
 				<h:column>
 					<h:commandButton value="delete"
@@ -302,9 +350,9 @@
 				
 					<p>
 						Release date: <br/>
-						<h:inputText binding="#{magazineYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
+						<h:inputText id="magazineYear" binding="#{magazineYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
 							 />
-						<h:inputText binding="#{magazineMonth}" a:placeholder="Month" style="width: 50px;"
+						<h:inputText id="magazineMonth" binding="#{magazineMonth}" a:placeholder="Month" style="width: 50px;"
 							 />
 					</p>
 					<h:selectManyCheckbox id="magazineAuthorList"
@@ -329,11 +377,11 @@
 				
 					<p>
 						Release date: <br/>
-						<h:inputText binding="#{newspaperYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
+						<h:inputText id="newspaperYear" binding="#{newspaperYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
 							 />
-						<h:inputText binding="#{newspaperMonth}" a:placeholder="Month" style="width: 50px; margin-right: 15px;"
+						<h:inputText id="newspaperMonth" binding="#{newspaperMonth}" a:placeholder="Month" style="width: 50px; margin-right: 15px;"
 							 />
-						<h:inputText binding="#{newspaperDay}" a:placeholder="Day" style="width: 50px;"
+						<h:inputText id="newspaperDay" binding="#{newspaperDay}" a:placeholder="Day" style="width: 50px;"
 							 />
 					</p>
 					<h:selectManyCheckbox id="newspaperArticleList"
@@ -357,14 +405,29 @@
 </h:panelGroup>			
 
 			<p>
-
-				<h:commandButton id="add" value="Add"
-					onclick="add(document.getElementById('form:publicationType').value);" />
-
+				<h:panelGroup id="savePanel">
+					<h:commandButton id="add" value="Add"
+						onclick="add(document.getElementById('form:publicationType').value);" />
+						
+					<h:commandButton id="saveBook" value="Save book" rendered="#{!(publicationmanagedbean.book == null)}"
+						 >
+						
+						<f:actionListener binding="#{publicationmanagedbean.setBookTitle(title.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookStock(stock.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookPublisher(publisher.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookReleaseDate(bookYear.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookAuthors(selectedBookAuthors.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.finalizeBookEdit()}"/>
+					</h:commandButton>
+					<h:commandButton id="saveMagazine" value="Save magazine" rendered="#{!(publicationmanagedbean.magazine == null)}"
+						onclick="add(document.getElementById('form:publicationType').value);" />
+					<h:commandButton id="saveNewspaper" value="Save newspaper" rendered="#{!(publicationmanagedbean.newspaper == null)}"
+						onclick="add(document.getElementById('form:publicationType').value);" />
+				</h:panelGroup>
 			</p>
 
 		</h:form>
 	</div>
 
-</body>
+</h:body>
 </html>

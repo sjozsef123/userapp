@@ -10,11 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CriteriaBuilder.Case;
 
 import solomonj.msg.userapp.ejb.repository.IPublicationRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
-import solomonj.msg.userapp.jpa.model.Book_;
 import solomonj.msg.userapp.jpa.model.Publication;
 import solomonj.msg.userapp.jpa.model.Publication_;
 
@@ -43,14 +41,9 @@ public abstract class PublicationRepositoryBean<T extends Publication> extends B
 			CriteriaQuery<T> criteriaQuery = builder.createQuery(cls);
 			Root<T> root = criteriaQuery.from(cls);
 			
-			switch(cls.getSimpleName()) {
-			case "Book":
-				root.fetch("bAuthors", JoinType.LEFT);
-			case "Magazine":
-				root.fetch("mAuthors", JoinType.LEFT);	
-			case "Newspaper":
-				root.fetch("articles", JoinType.LEFT);
-			}
+//				root.fetch("bAuthors", JoinType.LEFT);
+//				root.fetch("mAuthors", JoinType.LEFT);	
+//				root.fetch("articles", JoinType.LEFT);
 			
 			criteriaQuery.select(root).where(builder.like(root.get(Publication_.title), "%" + filter + "%")).distinct(true);
 			

@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -32,11 +30,20 @@ public class PublicationManagedBean implements Serializable {
 	private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
 	private IPublicationService publicationBean;
 	private List<Publication> publicationList;
-	private String filter = "";
+	private String filter;
 
 	private Book book;
 	private Magazine magazine;
 	private Newspaper newspaper;
+	
+	public void onLoad() {
+
+		System.out.println("clear");
+		book = null;
+		magazine = null;
+		newspaper = null;
+		filter = "";
+	}
 	
 
 	public IPublicationService getpublicationBean() {
@@ -91,6 +98,12 @@ public class PublicationManagedBean implements Serializable {
 
 	public void createBook() {
 		book = new Book();
+	}
+	
+	public void createBook(String id) {
+		book = new Book();
+		book.setId(Integer.parseInt(id));
+		
 	}
 
 	public void createMagazine() {
@@ -224,13 +237,19 @@ public class PublicationManagedBean implements Serializable {
 		System.out.println("casting...");
 		switch(publication.getClass().getSimpleName()) {
 		case "Book":
+				System.out.println("book");
 				book = (Book) publication;
+				System.out.println(book.getTitle());
 			break;
 		case "Magazine":
+				System.out.println("magazine");
 				magazine = (Magazine) publication;
+				System.out.println(magazine.getTitle());
 			break;
 		case "Newspaper":
+				System.out.println("newspaper");
 				newspaper = (Newspaper) publication;
+				System.out.println(newspaper.getTitle());
 			break;
 		}
 	}
@@ -239,15 +258,28 @@ public class PublicationManagedBean implements Serializable {
 		System.out.println("added");
 		try {
 			publicationBean.createPublication(book);
+			book = null;
 		} catch (ServiceException e) {
 			oLogger.equals("Failed to create book.");
 		}
+	}
+	
+	public void finalizeBookEdit() {
+		
+		try {
+			publicationBean.updatePublication(book);
+			book = null;
+		} catch (ServiceException e) {
+			oLogger.equals("Failed to update book.");
+		}
+		
 	}
 
 	public void addMagazine() {
 
 		try {
 			publicationBean.createPublication(magazine);
+			magazine = null;
 		} catch (ServiceException e) {
 			oLogger.equals("Failed to create magazine.");
 		}
@@ -257,6 +289,7 @@ public class PublicationManagedBean implements Serializable {
 
 		try {
 			publicationBean.createPublication(newspaper);
+			newspaper = null;
 		} catch (ServiceException e) {
 			oLogger.equals("Failed to create newspaper.");
 		}
