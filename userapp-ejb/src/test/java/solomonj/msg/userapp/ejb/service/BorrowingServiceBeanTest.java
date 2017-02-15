@@ -3,6 +3,14 @@
  */
 package solomonj.msg.userapp.ejb.service;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -13,11 +21,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.internal.matchers.Any;
 import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.userapp.ejb.repository.IBorrowingRepository;
 import solomonj.msg.userapp.ejb.repository.IPubRepository;
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
@@ -25,6 +34,7 @@ import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.ejb.service.bean.BorrowingServiceBean;
 import solomonj.msg.userapp.jpa.model.Magazine;
 import solomonj.msg.userapp.jpa.model.Publication;
+import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
 
 /**
  * BorrowingService test class.
@@ -42,7 +52,7 @@ public class BorrowingServiceBeanTest {
 	public IUserRepository userRepositoryBean;
 
 	@Mock
-	public IPubRepository PubRepositoryBean;
+	public IPubRepository pubRepositoryBean;
 
 	@Mock
 	public IBorrowingRepository borrowingRepositoryBean;
@@ -66,21 +76,29 @@ public class BorrowingServiceBeanTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test // (expected = RepositoryException.class)
+	@Test // (expected = ServiceException.class)
 	public void testreturnPublication() {
-		BorrowingServiceBean borrowingServiceBean = Mockito.mock(BorrowingServiceBean.class);
 		Publication pM = new Magazine();
-		pM.setCopiesLeft(5);
-		Mockito.when(PubRepositoryBean.getPublicationById(Mockito.anyInt())).thenReturn(pM);
+		pM.setCopiesLeft(0);
+		when(pubRepositoryBean.getPublicationById(anyInt())).thenReturn(pM);
 		try {
-			Mockito.doThrow(new RepositoryException("publication.read")).when(PubRepositoryBean)
-					.update(Mockito.anyObject());
+			doThrow(new RepositoryException("publication.read")).when(pubRepositoryBean).update(any());
 		} catch (RepositoryException e) {
+		}
+		PublicationBorrowingPK pk = new PublicationBorrowingPK();
+		pk.setPublicationId(0);
+		pk.setUserId(0);
+		try {
+			borrowingServiceBean.returnPublication(pk);
+		} catch (ServiceException e) {
 			Assert.assertTrue(true);
 		}
-		PubRepositoryBean.getPublicationById(0);
 
-		Mockito.verify(PubRepositoryBean, Mockito.atLeastOnce()).getPublicationById(Mockito.anyInt());
+		verify(pubRepositoryBean, atLeastOnce()).getPublicationById(anyInt());
+		try {
+			verify(pubRepositoryBean, atMost(1)).update(any());
+		} catch (RepositoryException e) {
+		}
 	}
 
 }
