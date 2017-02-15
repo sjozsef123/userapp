@@ -71,7 +71,8 @@
 					<h:inputText id="loyalyInput"
 						value="#{usermanagedbean.user.loyaltyIndex}" required="true"
 						converterMessage="#{msg['error.validation.digitonly']}"
-						requiredMessage="#{msg['error.validation.required']}">
+						requiredMessage="#{msg['error.validation.required']}" validatorMessage="#{msg['error.validation.numberpositive']}">
+						 <f:validateLongRange minimum="1" />
 					</h:inputText>
 					<h:message id="m2" for="loyalyInput" style="color:red" />
 				</p>
@@ -80,7 +81,8 @@
 					#{msg['web.user.password']}:
 					<h:inputSecret id="passwordInput"
 						value="#{usermanagedbean.user.password}" required="true"
-						requiredMessage="#{msg['error.validation.required']}">
+						requiredMessage="#{msg['error.validation.required']}" validatorMessage="#{msg['error.validation.password']}">
+						 <f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%*+-]).{6,20})" />
 					</h:inputSecret>
 					<h:message id="m3" for="passwordInput" style="color:red" />
 				</p>
@@ -98,7 +100,7 @@
 				<p>
 					<h:commandButton value="#{msg['web.user.add']}"
 						action="#{usermanagedbean.add}" />
-					<h:commandButton value="#{msg['web.user.reset']}"
+					<h:commandButton value="#{msg['web.cancel']}"
 						action="#{usermanagedbean.resetAdd}" immediate="true" />
 
 				</p>
@@ -125,7 +127,8 @@
 					<h:inputText id="loyalyInput"
 						value="#{usermanagedbean.user.loyaltyIndex}" required="true"
 						converterMessage="#{msg['error.validation.digitonly']}"
-						requiredMessage="#{msg['error.validation.required']}">
+						requiredMessage="#{msg['error.validation.required']}" validatorMessage="#{msg['error.validation.numberpositive']}">
+						<f:validateLongRange minimum="1" />
 					</h:inputText>
 					<h:message id="m2" for="loyalyInput" style="color:red" />
 
