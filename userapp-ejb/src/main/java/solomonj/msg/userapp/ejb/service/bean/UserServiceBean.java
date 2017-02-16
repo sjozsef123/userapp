@@ -25,6 +25,8 @@ import solomonj.msg.userapp.jpa.model.User;
  */
 @Stateless
 public class UserServiceBean implements IUserService {
+	
+	private final String PASS_SALT = "user";
 
 	@EJB
 	private IUserRepository userRepositoryBean;
@@ -44,7 +46,7 @@ public class UserServiceBean implements IUserService {
 	@Override
 	public void insertUser(User user) throws ServiceException {
 		try {
-			user.setPassword(PasswordEncrypting.encrypt(user.getPassword(), "user"));
+			user.setPassword(PasswordEncrypting.encrypt(user.getPassword(), PASS_SALT));
 		} catch (ServiceException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException("user.create");
@@ -99,7 +101,7 @@ public class UserServiceBean implements IUserService {
 	public User login(String name, String password) throws ServiceException {
 		String pass;
 		try {
-			pass = PasswordEncrypting.encrypt(password, "user");
+			pass = PasswordEncrypting.encrypt(password, PASS_SALT);
 		} catch (ServiceException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException("user.login");
