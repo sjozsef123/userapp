@@ -277,9 +277,14 @@
 </h:head>
 <h:body onload="#{publicationmanagedbean.onLoad()}">
 
-	<ui:include src="/includes/navigation.xhtml" style="float: left; clear: both;" />
 
-	<div style="float: left; clear: both; margin-right: 50px;">
+	<h:panelGrid id="panel" columns="4" border="0" cellpadding="10"
+		cellspacing="1">		
+	<h:column>
+		<ui:include src="/includes/navigation.xhtml" style="float: left; clear: both;" />
+	</h:column>
+	
+	<h:column>
 	<h2>Publication list</h2>
 
 		<h4>Filter by name:</h4>
@@ -354,9 +359,9 @@
 			rendered="#{empty publicationmanagedbean.publicationList}">
 			<p>No Publication!.</p>
 		</h:panelGroup>
-	</div>
+	</h:column>
 
-	<div style="float: left; clear: right; margin-right: 50px;">
+	<h:column>
 		<h:form id="form" >
 			<h2 id="formTitle">Add publication</h2>
 			<p>
@@ -531,7 +536,8 @@
 			</p>
 
 		</h:form>
-	</div>
+	</h:column>
+	</h:panelGrid>
 
 </h:body>
 	<ui:include src="/includes/footer.xhtml" />	
