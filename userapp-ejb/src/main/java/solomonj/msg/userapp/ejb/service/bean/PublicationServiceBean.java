@@ -1,5 +1,6 @@
 package solomonj.msg.userapp.ejb.service.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
