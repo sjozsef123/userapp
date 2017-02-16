@@ -485,8 +485,7 @@
 						<f:actionListener binding="#{publicationmanagedbean.finalizeBookEdit()}"/>
 					</h:commandButton>
 					
-					<h:commandButton id="saveMagazine" value="Save magazine" rendered="#{!(publicationmanagedbean.magazine == null)}"
-						onclick="add(document.getElementById('form:publicationType').value);" >
+					<h:commandButton id="saveMagazine" value="Save magazine" rendered="#{!(publicationmanagedbean.magazine == null)}" >
 						<f:actionListener binding="#{publicationmanagedbean.setMagazineTitle(title.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setMagazineStock(stock.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setMagazinePublisher(publisher.value)}"/>
@@ -494,8 +493,7 @@
 						<f:actionListener binding="#{publicationmanagedbean.setMagazineAuthors(selectedMagazineAuthors.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.finalizeMagazineEdit()}"/>						
 					</h:commandButton>
-					<h:commandButton id="saveNewspaper" value="Save newspaper" rendered="#{!(publicationmanagedbean.newspaper == null)}"
-						onclick="add(document.getElementById('form:publicationType').value);" >
+					<h:commandButton id="saveNewspaper" value="Save newspaper" rendered="#{!(publicationmanagedbean.newspaper == null)}">
 						<f:actionListener binding="#{publicationmanagedbean.setNewspaperTitle(title.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setNewspaperStock(stock.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setNewspaperPublisher(publisher.value)}"/>
