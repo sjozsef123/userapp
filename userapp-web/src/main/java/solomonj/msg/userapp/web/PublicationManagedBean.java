@@ -92,20 +92,10 @@ public class PublicationManagedBean implements Serializable {
 		this.publicationList = publicationList;
 	}
 
-	public void add(Publication publication) {
-
-	}
-
 	public void createBook() {
 		book = new Book();
 	}
 	
-	public void createBook(String id) {
-		book = new Book();
-		book.setId(Integer.parseInt(id));
-		
-	}
-
 	public void createMagazine() {
 		magazine = new Magazine();
 	}
@@ -234,22 +224,21 @@ public class PublicationManagedBean implements Serializable {
 	}
 	
 	public void castItem(Publication publication) {
-		System.out.println("casting...");
 		switch(publication.getClass().getSimpleName()) {
 		case "Book":
-				System.out.println("book");
 				book = (Book) publication;
-				System.out.println(book.getTitle());
+				magazine = null;
+				newspaper = null;
 			break;
 		case "Magazine":
-				System.out.println("magazine");
 				magazine = (Magazine) publication;
-				System.out.println(magazine.getTitle());
+				book = null;
+				newspaper = null;
 			break;
 		case "Newspaper":
-				System.out.println("newspaper");
 				newspaper = (Newspaper) publication;
-				System.out.println(newspaper.getTitle());
+				book = null;
+				magazine = null;
 			break;
 		}
 	}
@@ -270,7 +259,7 @@ public class PublicationManagedBean implements Serializable {
 			publicationBean.updatePublication(book);
 			book = null;
 		} catch (ServiceException e) {
-			oLogger.equals("Failed to update book.");
+			oLogger.error("Failed to update book.");
 		}
 		
 	}
@@ -284,6 +273,16 @@ public class PublicationManagedBean implements Serializable {
 			oLogger.equals("Failed to create magazine.");
 		}
 	}
+	
+	public void finalizeMagazineEdit() {
+		
+		try {
+			publicationBean.updatePublication(magazine);
+			magazine = null;
+		} catch (ServiceException e) {
+			oLogger.error("Failed to update magazine");
+		}
+	}
 
 	public void addNewspaper() {
 
@@ -292,6 +291,16 @@ public class PublicationManagedBean implements Serializable {
 			newspaper = null;
 		} catch (ServiceException e) {
 			oLogger.equals("Failed to create newspaper.");
+		}
+	}
+	
+	public void finalizeNewspaperEdit() {
+		
+		try {
+			publicationBean.updatePublication(newspaper);
+			newspaper = null;
+		} catch (ServiceException e) {
+			oLogger.error("Failed to update newspaper");
 		}
 	}
 
