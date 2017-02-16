@@ -12,7 +12,7 @@ import solomonj.msg.appuser.common.service.IAuthorService;
 import solomonj.msg.userapp.ejb.repository.IAuthorRepository;
 import solomonj.msg.userapp.ejb.repository.bean.AuthorRepositoryBean;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
-import solomonj.msg.userapp.ejb.util.InfoMessages;
+import solomonj.msg.userapp.ejb.util.DebugMessages;
 import solomonj.msg.userapp.jpa.model.Author;
 
 /**
@@ -30,7 +30,7 @@ public class AuthorServiceBean implements IAuthorService {
 	@Override
 	public List<Author> getAllAuthors() throws ServiceException {
 		try {
-			oLogger.info(InfoMessages.LIST_AUTHORS);
+			oLogger.debug(DebugMessages.LIST_AUTHORS);
 			return authorRepositoryBean.getlAll();
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
@@ -42,9 +42,9 @@ public class AuthorServiceBean implements IAuthorService {
 	@Override
 	public void insertAuthor(Author author) throws ServiceException {
 		try {
-			oLogger.info(InfoMessages.CREATE_AUTHOR);
+			oLogger.debug(DebugMessages.CREATE_AUTHOR);
 			authorRepositoryBean.create(author);
-			oLogger.info(InfoMessages.CREATE_AUTHOR_OK);
+			oLogger.debug(DebugMessages.CREATE_AUTHOR_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
@@ -55,9 +55,9 @@ public class AuthorServiceBean implements IAuthorService {
 	@Override
 	public void updateAuthor(Author author) throws ServiceException {
 		try {
-			oLogger.info(InfoMessages.UPDATE_AUTHOR);
+			oLogger.debug(DebugMessages.UPDATE_AUTHOR);
 			authorRepositoryBean.update(author);
-			oLogger.info(InfoMessages.UPDATE_AUTHOR_OK);
+			oLogger.debug(DebugMessages.UPDATE_AUTHOR_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
@@ -68,9 +68,9 @@ public class AuthorServiceBean implements IAuthorService {
 	@Override
 	public void deleteAuthor(Author author) throws ServiceException {
 		try {
-			oLogger.info(InfoMessages.DELETE_AUTHOR);
+			oLogger.debug(DebugMessages.DELETE_AUTHOR);
 			authorRepositoryBean.delete(author);
-			oLogger.info(InfoMessages.DELETE_AUTHOR_OK);
+			oLogger.debug(DebugMessages.DELETE_AUTHOR_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
@@ -81,7 +81,7 @@ public class AuthorServiceBean implements IAuthorService {
 	@Override
 	public List<Author> searchAuthorByName(String name) throws ServiceException {
 		try {
-			oLogger.info(InfoMessages.SEARCH_AUTHORS_BY_NAME);
+			oLogger.debug(DebugMessages.SEARCH_AUTHORS_BY_NAME);
 			return authorRepositoryBean.searchAuthorByName(name);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());

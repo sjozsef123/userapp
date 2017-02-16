@@ -33,14 +33,6 @@ public interface IUserRepository extends IBasicRepository<User> {
 	public User getUserById(int id) throws RepositoryException;
 
 	/**
-	 * This function decreases the loyalty index of a user with given id.
-	 * 
-	 * @param id
-	 * @throws RepositoryException
-	 */
-	public void decreaseLoyaltyIndex(int id) throws RepositoryException;
-
-	/**
 	 * This function implements login.
 	 * 
 	 * @param name

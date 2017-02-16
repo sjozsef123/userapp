@@ -16,6 +16,7 @@ import org.jboss.logging.Logger;
 
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.ejb.util.DebugMessages;
 import solomonj.msg.userapp.jpa.model.User;
 
 /**
@@ -41,6 +42,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 	public List<User> searchUserByName(String name) throws RepositoryException {
 		List<User> resultList;
 		try {
+			oLogger.debug(DebugMessages.SEARCH_USERS_BY_NAME);
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
 			Root<User> root = criteriaQuery.from(User.class);
@@ -48,7 +50,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 			criteriaQuery.select(root).where(builder.like(root.get("username"), "%" + name + "%")).distinct(true);
 
 			resultList = entityManager.createQuery(criteriaQuery).getResultList();
-			oLogger.info("");
+			oLogger.debug(DebugMessages.SEARCH_USERS_BY_NAME_OK);
 			return (resultList == null) ? new ArrayList<>() : resultList;
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to query user list.", e);
@@ -58,24 +60,14 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 
 	@Override
 	public User getUserById(int id) {
+		oLogger.debug(DebugMessages.GET_USER_BY_ID);
 		return entityManager.find(User.class, id);
 	}
-
-	@Override
-	public void decreaseLoyaltyIndex(int id) throws RepositoryException {
-		try {
-			User user = entityManager.find(User.class, id);
-			user.setLoyaltyIndex(user.getLoyaltyIndex() - 1);
-			oLogger.info("User's loyalty decreased.");
-		} catch (PersistenceException e) {
-			oLogger.error("Could not decrease user's loyalty", e);
-			throw new RepositoryException("user.loyalty");
-		}
-	}
-
+	
 	@Override
 	public User login(String name, String pass) throws RepositoryException {
 		try {
+			oLogger.debug(name + DebugMessages.LOGIN_USER);
 			User user;
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
@@ -90,7 +82,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 				oLogger.error("No user with given password and name.");
 				throw new RepositoryException("user.login");
 			}
-			oLogger.info("");
+			oLogger.debug(name + DebugMessages.LOGIN_USER_OK);
 			return user;
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to login user.", e);

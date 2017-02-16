@@ -12,6 +12,7 @@ import org.jboss.logging.Logger;
 
 import solomonj.msg.userapp.ejb.repository.IAuthorRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.ejb.util.DebugMessages;
 import solomonj.msg.userapp.jpa.model.Author;
 
 /**
@@ -34,10 +35,11 @@ public class AuthorRepositoryBean extends BasicRepositoryBean<Author> implements
 	@Override
 	public List<Author> searchAuthorByName(String name) throws RepositoryException {
 		try {
+			oLogger.debug(DebugMessages.SEARCH_AUTHORS_BY_NAME);
 			TypedQuery<Author> query = entityManager.createQuery("Select a " + "from Author a where a.name LIKE :name ",
 					Author.class);
 			query.setParameter("name", "%" + name + "%");
-			oLogger.info("Article get was successful.");
+			oLogger.debug(DebugMessages.SEARCH_AUTHORS_BY_NAME_OK);
 			return query.getResultList();
 		} catch (PersistenceException e) {
 			oLogger.error("Failed to get author by name", e);

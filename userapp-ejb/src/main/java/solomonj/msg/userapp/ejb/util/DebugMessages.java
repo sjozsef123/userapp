@@ -9,7 +9,7 @@ package solomonj.msg.userapp.ejb.util;
  * @author Simo Zoltan
  *
  */
-public final class InfoMessages {
+public final class DebugMessages {
 		
 	/**
 	 * USER
@@ -24,6 +24,8 @@ public final class InfoMessages {
 	public static final String DELETE_USER_OK = "Delete user ok.";
 	public static final String SEARCH_USERS_BY_NAME = "Search users by name...";
 	public static final String SEARCH_USERS_BY_NAME_OK = "Search users by name ok.";	//not used in service
+	public static final String GET_USER_BY_ID = "Get user by id...";
+	public static final String GET_USER_BY_ID_OK = "Get user by id..."; //not used in repository	
 	public static final String LOGIN_USER = "< user logging in ...";
 	public static final String LOGIN_USER_OK = "< user login ok.";	//not used in service
 	
@@ -46,7 +48,9 @@ public final class InfoMessages {
 	public static final String DELETE_PUBLICATION = "Delete publication...";
 	public static final String DELETE_PUBLICATION_OK = "Delete publication ok.";
 	public static final String SEARCH_PUBLICATIONS_BY_NAME = "Search publications by name...";
-	public static final String SEARCH_PUBLICATIONS_BY_NAME_OK = "Search publications by name ok."; //not used in service	
+	public static final String SEARCH_PUBLICATIONS_BY_NAME_OK = "Search publications by name ok."; //not used in service
+	public static final String GET_PUBLICATION_BY_ID = "Get publication by id...";
+	public static final String GET_PUBLICATION_BY_ID_OK = "Get publication by id..."; //not used in repository	
 	
 	/**
 	 *  Authors
@@ -85,5 +89,20 @@ public final class InfoMessages {
 	public static final String UPDATE_BORROWING_USER_OK = "Update user loyalty ok.";
 	public static final String DELETE_BORROWING = "Delete borrowing...";
 	public static final String DELETE_BORROWING_OK = "Delete borrowing ok.";	
+	public static final String GET_BORROWING_BY_ID = "Get borrowing by id...";
+	public static final String GET_BORROWING_BY_ID_OK = "Get borrowing by id..."; //not used in repository	
+	
+	
+	/**
+	 * GENERIC REPOSITORY
+	 */
+	public static final String LIST_GERENIC = "< generic list.";
+	public static final String LIST_GENERIC_OK = "< generic list ok."; 
+	public static final String CREATE_GENERIC = "< generic create...";
+	public static final String CREATE_GENERIC_OK = "< generic create ok.";
+	public static final String UPDATE_GENERIC = "< generic update ...";
+	public static final String UPDATE_GENERIC_OK = "< generic update ...";
+	public static final String DELETE_GENERIC = "< generic delete...";
+	public static final String DELETE_GENERIC_OK = "< generic delete.";
 	
 }
