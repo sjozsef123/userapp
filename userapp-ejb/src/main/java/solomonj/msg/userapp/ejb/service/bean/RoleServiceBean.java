@@ -10,8 +10,8 @@ import org.jboss.logging.Logger;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IRoleService;
 import solomonj.msg.userapp.ejb.repository.IRoleRepository;
-import solomonj.msg.userapp.ejb.repository.bean.AuthorRepositoryBean;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.ejb.util.InfoMessages;
 import solomonj.msg.userapp.jpa.model.Role;
 
 /**
@@ -29,7 +29,7 @@ public class RoleServiceBean implements IRoleService {
 	@Override
 	public List<Role> getRoles() throws ServiceException {
 		try {
-			oLogger.info("");
+			oLogger.info(InfoMessages.LIST_ROLES);
 			return roleRepositoryBean.getlAll();
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
@@ -40,8 +40,9 @@ public class RoleServiceBean implements IRoleService {
 	@Override
 	public void deleteRole(Role role) throws ServiceException {
 		try {
-			oLogger.info("");
+			oLogger.info(InfoMessages.DELETE_ROLE);
 			roleRepositoryBean.delete(role);
+			oLogger.info(InfoMessages.DELETE_ROLE_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
@@ -52,8 +53,9 @@ public class RoleServiceBean implements IRoleService {
 	@Override
 	public void insertRole(Role role) throws ServiceException {
 		try {
-			oLogger.info("");
+			oLogger.info(InfoMessages.CREATE_ROLE);
 			roleRepositoryBean.create(role);
+			oLogger.info(InfoMessages.CREATE_ROLE_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());

@@ -11,8 +11,8 @@ import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IArticleService;
 import solomonj.msg.userapp.ejb.repository.IArticleRepository;
 import solomonj.msg.userapp.ejb.repository.bean.ArticleRepositoryBean;
-import solomonj.msg.userapp.ejb.repository.bean.UserRepositoryBean;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.ejb.util.InfoMessages;
 import solomonj.msg.userapp.jpa.model.Article;
 
 /**
@@ -23,13 +23,16 @@ import solomonj.msg.userapp.jpa.model.Article;
  */
 @Stateless
 public class ArticleServiceBean implements IArticleService {
+
 	@EJB
 	private IArticleRepository articleRepositoryBean;
+
 	private Logger oLogger = Logger.getLogger(ArticleRepositoryBean.class);
+
 	@Override
 	public List<Article> getAllArticles() throws ServiceException {
 		try {
-			oLogger.info("");
+			oLogger.info(InfoMessages.LIST_ARTICLES);
 			return articleRepositoryBean.getlAll();
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
@@ -40,8 +43,9 @@ public class ArticleServiceBean implements IArticleService {
 	@Override
 	public void insertArticle(Article article) throws ServiceException {
 		try {
+			oLogger.info(InfoMessages.CREATE_ARTICLE);
 			articleRepositoryBean.create(article);
-			oLogger.info("");
+			oLogger.info(InfoMessages.CREATE_ARTICLE_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
@@ -52,8 +56,9 @@ public class ArticleServiceBean implements IArticleService {
 	@Override
 	public void updateArticle(Article article) throws ServiceException {
 		try {
+			oLogger.info(InfoMessages.UPDATE_ARTICLE);
 			articleRepositoryBean.update(article);
-			oLogger.info("");
+			oLogger.info(InfoMessages.UPDATE_ARTICLE_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
@@ -64,8 +69,9 @@ public class ArticleServiceBean implements IArticleService {
 	@Override
 	public void deleteArticle(Article article) throws ServiceException {
 		try {
+			oLogger.info(InfoMessages.DELETE_ARTICLE_OK);
 			articleRepositoryBean.delete(article);
-			oLogger.info("");
+			oLogger.info(InfoMessages.DELETE_ARTICLE_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
@@ -76,7 +82,7 @@ public class ArticleServiceBean implements IArticleService {
 	@Override
 	public List<Article> searchArticleByName(String name) throws ServiceException {
 		try {
-			oLogger.info("");
+			oLogger.info(InfoMessages.SEARCH_ARTICLES_BY_NAME);
 			return articleRepositoryBean.searchArticleByName(name);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getClass() + e.getMessage());
