@@ -5,6 +5,12 @@ import org.junit.Test;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 
+/**
+ * Password encryption integration test.
+ * 
+ * @author Simo Zoltan
+ *
+ */
 public class PasswordEncryptingIT {
 
 	@Test 

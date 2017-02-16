@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -72,7 +71,7 @@ public class BorrowingServiceBeanTest {
 	}
 
 	@Test(expected = ServiceException.class)
-	public void testreturnPublication() throws Exception{
+	public void testReturnPublication() throws Exception{
 		Publication pM = new Magazine();
 		pM.setCopiesLeft(0);
 		when(pubRepositoryBean.getPublicationById(anyInt())).thenReturn(pM);
@@ -84,8 +83,7 @@ public class BorrowingServiceBeanTest {
 	    borrowingServiceBean.returnPublication(pk);		
 
 		verify(pubRepositoryBean, atLeastOnce()).getPublicationById(anyInt());		
-		verify(pubRepositoryBean, atMost(1)).update(any());
-		
+		verify(pubRepositoryBean, atMost(1)).update(any());		
 	}
 
 }

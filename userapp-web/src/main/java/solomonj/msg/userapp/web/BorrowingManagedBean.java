@@ -35,7 +35,7 @@ public class BorrowingManagedBean implements Serializable {
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
 	private User user = new User();
 
-	private IBorrowingService getBorrowingBean() {
+	IBorrowingService getBorrowingBean() {
 		if (borrowingBean == null) {
 			try {
 				InitialContext jndi = new InitialContext();
@@ -79,7 +79,7 @@ public class BorrowingManagedBean implements Serializable {
 		this.user = user;
 	}
 
-	private void clearVariables() {
+	void clearVariables() {
 		setBorrowingId(new PublicationBorrowingPK());
 		setUser(new User());
 	}
