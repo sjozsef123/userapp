@@ -91,7 +91,7 @@ public class PublicationManagedBean implements Serializable {
 	public void setPublicationList(List<Publication> publicationList) {
 		this.publicationList = publicationList;
 	}
-
+	
 	public void createBook() {
 		book = new Book();
 	}
