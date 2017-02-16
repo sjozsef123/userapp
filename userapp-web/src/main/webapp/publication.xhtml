@@ -482,18 +482,7 @@
 				<h:panelGroup id="savePanel">
 					<h:commandButton id="add" value="Add" 
 						rendered="#{publicationmanagedbean.book == null and publicationmanagedbean.magazine == null and publicationmanagedbean.newspaper == null}"
-					>
-						<f:ajax event="click" 
-							onevent="
-							function(data) { 
-								if(data.status == 'success') {
-									add(document.getElementById('form:publicationType').value);
-									clearForm();
-								}
-							}" 
-							render="tableForm:publicationList @form"/>
-					
-					</h:commandButton>
+					onclick="add(document.getElementById('form:publicationType').value);" />
 						
 					<h:commandButton id="saveBook" value="Save book" rendered="#{!(publicationmanagedbean.book == null)}" >
 						<f:actionListener binding="#{publicationmanagedbean.setBookTitle(title.value)}"/>
