@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -41,16 +43,14 @@ public class PublicationManagedBean implements Serializable {
 	private Book book;
 	private Magazine magazine;
 	private Newspaper newspaper;
-	
+
 	public void onLoad() {
 
-		System.out.println("clear");
 		book = null;
 		magazine = null;
 		newspaper = null;
 		filter = "";
 	}
-	
 
 	public IPublicationService getpublicationBean() {
 		if (publicationBean == null) {
@@ -58,8 +58,8 @@ public class PublicationManagedBean implements Serializable {
 				InitialContext jndi = new InitialContext();
 				publicationBean = (IPublicationService) jndi.lookup(IPublicationService.jndiNAME);
 			} catch (NamingException e) {
-
-				oLogger.error("Can't get bean");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						LoginManagedBean.getResourceBundleString("publication.naming"), null));
 			}
 		}
 		return publicationBean;
@@ -72,24 +72,22 @@ public class PublicationManagedBean implements Serializable {
 	public void deletePublication(Publication publication) {
 
 		try {
-
 			publicationBean.deletePublication(publication);
 		} catch (ServiceException e) {
-
-			oLogger.error("Failed to delete publication");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
 	public List<Publication> getPublicationList() {
 
 		publicationList = new ArrayList<>();
-
 		try {
 			publicationList = getpublicationBean().filterPublicationByName(filter);
 			return publicationList;
 		} catch (ServiceException e) {
-
-			oLogger.equals("Failed to query publication list.");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 			return publicationList;
 		}
 	}
@@ -97,11 +95,11 @@ public class PublicationManagedBean implements Serializable {
 	public void setPublicationList(List<Publication> publicationList) {
 		this.publicationList = publicationList;
 	}
-	
+
 	public void createBook() {
 		book = new Book();
 	}
-	
+
 	public void createMagazine() {
 		magazine = new Magazine();
 	}
@@ -113,11 +111,11 @@ public class PublicationManagedBean implements Serializable {
 	public void setBookTitle(String title) {
 		book.setTitle(title);
 	}
-	
+
 	public void setMagazineTitle(String title) {
 		magazine.setTitle(title);
 	}
-	
+
 	public void setNewspaperTitle(String title) {
 		newspaper.setTitle(title);
 	}
@@ -128,14 +126,14 @@ public class PublicationManagedBean implements Serializable {
 		book.setCopiesLeft(stock);
 		book.setNrOfCopies(stock);
 	}
-	
+
 	public void setMagazineStock(String sStock) {
 
 		int stock = Integer.parseInt(sStock);
 		magazine.setCopiesLeft(stock);
 		magazine.setNrOfCopies(stock);
 	}
-	
+
 	public void setNewspaperStock(String sStock) {
 
 		int stock = Integer.parseInt(sStock);
@@ -146,11 +144,11 @@ public class PublicationManagedBean implements Serializable {
 	public void setBookPublisher(String publisher) {
 		book.setPublisher(publisher);
 	}
-	
+
 	public void setMagazinePublisher(String publisher) {
 		magazine.setPublisher(publisher);
 	}
-	
+
 	public void setNewspaperPublisher(String publisher) {
 		newspaper.setPublisher(publisher);
 	}
@@ -160,7 +158,6 @@ public class PublicationManagedBean implements Serializable {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, Integer.parseInt(year));
 		book.setReleaseDate(calendar.getTime());
-		System.out.println(book.getReleaseDate());
 	}
 
 	public void setMagazineReleaseDate(String year, String month) {
@@ -211,7 +208,7 @@ public class PublicationManagedBean implements Serializable {
 		}
 		magazine.setmAuthors(authors);
 	}
-	
+
 	public void setNewspaperArticles(String[] pArticles) {
 
 		List<Article> articles = new ArrayList<>();
@@ -228,46 +225,47 @@ public class PublicationManagedBean implements Serializable {
 		}
 		newspaper.setArticles(articles);
 	}
-	
+
 	public void castItem(Publication publication) {
-		switch(publication.getClass().getSimpleName()) {
+		switch (publication.getClass().getSimpleName()) {
 		case "Book":
-				book = (Book) publication;
-				magazine = null;
-				newspaper = null;
+			book = (Book) publication;
+			magazine = null;
+			newspaper = null;
 			break;
 		case "Magazine":
-				magazine = (Magazine) publication;
-				book = null;
-				newspaper = null;
+			magazine = (Magazine) publication;
+			book = null;
+			newspaper = null;
 			break;
 		case "Newspaper":
-				newspaper = (Newspaper) publication;
-				book = null;
-				magazine = null;
+			newspaper = (Newspaper) publication;
+			book = null;
+			magazine = null;
 			break;
 		}
 	}
 
 	public void addBook() {
-		System.out.println("added");
 		try {
 			publicationBean.createPublication(book);
 			book = null;
 		} catch (ServiceException e) {
-			oLogger.equals("Failed to create book.");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
-	
+
 	public void finalizeBookEdit() {
-		
+
 		try {
 			publicationBean.updatePublication(book);
 			book = null;
 		} catch (ServiceException e) {
-			oLogger.error("Failed to update book.");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
-		
+
 	}
 
 	public void addMagazine() {
@@ -276,17 +274,19 @@ public class PublicationManagedBean implements Serializable {
 			publicationBean.createPublication(magazine);
 			magazine = null;
 		} catch (ServiceException e) {
-			oLogger.equals("Failed to create magazine.");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
-	
+
 	public void finalizeMagazineEdit() {
-		
+
 		try {
 			publicationBean.updatePublication(magazine);
 			magazine = null;
 		} catch (ServiceException e) {
-			oLogger.error("Failed to update magazine");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
@@ -296,17 +296,19 @@ public class PublicationManagedBean implements Serializable {
 			publicationBean.createPublication(newspaper);
 			newspaper = null;
 		} catch (ServiceException e) {
-			oLogger.equals("Failed to create newspaper.");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
-	
+
 	public void finalizeNewspaperEdit() {
-		
+
 		try {
 			publicationBean.updatePublication(newspaper);
 			newspaper = null;
 		} catch (ServiceException e) {
-			oLogger.error("Failed to update newspaper");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
@@ -319,7 +321,6 @@ public class PublicationManagedBean implements Serializable {
 	}
 
 	public void clearFilter() {
-
 		filter = "";
 	}
 
