@@ -27,6 +27,9 @@ public class LoginManagedBean implements Serializable {
 
 	@Inject
 	private UserManagedBean userManagedBean;
+	
+	@Inject
+	private PublicationManagedBean publicationManagedBean;
 
 	private static final long serialVersionUID = 9036899636413702756L;
 	private static final Locale LOCALE_HU = new Locale("hu", "hu");
@@ -36,6 +39,7 @@ public class LoginManagedBean implements Serializable {
 
 	public void login(String n, String p) {
 		setLoggedInUser(userManagedBean.login(n, p));
+		publicationManagedBean.clearFilter();
 	}
 
 	public void logout() {

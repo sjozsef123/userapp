@@ -44,11 +44,15 @@ public final class DebugMessages {
 	 * PUBLICATION
 	 */	
 	public static final String LIST_PUBLICATIONS = "List publications.";
-	public static final String LIST_PUBLICATIONS_OK = "List publications ok."; //not used in service	
+	public static final String LIST_PUBLICATIONS_OK = "List publications ok."; //not used in service
+	public static final String CREATE_PUBLICATION = "Create publication...";
+	public static final String CREATE_PUBLICATION_OK = "Create publication ok.";
+	public static final String UPDATE_PUBLICATION = "Update publication...";
+	public static final String UPDATE_PUBLICATION_OK = "Update publication ok.";
 	public static final String DELETE_PUBLICATION = "Delete publication...";
 	public static final String DELETE_PUBLICATION_OK = "Delete publication ok.";
 	public static final String SEARCH_PUBLICATIONS_BY_NAME = "Search publications by name...";
-	public static final String SEARCH_PUBLICATIONS_BY_NAME_OK = "Search publications by name ok."; //not used in service
+	public static final String SEARCH_PUBLICATIONS_BY_NAME_OK = "Search publications by name ok."; 
 	public static final String GET_PUBLICATION_BY_ID = "Get publication by id...";
 	public static final String GET_PUBLICATION_BY_ID_OK = "Get publication by id..."; //not used in repository	
 	

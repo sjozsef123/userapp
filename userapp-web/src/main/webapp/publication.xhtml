@@ -205,7 +205,7 @@
 								clearForm();
 								document.getElementById('form:publicationType').style.display='none';
 								
-								document.getElementById('formTitle').innerHTML="Edit Magazine to...";
+								document.getElementById('formTitle').innerHTML="#{msg['web.publication.magazineedit']}";
 								
 								fillMagazineFields();
 
@@ -272,7 +272,7 @@
 									clearForm();
 									document.getElementById('form:publicationType').style.display='none';
 									
-									document.getElementById('formTitle').innerHTML="Edit Book to...";
+									document.getElementById('formTitle').innerHTML="#{msg['web.publication.bookedit']}";
 									
 									fillBookFields();
 
@@ -335,7 +335,7 @@
 								clearForm();
 								document.getElementById('form:publicationType').style.display='none';
 								
-								document.getElementById('formTitle').innerHTML="Edit Newspaper to...";
+								document.getElementById('formTitle').innerHTML="#{msg['web.publication.newspaperedit']}";
 								
 								fillNewspaperFields();
 
@@ -400,18 +400,18 @@
 	</h:column>
 	
 	<h:column>
-	<h2>Publication list</h2>
+	<h2>#{msg['web.publication.header.publications']}</h2>
 
-		<h4>Filter by name:</h4>
+		<h4>#{msg['web.publication.header.filterpublications']}</h4>
 		<h:form id="filterForm">
 			<p>
 				<h:inputText id="filter" value="#{publicationmanagedbean.filter}">
 				</h:inputText>
 				<br />
-				<h:commandButton value="Filter" >
+				<h:commandButton value="#{msg['web.filter']}" >
 					<f:ajax execute="filter" render="tableForm:publicationList" />
 				</h:commandButton>
-				<h:commandButton value="Clear" >
+				<h:commandButton value="#{msg['web.clear']}" >
 					<f:ajax listener="#{publicationmanagedbean.clearFilter()}" render="tableForm:publicationList"/>
 				</h:commandButton>
 
@@ -421,31 +421,31 @@
 			<h:dataTable id="publicationList"
 				value="#{publicationmanagedbean.publicationList}" var="item">
 				<h:column>
-					<f:facet name="header">Title</f:facet>#{item.title}</h:column>
+					<f:facet name="header">#{msg['web.title']}</f:facet>#{item.title}</h:column>
 				<h:column>
-					<f:facet name="header">Type</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
+					<f:facet name="header">#{msg['web.type']}</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
 
-				<h:column>
-					
-					<h:commandButton id="editBook" value="editB" 
+				<h:column rendered="#{loginmanagedbean.isAdmin() == null}">
+				
+					<h:commandButton id="editBook" value="#{msg['web.edit']}" 
 						rendered="#{publicationmanagedbean.getType(item) eq 'Book'}" >
 						<f:ajax event="click" listener="#{publicationmanagedbean.castItem(item)}" onevent="editBook" render="bookScript form:savePanel"/>
 						
 					</h:commandButton>
 					
-					<h:commandButton id="editMagazine" value="editM" 
+					<h:commandButton id="editMagazine" value="#{msg['web.edit']}" 
 						rendered="#{publicationmanagedbean.getType(item) eq 'Magazine'}">
 						<f:ajax event="click" listener="#{publicationmanagedbean.castItem(item)}" onevent="editMagazine" render="magazineScript form:savePanel"/>
 					</h:commandButton>
 					
-					<h:commandButton id="editNewspaper" value="editN" 
+					<h:commandButton id="editNewspaper" value="#{msg['web.edit']}" 
 						rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}">
 						<f:ajax event="click" listener="#{publicationmanagedbean.castItem(item)}" onevent="editNewspaper" render="newspaperScript form:savePanel"/>
 					</h:commandButton>
 					
 				</h:column>
-				<h:column>
-					<h:commandButton value="delete"
+				<h:column rendered="#{loginmanagedbean.isAdmin() == null}">
+					<h:commandButton value="#{msg['web.delete']}"
 						action="#{publicationmanagedbean.deletePublication(item)}"
 						onclick="if(!confirm('Do you really wanna do that?')) return false" >
 						
@@ -461,7 +461,7 @@
             			</h:form>
         			</h:panelGroup>
         			
-					<h:commandButton value="detailsB" 
+					<h:commandButton value="#{msg['web.details']}" 
 						rendered="#{publicationmanagedbean.getType(item) eq 'Book'}" >
 						<f:ajax onevent="bookDetails" listener="#{publicationmanagedbean.castItem(item)}" 
 								render="bookDetailsScript"/>
@@ -487,27 +487,27 @@
 
 		<h:panelGroup
 			rendered="#{empty publicationmanagedbean.publicationList}">
-			<p>No Publication!.</p>
+			<p>#{msg['web.publication.nopublications']}</p>
 		</h:panelGroup>
 	</h:column>
 
-	<h:column>
+	<h:column rendered="#{loginmanagedbean.isAdmin() == null}">
 		<h:form id="form" >
-			<h2 id="formTitle">Add publication</h2>
+			<h2 id="formTitle">#{msg['web.publication.header.addpublication']}</h2>
 			<p>
-				Title:
+				#{msg['web.title']}:
 				<h:inputText id="publicationTitle" binding="#{title}" 
 					required="true" />
 			</p>
 
 			<p>
-				Stock:
+				#{msg['web.publication.stock']}:
 				<h:inputText id="publicationStock" binding="#{stock}"
 					required="true" />
 			</p>
 
 			<p>
-				Publisher:
+				#{msg['web.publication.publisher']}:
 				<h:inputText id="publicationPublisher" binding="#{publisher}"
 					required="true" />
 			</p>
@@ -520,16 +520,16 @@
 				<h:selectOneRadio id="publicationType" onchange="change(this.value)" 
 					binding="#{selectedPublicationType}" 
 					required="true">
-					<f:selectItem id="bookRadio" itemValue="book" itemLabel="Book" />
-					<f:selectItem id="magazineRadio" itemValue="magazine" itemLabel="Magazine" />
-					<f:selectItem id="newspaperRadio" itemValue="newspaper"	itemLabel="Newspaper" />
+					<f:selectItem id="bookRadio" itemValue="book" itemLabel="#{msg['web.book']}" />
+					<f:selectItem id="magazineRadio" itemValue="magazine" itemLabel="#{msg['web.magazine']}" />
+					<f:selectItem id="newspaperRadio" itemValue="newspaper"	itemLabel="#{msg['web.newspaper']}" />
 					<f:ajax event="change" render="panels"/>
 
 				</h:selectOneRadio>
 <h:panelGroup id="panels">
 				<h:panelGroup id="bookPanel" rendered="#{selectedPublicationType.value == 'book'}">
 					<p>
-						Release date:
+						#{msg['web.publication.releasedate']}:
 						<h:inputText id="bookYear" binding="#{bookYear}" a:placeholder="Year" style="width: 50px;" />
 					</p>
 					<h:selectManyCheckbox id="bookAuthorList" layout="pageDirection"
@@ -555,7 +555,7 @@
 				<h:panelGroup id="magazinePanel" rendered="#{selectedPublicationType.value == 'magazine'}">
 				
 					<p>
-						Release date: <br/>
+						#{msg['web.publication.releasedate']}: <br/>
 						<h:inputText id="magazineYear" binding="#{magazineYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
 							 />
 						<h:inputText id="magazineMonth" binding="#{magazineMonth}" a:placeholder="Month" style="width: 50px;"
@@ -584,7 +584,7 @@
 				<h:panelGroup id="newspaperPanel" rendered="#{selectedPublicationType.value == 'newspaper'}">
 				
 					<p>
-						Release date: <br/>
+						#{msg['web.publication.releasedate']}: <br/>
 						<h:inputText id="newspaperYear" binding="#{newspaperYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
 							 />
 						<h:inputText id="newspaperMonth" binding="#{newspaperMonth}" a:placeholder="Month" style="width: 50px; margin-right: 15px;"
@@ -631,7 +631,7 @@
 						<f:ajax />
 					</h:commandButton>
 						
-					<h:commandButton id="saveBook" value="Save book" rendered="#{!(publicationmanagedbean.book == null)}" >
+					<h:commandButton id="saveBook" value="#{msg['web.save']}" rendered="#{!(publicationmanagedbean.book == null)}" >
 						<f:actionListener binding="#{publicationmanagedbean.setBookTitle(title.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setBookStock(stock.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setBookPublisher(publisher.value)}"/>
@@ -642,7 +642,7 @@
 						
 					</h:commandButton>
 					
-					<h:commandButton id="saveMagazine" value="Save magazine" rendered="#{!(publicationmanagedbean.magazine == null)}" >
+					<h:commandButton id="saveMagazine" value="#{msg['web.save']}" rendered="#{!(publicationmanagedbean.magazine == null)}" >
 						<f:actionListener binding="#{publicationmanagedbean.setMagazineTitle(title.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setMagazineStock(stock.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setMagazinePublisher(publisher.value)}"/>
@@ -652,7 +652,7 @@
 						<f:ajax onevent="startClear" execute="@form" render="tableForm:publicationList @form"/>			
 					</h:commandButton>
 					
-					<h:commandButton id="saveNewspaper" value="Save newspaper" rendered="#{!(publicationmanagedbean.newspaper == null)}">
+					<h:commandButton id="saveNewspaper" value="#{msg['web.save']}" rendered="#{!(publicationmanagedbean.newspaper == null)}">
 						<f:actionListener binding="#{publicationmanagedbean.setNewspaperTitle(title.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setNewspaperStock(stock.value)}"/>
 						<f:actionListener binding="#{publicationmanagedbean.setNewspaperPublisher(publisher.value)}"/>
@@ -663,7 +663,7 @@
 								
 					</h:commandButton>
 					
-					<h:commandButton id="cancelEdit" value="Forget it" 
+					<h:commandButton id="cancelEdit" value="#{msg['web.publication.forgetit']}" 
 						rendered="#{!(publicationmanagedbean.book == null) or !(publicationmanagedbean.magazine == null) or !(publicationmanagedbean.newspaper == null)}" >
 						<f:ajax listener="#{publicationmanagedbean.clearValues()}" onevent="startClear" render="@form"/>
 					</h:commandButton>

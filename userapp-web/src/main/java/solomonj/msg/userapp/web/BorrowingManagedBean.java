@@ -88,6 +88,8 @@ public class BorrowingManagedBean implements Serializable {
 		try {
 			getBorrowingBean().returnPublication(borrowingId);
 			clearVariables();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					LoginManagedBean.getResourceBundleString("web.borrowing.returnok"), null));
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -103,6 +105,8 @@ public class BorrowingManagedBean implements Serializable {
 			borrowing.setDeadline(Date.valueOf(LocalDate.now().plusDays(20)));
 			getBorrowingBean().borrowPublication(borrowing);
 			clearVariables();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					LoginManagedBean.getResourceBundleString("web.borrowing.borrowok"), null));
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
