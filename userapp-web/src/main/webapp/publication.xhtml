@@ -8,7 +8,7 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
 <f:metadata>
-	<f:viewAction action="#{loginmanagedbean.isAdmin()}" />
+	<f:viewAction action="#{loginmanagedbean.isLoggedIn()}" />
 </f:metadata>
 <title>#{msg['web.publication.title']}</title>
 
@@ -310,7 +310,7 @@
 				<h:column>
 					<f:facet name="header">#{msg['web.type']}</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
 
-				<h:column>
+				<h:column rendered="#{loginmanagedbean.isAdmin()}">
 				
 					<h:commandButton id="editBook" value="#{msg['web.edit']}" 
 						rendered="#{publicationmanagedbean.getType(item) eq 'Book'}" >
@@ -329,7 +329,7 @@
 					</h:commandButton>
 						
 				</h:column>
-				<h:column>
+				<h:column rendered="#{loginmanagedbean.isAdmin()}">
 					<h:commandButton value="#{msg['web.delete']}"
 						action="#{publicationmanagedbean.deletePublication(item)}"
 						onclick="if(!confirm('Do you really wanna do that?')) return false" />
@@ -361,7 +361,7 @@
 		</h:panelGroup>
 	</h:column>
 
-	<h:column>
+	<h:column rendered="#{loginmanagedbean.isAdmin()}">
 		<h:form id="form" >
 			<h2 id="formTitle">#{msg['web.publication.header.addpublication']}</h2>
 			<p>
