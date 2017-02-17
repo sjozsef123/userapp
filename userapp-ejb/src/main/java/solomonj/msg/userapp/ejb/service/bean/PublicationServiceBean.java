@@ -46,7 +46,7 @@ public class PublicationServiceBean implements IPublicationService {
 			return publicationBean.getlAll();
 		} catch (RepositoryException e) {
 			oLogger.error(e.getMessage());
-			throw new ServiceException("publication.read");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -58,7 +58,7 @@ public class PublicationServiceBean implements IPublicationService {
 			oLogger.debug(DebugMessages.DELETE_PUBLICATION_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getMessage());
-			throw new ServiceException(publication.getClass().getSimpleName().toLowerCase() + ".delete");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -71,32 +71,35 @@ public class PublicationServiceBean implements IPublicationService {
 			filteredPublications.addAll(bookBean.filterBookByName(filter));
 			filteredPublications.addAll(magazineBean.filterMagazineByName(filter));
 			filteredPublications.addAll(newspaperBean.filterNewspaperByName(filter));
+			oLogger.debug(DebugMessages.SEARCH_PUBLICATIONS_BY_NAME_OK);
 			return filteredPublications;
 		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
-			throw new ServiceException("publication.read");
+			oLogger.error(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
 	public void createPublication(Publication publication) throws ServiceException {
-
 		try {
+			oLogger.debug(DebugMessages.CREATE_PUBLICATION);
 			publicationBean.create(publication);
+			oLogger.debug(DebugMessages.CREATE_PUBLICATION_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getMessage());
-			throw new ServiceException("publication.create");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 	
 	@Override
 	public void updatePublication(Publication publication) throws ServiceException {
-
 		try {
+			oLogger.debug(DebugMessages.UPDATE_PUBLICATION);
 			publicationBean.update(publication);
+			oLogger.debug(DebugMessages.UPDATE_PUBLICATION_OK);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getMessage());
-			throw new ServiceException("publication.update");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
