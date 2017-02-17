@@ -54,4 +54,12 @@ public interface IArticleService {
 	 * @throws ServiceException
 	 */
 	public List<Article> searchArticleByName(String name) throws ServiceException;
+	
+	/**
+	 * Thos method queries those articles which are not listed in any of the existing newspapers
+	 * 
+	 * @return list
+	 * @throws ServiceException
+	 */
+	public List<Article> getFreeArticles() throws ServiceException; 
 }

@@ -20,4 +20,5 @@ public interface IArticleRepository extends IBasicRepository<Article>{
 	 * @throws RepositoryException
 	 */
 	public List<Article>searchArticleByName(String name) throws RepositoryException;
+	public List<Article>getFreeArticles() throws RepositoryException;
 }

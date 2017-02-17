@@ -2,11 +2,13 @@ package solomonj.msg.userapp.jpa.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+//import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name = "articles")
+//@NamedQuery(name = "Article.freeArticles", query = "SELECT a FROM Article a WHERE a.publicationId is null")
 public class Article extends BaseEntity {
 	
 	@Transient
@@ -33,5 +35,5 @@ public class Article extends BaseEntity {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	
 }

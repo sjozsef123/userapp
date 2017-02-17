@@ -71,6 +71,19 @@ public class ArticleManagedBean implements Serializable {
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
+	
+	public List<Article> getFreeArticles() {
+		
+		try {
+			
+			return getArticleBean().getFreeArticles();
+		} catch (ServiceException e) {
+
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
+			return new ArrayList<>();
+		}
+	}
 
 	public void delete(Article article) {
 		if (edit) {

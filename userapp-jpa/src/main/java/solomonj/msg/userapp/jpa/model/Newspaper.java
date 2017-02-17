@@ -43,7 +43,7 @@ public class Newspaper extends Publication {
 	public int getReleaseMonth() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(getReleaseDate());
-		return calendar.get(Calendar.MONTH);
+		return calendar.get(Calendar.MONTH) + 1;
 	}
 	
 	public int getReleaseDay() {

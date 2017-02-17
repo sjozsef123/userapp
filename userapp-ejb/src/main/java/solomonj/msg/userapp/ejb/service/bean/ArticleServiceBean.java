@@ -90,4 +90,18 @@ public class ArticleServiceBean implements IArticleService {
 		}
 	}
 
+	@Override
+	public List<Article> getFreeArticles() throws ServiceException {
+
+		try {
+			oLogger.debug(DebugMessages.LIST_FREE_ARTICLES);
+			return articleRepositoryBean.getFreeArticles();
+		} catch (RepositoryException e) {
+			
+			oLogger.error(e.getClass() + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	
+	}
+
 }

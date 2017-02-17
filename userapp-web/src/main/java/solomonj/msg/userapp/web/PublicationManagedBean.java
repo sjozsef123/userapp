@@ -44,13 +44,19 @@ public class PublicationManagedBean implements Serializable {
 	
 	public void onLoad() {
 
-		System.out.println("clear");
 		book = null;
 		magazine = null;
 		newspaper = null;
 		filter = "";
 	}
 	
+	public void clearValues() {
+		
+		book = null;
+		magazine = null;
+		newspaper = null;
+		
+	}
 
 	public IPublicationService getpublicationBean() {
 		if (publicationBean == null) {

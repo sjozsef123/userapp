@@ -79,6 +79,7 @@ public final class DebugMessages {
 	public static final String DELETE_ARTICLE_OK = "Delete article ok.";
 	public static final String SEARCH_ARTICLES_BY_NAME = "Search articles by name...";
 	public static final String SEARCH_ARTICLES_BY_NAME_OK = "Search articles by name ok.";	//not used in service	
+	public static final String LIST_FREE_ARTICLES = "List free articles ok.";
 	
 	/**
 	 * BORROWING
