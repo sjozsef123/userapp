@@ -8,7 +8,7 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
 <f:metadata>
-	<f:viewAction action="#{loginmanagedbean.isAdmin()}" />
+	<f:viewAction action="#{loginmanagedbean.isLoggedIn()}" />
 </f:metadata>
 <title>Publication</title>
 
@@ -467,13 +467,13 @@
 								render="bookDetailsScript"/>
 					</h:commandButton>
 					
-					<h:commandButton value="detailsM" 
+					<h:commandButton value="#{msg['web.details']}" 
 						rendered="#{publicationmanagedbean.getType(item) eq 'Magazine'}" >
 						<f:ajax onevent="magazineDetails" listener="#{publicationmanagedbean.castItem(item)}" 
 								render="magazineDetailsScript"/>
 					</h:commandButton>
 					
-					<h:commandButton value="detailsN" 
+					<h:commandButton value="#{msg['web.details']}"  
 						rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}" >
 						<f:ajax onevent="newspaperDetails" listener="#{publicationmanagedbean.castItem(item)}" 
 								render="newspaperDetailsScript"/>
