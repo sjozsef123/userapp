@@ -7,6 +7,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -104,4 +105,32 @@ public abstract class BasicRepositoryBean<T extends BaseEntity> implements IBasi
 		}
 	}
 
+	@Override
+	public List<T> getPage(int pageNr, int pageSize) throws RepositoryException {
+
+		List<T> resultList;
+		try {
+			
+			oLogger.debug(cls.getSimpleName() + DebugMessages.LIST_GERENIC);
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<T> criteriaQuery = builder.createQuery(cls);
+			Root<T> root = criteriaQuery.from(cls);
+			
+			criteriaQuery.select(root);
+			
+			TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+			typedQuery.setFirstResult((pageNr - 1)*pageSize);
+			typedQuery.setMaxResults(pageSize);
+			
+			resultList = entityManager.createQuery(criteriaQuery).getResultList();
+			oLogger.debug(cls.getSimpleName() + DebugMessages.LIST_GENERIC_OK);
+			return (resultList == null) ? new ArrayList<>() : resultList;
+			
+		} catch (PersistenceException e) {
+			
+			oLogger.error("Failed to query page of  " + cls.getSimpleName(), e);
+			throw new RepositoryException(cls.getSimpleName().toLowerCase() + ".read", e);
+		}
+		
+	}
 }
