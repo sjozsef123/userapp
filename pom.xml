@@ -80,16 +80,10 @@
 	</build>
 
 
-
-
 	<dependencyManagement>
 		<dependencies>
-			<!--dependency>
-				<groupId>org.jboss.spec.javax.jms</groupId>
-				<artifactId>jboss-jms-api_2.0_spec</artifactId>
-				<version>1.0.0.Final</version>
-				<scope>provided</scope>
-			</dependency-->
+			<!--dependency> <groupId>org.jboss.spec.javax.jms</groupId> <artifactId>jboss-jms-api_2.0_spec</artifactId> 
+				<version>1.0.0.Final</version> <scope>provided</scope> </dependency -->
 			<dependency>
 				<groupId>org.jboss.logging</groupId>
 				<artifactId>jboss-logging</artifactId>
@@ -169,6 +163,12 @@
 				<version>0.0.1-SNAPSHOT</version>
 				<type>ear</type>
 			</dependency>
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>6.0</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

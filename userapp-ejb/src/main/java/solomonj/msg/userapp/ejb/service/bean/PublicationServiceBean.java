@@ -38,7 +38,6 @@ public class PublicationServiceBean implements IPublicationService {
 	private INewspaperRepository newspaperBean;
 	
 	private Logger oLogger = Logger.getLogger(PublicationServiceBean.class);
-	private final int PUBLICATION_PAGE_SIZE = 10;
 
 	@Override
 	public List<Publication> getAllPublication() throws ServiceException {
@@ -98,18 +97,6 @@ public class PublicationServiceBean implements IPublicationService {
 			oLogger.debug(DebugMessages.UPDATE_PUBLICATION);
 			publicationBean.update(publication);
 			oLogger.debug(DebugMessages.UPDATE_PUBLICATION_OK);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getMessage());
-			throw new ServiceException(e.getMessage());
-		}
-	}
-
-	@Override
-	public List<Publication> getPubPage(int page) throws ServiceException {
-
-		try {
-			oLogger.debug(DebugMessages.LIST_PUBLICATIONS);
-			return publicationBean.getPage(page, PUBLICATION_PAGE_SIZE);
 		} catch (RepositoryException e) {
 			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());

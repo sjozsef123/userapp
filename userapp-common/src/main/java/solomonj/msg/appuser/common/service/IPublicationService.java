@@ -40,9 +40,6 @@ public interface IPublicationService {
 	 * @throws ServiceException
 	 */
 	List<Publication> filterPublicationByName(String filter) throws ServiceException;
-	
 	void createPublication(Publication publication) throws ServiceException;
 	void updatePublication(Publication publication) throws ServiceException;
-	List<Publication> getPubPage(int page) throws ServiceException;
-	
 }

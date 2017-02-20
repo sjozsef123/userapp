@@ -44,11 +44,4 @@ public interface IBasicRepository<T extends BaseEntity> {
 	 * @throws RepositoryException
 	 */
 	void update(T t) throws RepositoryException;
-	
-	/**
-	 * Pagination.
-	 * @param t
-	 * @throws RepositoryException
-	 */
-	List<T> getPage(int page, int pageSize) throws RepositoryException;
 }
