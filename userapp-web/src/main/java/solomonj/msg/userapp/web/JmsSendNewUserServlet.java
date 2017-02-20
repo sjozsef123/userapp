@@ -1,4 +1,4 @@
-package solomonj.msg.userapp.web;
+/*package solomonj.msg.userapp.web;
 
 import java.io.IOException;
 
@@ -35,9 +35,9 @@ public class JmsSendNewUserServlet extends HttpServlet {
     	oLogger.info("--JmsSendNewUserServlet()--");
     }
 
-	/**
+	*//**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	 *//*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String p_name = request.getParameter("name");
 		if (p_name != null) {
@@ -58,12 +58,12 @@ public class JmsSendNewUserServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
+	*//**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	 *//*
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		oLogger.info("--JmsSendNewUserServlet.doPost--");
 		doGet(request, response);
 	}
 
-}
+}*/
