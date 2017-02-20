@@ -1,4 +1,4 @@
-package solomonj.msg.userapp.ejb.service.bean;
+/*package solomonj.msg.userapp.ejb.service.bean;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -33,4 +33,4 @@ public class EchoQueueMDB implements MessageListener {
 	}
 
 }
-	
+	*/
