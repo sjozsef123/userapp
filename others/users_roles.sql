@@ -6,15 +6,16 @@ use userapp;
 CREATE TABLE `userapp`.`users` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR(45) NOT NULL,
+    `email` VARCHAR(45) NOT NULL,
 	`loyalty_index` INT(2),
     `password` VARCHAR(80),
 PRIMARY KEY `pk_users` (`id`),
 UNIQUE KEY  `uk_users` (`username`)
 );
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (1, 'Robi', 10, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (2, 'Joco', 10, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (3, 'Zolti', 2, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
-insert into users (`id`, `username`, `loyalty_index`, `password`)  values (4, 'Csilla', 0, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
+insert into users (`id`, `username`, `email`, `loyalty_index`, `password`)  values (1, 'Robi','robi@yahoo.com', 10, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
+insert into users (`id`, `username`, `email`, `loyalty_index`, `password`)  values (2, 'Joco','joco@yahoo.com', 10, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
+insert into users (`id`, `username`, `email`, `loyalty_index`, `password`)  values (3, 'Zolti','zolti@yahoo.com', 2, 'ËLêa%]œÆ‡£éæ.KÍÉžó');
+insert into users (`id`, `username`, `email`, `loyalty_index`, `password`)  values (4, 'Csilla','csilla@yahoo.com', 0, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
 
 CREATE TABLE `userapp`.`roles` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,
