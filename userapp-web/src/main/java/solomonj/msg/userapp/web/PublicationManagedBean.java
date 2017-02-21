@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,7 +13,7 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.logging.Logger;
+import org.primefaces.event.RowEditEvent;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IPublicationService;
@@ -36,7 +37,7 @@ public class PublicationManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1565015472267456236L;
 
-	private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
+//	private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
 	private IPublicationService publicationBean;
 	private List<Publication> publicationList;
 	private String titleFilter;
@@ -44,8 +45,19 @@ public class PublicationManagedBean implements Serializable {
 	private Book book;
 	private Magazine magazine;
 	private Newspaper newspaper;
+
+	private PublicationFilter publicationFilter;
 	
-	private PublicationFilter filter;
+	public PublicationManagedBean() {
+
+		publicationFilter = new PublicationFilter();
+	}
+	
+	@PostConstruct
+	public void init() {
+		
+	}
+	
 
 	public void onLoad() {
 
@@ -358,5 +370,33 @@ public class PublicationManagedBean implements Serializable {
 	public void setNewspaper(Newspaper newspaper) {
 		this.newspaper = newspaper;
 	}
+
+
+	public PublicationFilter getPublicationFilter() {
+		return publicationFilter;
+	}
+
+
+	public void setPublicationFilter(PublicationFilter publicationFilter) {
+		this.publicationFilter = publicationFilter;
+	}
+	
+	
+	public void onRowEdit(RowEditEvent event) {
+		
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publication Edited."));
+	}
+	
+	public void onRowCancell(RowEditEvent event) {
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publication edit cancelled."));
+	}
+	
+	public void filter() {
+		
+		System.out.println(publicationFilter);
+		
+	}
+	
 
 }
