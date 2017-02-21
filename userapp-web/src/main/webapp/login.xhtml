@@ -23,14 +23,12 @@
 			validatorMessage="#{the_name.value}#{msg['error.validation.mincharacter']}">			
 			<f:validateLength minimum="3" />
 		</p:inputText>
-		<p:message for="name" />
 		<br />
 		<p:outputLabel binding="#{the_pass}" for="pass" value="#{msg['web.login.password']}:"/>
 		<p:password id="pass" binding="#{pass}"
 			validatorMessage="#{the_pass.value}#{msg['error.validation.required']}">	
 			<f:validateRequired />
 		</p:password>		 
-		<p:message for="pass" />
 		<br />
 		<p:commandButton value="#{msg['web.logIn']}"
 			actionListener="#{loginmanagedbean.login(name.value,pass.value)}"
