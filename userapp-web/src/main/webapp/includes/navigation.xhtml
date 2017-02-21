@@ -13,15 +13,22 @@
 						icon="ui-icon-star" />
 					<p:menuitem	value="#{msg['web.role.title']}" outcome="role"
 						icon="ui-icon-star" />
-					<p:menuitem	value="#{msg['web.publication.title']}"
-					outcome="publication"
-						icon="ui-icon-star" />
+					<p:menuitem	value="#{msg['web.publication.title']}" outcome="publication"
+						icon="ui-icon-home" />
 					<p:menuitem	value="#{msg['web.author.title']}" outcome="author"
 						icon="ui-icon-star" />
 					<p:menuitem	value="#{msg['web.article.title']}" outcome="article"
 						icon="ui-icon-star" />
 					<p:menuitem	value="#{msg['web.borrowing.title']}" outcome="borrowing"
 						icon="ui-icon-star" />
+				</p:submenu>
+			</p:menu>
+			<p:menu>
+				<p:submenu label="#{msg['web.navigation']}">
+					<p:menuitem value="#{msg['web.changelanguage']}" actionListener="#{loginmanagedbean.changeLanguage()}" update="@all"
+						icon="ui-icon-arrowrefresh-1-w" />
+					<p:menuitem	value="#{msg['web.logOut']}" actionListener="#{loginmanagedbean.logout()}" outcome="login?faces-redirect=true"
+						icon="ui-icon-ext" />
 				</p:submenu>
 			</p:menu>
 		</h:form>

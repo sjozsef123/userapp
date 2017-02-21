@@ -8,14 +8,14 @@
 	<br />
 
 	<footer>
-		<h:form>
+		<h:form rendered="#{loginmanagedbean.isAdmin() ne null}">
 			<h:column>
 				<p:commandButton value="#{msg['web.changelanguage']}"
 					actionListener="#{loginmanagedbean.changeLanguage()}"
 					update="@all"/>
 			</h:column>
 
-			<h:column rendered="#{loginmanagedbean.isLoggedIn() eq null}">
+			<h:column>
 				<p:commandButton value="#{msg['web.logOut']}"
 					actionListener="#{loginmanagedbean.logout()}"
 					action="login?faces-redirect=true" />
