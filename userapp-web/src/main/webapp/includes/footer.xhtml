@@ -1,20 +1,22 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-	<h:messages globalOnly="true"/>
+	<h:messages globalOnly="true" />
 	<br />
 
 	<footer>
-		<h:form>
+		<h:form rendered="#{loginmanagedbean.isAdmin() ne null}">
 			<h:column>
-				<h:commandButton value="#{msg['web.changelanguage']}"
-					action="#{loginmanagedbean.changeLanguage()}" />
+				<p:commandButton value="#{msg['web.changelanguage']}"
+					actionListener="#{loginmanagedbean.changeLanguage()}"
+					update="@all"/>
 			</h:column>
 
-			<h:column rendered="#{loginmanagedbean.isLoggedIn() eq null}">
-				<h:commandButton value="#{msg['web.logOut']}" 					
+			<h:column>
+				<p:commandButton value="#{msg['web.logOut']}"
 					actionListener="#{loginmanagedbean.logout()}"
 					action="login?faces-redirect=true" />
 			</h:column>

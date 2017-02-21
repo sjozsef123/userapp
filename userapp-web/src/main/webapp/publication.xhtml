@@ -395,7 +395,7 @@
 
 	<h:panelGrid id="panel" columns="4" border="0" cellpadding="20"
 		cellspacing="1">		
-	<h:column rendered="#{loginmanagedbean.isAdmin() eq null}">
+	<h:column>
 		<ui:include src="/includes/navigation.xhtml" style="float: left; clear: both;" />
 	</h:column>
 	
@@ -674,7 +674,7 @@
 		</h:form>
 	</h:column>
 	</h:panelGrid>
-
-</h:body>
+	
 	<ui:include src="/includes/footer.xhtml" />	
+</h:body>
 </html>

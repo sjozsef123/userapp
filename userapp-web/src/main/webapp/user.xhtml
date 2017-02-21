@@ -137,8 +137,44 @@
 						
 					</p:dataTable>
 
+<<<<<<< HEAD
 					<!-- ********************* -->
 				</p:panel>
+=======
+						</p>
+					</h:form>
+				</h:panelGroup>
+
+				<h4>#{msg['web.user.filter']}:</h4>
+				<h:form>
+					<p>
+						<h:inputText value="#{usermanagedbean.searchName}">
+						</h:inputText>
+						<br />
+						<h:commandButton value="#{msg['web.search']}" render="userList" />
+						<h:commandButton value="#{msg['web.clear']}"
+							action="#{usermanagedbean.clearFilter()}" render="userList" />
+					</p>
+				</h:form>
+			</h:panelGrid>
+		</h:column>
+
+		<h:column>
+			<h2>#{msg['web.user.header.badusers']}</h2>
+
+			<h:form rendered="#{not empty usermanagedbean.allBadUsers}">
+				<h:dataTable id="badUserList" value="#{usermanagedbean.allBadUsers}"
+					var="item">
+					<h:column>
+						<f:facet name="header">#{msg['web.user.name']}</f:facet>#{item.username}</h:column>
+					<h:column>
+						<f:facet name="header">#{msg['web.user.loyalty']}</f:facet>#{item.loyaltyIndex}</h:column>
+					<h:column>
+						<h:commandButton value="#{msg['web.user.sendemail']}"
+							action="#{usermanagedbean.sendEmail(item)}" />
+					</h:column>
+				</h:dataTable>
+>>>>>>> refs/heads/version3
 			</h:form>
 		</h:column>
 	</h:panelGrid>
