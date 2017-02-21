@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import org.primefaces.event.RowEditEvent;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
@@ -101,7 +103,11 @@ public class UserManagedBean implements Serializable {
 
 	public List<User> getAllUsers() {
 		try {
-			allUsers = getUserBean().searchUserByName(searchName);
+			if(allUsers == null) {
+				allUsers = getUserBean().searchUserByName(searchName);	
+			}
+			
+
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -111,7 +117,7 @@ public class UserManagedBean implements Serializable {
 		}
 		return allUsers;
 	}
-	
+
 	public List<User> getAllBadUsers() {
 		try {
 			allBadUsers = getUserBean().getAllBadUsers();
@@ -204,11 +210,25 @@ public class UserManagedBean implements Serializable {
 
 	public void sendEmail(User u) {
 		try {
-			//sendemail 
+			// sendemail
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
+	}
+
+	public void onEdit(RowEditEvent event) {
+		
+		updateUser((User) event.getObject());
+	
+
+		FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 }
