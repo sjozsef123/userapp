@@ -2,29 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>#{msg['web.login.title']}</title>
 </h:head>
 
-<h:body>	
+<h:body>
 
+	<p:messages id="messages" showDetail="false" autoUpdate="true"
+		closable="true" />
+
+	<p:separator />
 	<h2>#{msg['web.login.pleaseLogIn']}</h2>
 	<br />
 	<h:form>
-		#{msg['web.login.username']}:<h:inputText id ="login" binding="#{name}" validatorMessage="#{msg['error.validation.mincharacter']}" >
-		<f:validateLength minimum="3" />
-		</h:inputText>
-		<h:message id="m2" for="login" style="color:red" />
-		<br/>
-		#{msg['web.login.password']}:<h:inputSecret binding="#{pass}" /><br />
-		<h:commandButton value="#{msg['web.logIn']}"
+		<p:outputLabel binding="#{the_name}" for="name" value="#{msg['web.login.username']}:"/>
+		<p:inputText id="name" binding="#{name}"
+			validatorMessage="#{the_name.value}#{msg['error.validation.mincharacter']}">			
+			<f:validateLength minimum="3" />
+		</p:inputText>
+		<p:message for="name" />
+		<br />
+		<p:outputLabel binding="#{the_pass}" for="pass" value="#{msg['web.login.password']}:"/>
+		<p:password id="pass" binding="#{pass}"
+			validatorMessage="#{the_pass.value}#{msg['error.validation.required']}">	
+			<f:validateRequired />
+		</p:password>		 
+		<p:message for="pass" />
+		<br />
+		<p:commandButton value="#{msg['web.logIn']}"
 			actionListener="#{loginmanagedbean.login(name.value,pass.value)}"
-			action="publication?faces-redirect=true"/>
+			action="publication?faces-redirect=true" />
 	</h:form>
-	
-	
+
+
 	<ui:include src="/includes/footer.xhtml" />
 
 </h:body>
