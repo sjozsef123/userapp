@@ -393,9 +393,7 @@
 </h:head>
 <h:body onload="#{publicationmanagedbean.onLoad()}">
 
-<p:commandButton value="as" />
-
-	<h:panelGrid id="panel" columns="4" border="0" cellpadding="10"
+	<h:panelGrid id="panel" columns="4" border="0" cellpadding="20"
 		cellspacing="1">		
 	<h:column rendered="#{loginmanagedbean.isAdmin() eq null}">
 		<ui:include src="/includes/navigation.xhtml" style="float: left; clear: both;" />
@@ -676,7 +674,7 @@
 		</h:form>
 	</h:column>
 	</h:panelGrid>
-
-</h:body>
+	
 	<ui:include src="/includes/footer.xhtml" />	
+</h:body>
 </html>
