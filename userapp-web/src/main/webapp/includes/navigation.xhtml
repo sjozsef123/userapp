@@ -1,31 +1,29 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 	
 	#{loginmanagedbean.setLanguage()}
-	<nav style="float: left; max-width: 200px; margin: 0; padding: 1em;">	
-		<h2>#{msg['web.navigation']}</h2>
+	<nav style="float: left; max-width: 200px; margin: 0; padding: 1em;">			  
 		<h:form>
-			<p>
-				<h:link value="#{msg['web.user.title']}" outcome="user" />
-			</p>
-			<p>
-				<h:link value="#{msg['web.role.title']}" outcome="role" />
-			</p>
-			<p>
-				<h:link value="#{msg['web.publication.title']}"
-					outcome="publication" />
-			</p>
-			<p>
-				<h:link value="#{msg['web.author.title']}" outcome="author" />
-			</p>
-			<p>
-				<h:link value="#{msg['web.article.title']}" outcome="article" />
-			</p>
-			<p>
-				<h:link value="#{msg['web.borrowing.title']}" outcome="borrowing" />
-			</p>
+			<p:menu>
+				<p:submenu label="#{msg['web.navigation']}">
+					<p:menuitem value="#{msg['web.user.title']}" outcome="user"
+						icon="ui-icon-star" />
+					<p:menuitem	value="#{msg['web.role.title']}" outcome="role"
+						icon="ui-icon-star" />
+					<p:menuitem	value="#{msg['web.publication.title']}"
+					outcome="publication"
+						icon="ui-icon-star" />
+					<p:menuitem	value="#{msg['web.author.title']}" outcome="author"
+						icon="ui-icon-star" />
+					<p:menuitem	value="#{msg['web.article.title']}" outcome="article"
+						icon="ui-icon-star" />
+					<p:menuitem	value="#{msg['web.borrowing.title']}" outcome="borrowing"
+						icon="ui-icon-star" />
+				</p:submenu>
+			</p:menu>
 		</h:form>
 	</nav>
 
