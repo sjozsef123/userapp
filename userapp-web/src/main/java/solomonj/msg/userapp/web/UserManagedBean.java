@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
@@ -13,6 +13,8 @@ import javax.naming.NamingException;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
+import solomonj.msg.userapp.ejb.service.util.SendEmail;
+import solomonj.msg.userapp.ejb.service.util.ShowTime;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
@@ -34,6 +36,7 @@ public class UserManagedBean implements Serializable {
 	private List<User> allUsers = null;
 	private List<User> allBadUsers = null;
 	private String searchName = "";
+
 
 	private IUserService getUserBean() {
 		if (userBean == null) {
@@ -203,9 +206,13 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void sendEmail(User u) {
-		try {
-			//sendemail 
-		} catch (Exception e) {
+		try {			
+//			ShowTime time = new ShowTime();
+//			time.checkBorrowing();
+			SendEmail.sendEmail(u.getEmail(), "szocscsillamaria@gmail.com");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					LoginManagedBean.getResourceBundleString("web.user.emailsent"), null));
+		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
