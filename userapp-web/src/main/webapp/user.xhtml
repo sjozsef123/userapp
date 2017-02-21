@@ -2,165 +2,216 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-<head>
+<h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
 <f:metadata>
 	<f:viewAction action="#{loginmanagedbean.isAdmin()}" />
 </f:metadata>
 <title>#{msg['web.user.title']}</title>
-</head>
+</h:head>
 <body>
-	<ui:include src="/includes/navigation.xhtml" />
+	
+	<h:panelGrid id="panel" columns="3" border="0" cellpadding="10"
+		cellspacing="1">
+		
+		<h:column>
+			<ui:include src="/includes/navigation.xhtml" />
+		</h:column>
+		
+		<h:column>
+			<h:panelGrid>
+				<h2>#{msg['web.user.header.users']}</h2>
 
-	<h:panelGrid>
-		<h2>#{msg['web.user.header.users']}</h2>
-
-		<h:form rendered="#{not empty usermanagedbean.allUsers}">
-			<h:dataTable id="userList" value="#{usermanagedbean.allUsers}"
-				var="item">
-				<h:column>
-					<f:facet name="header">ID</f:facet>#{item.id}</h:column>
-				<h:column>
-					<f:facet name="header">#{msg['web.user.name']}</f:facet>#{item.username}</h:column>
-				<h:column>
-					<f:facet name="header">#{msg['web.user.loyalty']}</f:facet>#{item.loyaltyIndex}</h:column>
-
-				<h:column>
-
-					<f:facet name="header">#{msg['web.role.header.roles']} </f:facet>
+				<h:form rendered="#{not empty usermanagedbean.allUsers}">
+					<h:dataTable id="userList" value="#{usermanagedbean.allUsers}"
+						var="item">
+						<h:column>
+							<f:facet name="header">ID</f:facet>#{item.id}</h:column>
+						<h:column>
+							<f:facet name="header">#{msg['web.user.name']}</f:facet>#{item.username}</h:column>
+						<h:column>
+							<f:facet name="header">#{msg['web.user.loyalty']}</f:facet>#{item.loyaltyIndex}</h:column>
+						<h:column>
+							<f:facet name="header">email</f:facet>#{item.email}</h:column>	
+						<h:column>
+							<f:facet name="header">#{msg['web.role.header.roles']} </f:facet>
 				(<ui:repeat value="#{item.roles}" var="roles">
 					-<h:outputText value="#{roles.rolename}" />-
 				</ui:repeat>)
-			</h:column>
-				<h:column>
-					<h:commandButton value="#{msg['web.edit']}"
-						action="#{usermanagedbean.editUser(item)}" />
-				</h:column>
-				<h:column>
-					<h:commandButton value="#{msg['web.delete']}"
-						onclick="if(!confirm('#{msg['web.confirm']}')) return false"
-						action="#{usermanagedbean.delete(item)}" />
-				</h:column>
-			</h:dataTable>
-		</h:form>
+					</h:column>
+						<h:column>
+							<h:commandButton value="#{msg['web.edit']}"
+								action="#{usermanagedbean.editUser(item)}" />
+						</h:column>
+						<h:column>
+							<h:commandButton value="#{msg['web.delete']}"
+								onclick="if(!confirm('#{msg['web.confirm']}')) return false"
+								action="#{usermanagedbean.delete(item)}" />
+						</h:column>
+					</h:dataTable>
+				</h:form>
 
-		<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
-			<p>#{msg['web.user.nouser']}</p>
-		</h:panelGroup>
+				<h:panelGroup rendered="#{empty usermanagedbean.allUsers}">
+					<p>#{msg['web.user.nouser']}</p>
+				</h:panelGroup>
 
-		<br />
-		<h:panelGroup rendered="#{!usermanagedbean.edit}">
-			<h2>#{msg['web.user.adduser']}</h2>
-
-			<h:form>
-				<p>
-					#{msg['web.user.name']}:
-					<h:inputText id="nameInput"
-						value="#{usermanagedbean.user.username}" required="true"
-						requiredMessage="#{msg['error.validation.required']}"
-						validatorMessage="#{msg['error.validation.mincharacter']}">
-						<f:validateLength minimum="3" />
-					</h:inputText>
-					<h:message id="m1" for="nameInput" style="color:red" />
-				</p>
-
-				<p>
-					#{msg['web.user.loyalty']}:
-					<h:inputText id="loyalyInput"
-						value="#{usermanagedbean.user.loyaltyIndex}" required="true"
-						converterMessage="#{msg['error.validation.digitonly']}"
-						requiredMessage="#{msg['error.validation.required']}" validatorMessage="#{msg['error.validation.numberpositive']}">
-						 <f:validateLongRange minimum="1" />
-					</h:inputText>
-					<h:message id="m2" for="loyalyInput" style="color:red" />
-				</p>
-
-				<p>
-					#{msg['web.user.password']}:
-					<h:inputSecret id="passwordInput"
-						value="#{usermanagedbean.user.password}" required="true"
-						requiredMessage="#{msg['error.validation.required']}" validatorMessage="#{msg['error.validation.password']}">
-						 <f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%*+-]).{6,20})" />
-					</h:inputSecret>
-					<h:message id="m3" for="passwordInput" style="color:red" />
-				</p>
-
-
-				<p>
-
-					<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
-						<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
-							itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
-					</h:selectManyCheckbox>
-
-				</p>
-
-				<p>
-					<h:commandButton value="#{msg['web.user.add']}"
-						action="#{usermanagedbean.add}" />
-					<h:commandButton value="#{msg['web.cancel']}"
-						action="#{usermanagedbean.resetAdd}" immediate="true" />
-
-				</p>
-
-			</h:form>
-		</h:panelGroup>
-
-		<h:panelGroup rendered="#{usermanagedbean.edit}">
-			<h3>#{msg['web.edit']} : #{usermanagedbean.user.id}</h3>
-			<h:form>
-				<p>
-					#{msg['web.user.name']}:
-					<h:inputText id="nameInput"
-						value="#{usermanagedbean.user.username}" required="true"
-						requiredMessage="#{msg['error.validation.required']}"
-						validatorMessage="#{msg['error.validation.mincharacter']}">
-						<f:validateLength minimum="3" />
-					</h:inputText>
-					<h:message id="m1" for="nameInput" style="color:red" />
-
-				</p>
-				<p>
-					#{msg['web.user.loyalty']}:
-					<h:inputText id="loyalyInput"
-						value="#{usermanagedbean.user.loyaltyIndex}" required="true"
-						converterMessage="#{msg['error.validation.digitonly']}"
-						requiredMessage="#{msg['error.validation.required']}" validatorMessage="#{msg['error.validation.numberpositive']}">
-						<f:validateLongRange minimum="1" />
-					</h:inputText>
-					<h:message id="m2" for="loyalyInput" style="color:red" />
-
-
-					<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
-						<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
-							itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
-					</h:selectManyCheckbox>
-
-				</p>
-				<p>
-					<h:commandButton value="#{msg['web.save']}"
-						action="#{usermanagedbean.saveEdit}" />
-					<h:commandButton value="#{msg['web.cancel']}"
-						action="#{usermanagedbean.cancelEdit}" />
-
-				</p>
-			</h:form>
-		</h:panelGroup>
-
-		<h4>#{msg['web.user.filter']}:</h4>
-		<h:form>
-			<p>
-				<h:inputText value="#{usermanagedbean.searchName}">
-				</h:inputText>
 				<br />
-				<h:commandButton value="#{msg['web.search']}" render="userList" />
-				<h:commandButton value="#{msg['web.clear']}"
-					action="#{usermanagedbean.clearFilter()}" render="userList" />
-			</p>
-		</h:form>
+				<h:panelGroup rendered="#{!usermanagedbean.edit}">
+					<h2>#{msg['web.user.adduser']}</h2>
+
+					<h:form>
+						<p>
+							#{msg['web.user.name']}:
+							<h:inputText id="nameInput"
+								value="#{usermanagedbean.user.username}" required="true"
+								requiredMessage="#{msg['error.validation.required']}"
+								validatorMessage="#{msg['error.validation.mincharacter']}">
+								<f:validateLength minimum="3" />
+							</h:inputText>
+							<h:message id="m1" for="nameInput" style="color:red" />
+						</p>						
+				<p>
+					email:
+					<h:inputText id="emailInput" value="#{usermanagedbean.user.email}"
+						required="true">
+
+					</h:inputText>
+					<h:message id="m4" for="emailInput" style="color:red" />
+				</p>
+
+						<p>
+							#{msg['web.user.loyalty']}:
+							<h:inputText id="loyalyInput"
+								value="#{usermanagedbean.user.loyaltyIndex}" required="true"
+								converterMessage="#{msg['error.validation.digitonly']}"
+								requiredMessage="#{msg['error.validation.required']}"
+								validatorMessage="#{msg['error.validation.numberpositive']}">
+								<f:validateLongRange minimum="1" />
+							</h:inputText>
+							<h:message id="m2" for="loyalyInput" style="color:red" />
+						</p>
+
+						<p>
+							#{msg['web.user.password']}:
+							<h:inputSecret id="passwordInput"
+								value="#{usermanagedbean.user.password}" required="true"
+								requiredMessage="#{msg['error.validation.required']}"
+								validatorMessage="#{msg['error.validation.password']}">
+								<f:validateRegex
+									pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%*+-]).{6,20})" />
+							</h:inputSecret>
+							<h:message id="m3" for="passwordInput" style="color:red" />
+						</p>
+
+
+						<p>
+
+							<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
+								<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
+									itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
+							</h:selectManyCheckbox>
+
+						</p>
+
+						<p>
+							<h:commandButton value="#{msg['web.user.add']}"
+								action="#{usermanagedbean.add}" />
+							<h:commandButton value="#{msg['web.cancel']}"
+								action="#{usermanagedbean.resetAdd}" immediate="true" />
+
+						</p>
+
+					</h:form>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{usermanagedbean.edit}">
+					<h3>#{msg['web.edit']} : #{usermanagedbean.user.id}</h3>
+					<h:form>
+						<p>
+							#{msg['web.user.name']}:
+							<h:inputText id="nameInput"
+								value="#{usermanagedbean.user.username}" required="true"
+								requiredMessage="#{msg['error.validation.required']}"
+								validatorMessage="#{msg['error.validation.mincharacter']}">
+								<f:validateLength minimum="3" />
+							</h:inputText>
+							<h:message id="m1" for="nameInput" style="color:red" />
+
+						</p>
+						<p>
+					email:
+					<h:inputText id="emailInput" value="#{usermanagedbean.user.email}"
+						required="true">
+
+					</h:inputText>
+					<h:message id="m4" for="emailInput" style="color:red" />
+
+				</p>
+						<p>
+							#{msg['web.user.loyalty']}:
+							<h:inputText id="loyalyInput"
+								value="#{usermanagedbean.user.loyaltyIndex}" required="true"
+								converterMessage="#{msg['error.validation.digitonly']}"
+								requiredMessage="#{msg['error.validation.required']}"
+								validatorMessage="#{msg['error.validation.numberpositive']}">
+								<f:validateLongRange minimum="1" />
+							</h:inputText>
+							<h:message id="m2" for="loyalyInput" style="color:red" />
+
+
+							<h:selectManyCheckbox value="#{usermanagedbean.selectedRoles}">
+								<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
+									itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
+							</h:selectManyCheckbox>
+
+						</p>
+						
+						<p>
+							<h:commandButton value="#{msg['web.save']}"
+								action="#{usermanagedbean.saveEdit}" />
+							<h:commandButton value="#{msg['web.cancel']}"
+								action="#{usermanagedbean.cancelEdit}" />
+
+						</p>
+					</h:form>
+				</h:panelGroup>
+
+				<h4>#{msg['web.user.filter']}:</h4>
+				<h:form>
+					<p>
+						<h:inputText value="#{usermanagedbean.searchName}">
+						</h:inputText>
+						<br />
+						<h:commandButton value="#{msg['web.search']}" render="userList" />
+						<h:commandButton value="#{msg['web.clear']}"
+							action="#{usermanagedbean.clearFilter()}" render="userList" />
+					</p>
+				</h:form>
+			</h:panelGrid>
+		</h:column>
+
+		<h:column>
+			<h2>#{msg['web.user.header.badusers']}</h2>
+
+			<h:form rendered="#{not empty usermanagedbean.allBadUsers}">
+				<h:dataTable id="badUserList" value="#{usermanagedbean.allBadUsers}"
+					var="item">
+					<h:column>
+						<f:facet name="header">#{msg['web.user.name']}</f:facet>#{item.username}</h:column>
+					<h:column>
+						<f:facet name="header">#{msg['web.user.loyalty']}</f:facet>#{item.loyaltyIndex}</h:column>
+					<h:column>
+						<h:commandButton value="#{msg['web.user.sendemail']}"
+							action="#{usermanagedbean.sendEmail(item)}" />
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</h:column>
 	</h:panelGrid>
+
 
 	<ui:include src="/includes/footer.xhtml" />
 </body>

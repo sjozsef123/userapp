@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
@@ -13,6 +13,8 @@ import javax.naming.NamingException;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
+import solomonj.msg.userapp.ejb.service.util.SendEmail;
+import solomonj.msg.userapp.ejb.service.util.ShowTime;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
@@ -32,7 +34,9 @@ public class UserManagedBean implements Serializable {
 	private boolean edit;
 	private List<String> selectedRoles = new ArrayList<>();
 	private List<User> allUsers = null;
+	private List<User> allBadUsers = null;
 	private String searchName = "";
+
 
 	private IUserService getUserBean() {
 		if (userBean == null) {
@@ -102,13 +106,27 @@ public class UserManagedBean implements Serializable {
 		try {
 			allUsers = getUserBean().searchUserByName(searchName);
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 		if (allUsers == null) {
 			return new ArrayList<>();
 		}
 		return allUsers;
-
+	}
+	
+	public List<User> getAllBadUsers() {
+		try {
+			allBadUsers = getUserBean().getAllBadUsers();
+			return allBadUsers;
+		} catch (ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
+		}
+		if (allBadUsers == null) {
+			return new ArrayList<>();
+		}
+		return allBadUsers;
 	}
 
 	public void insertUser(User user) {
@@ -184,6 +202,19 @@ public class UserManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 			return new User();
+		}
+	}
+
+	public void sendEmail(User u) {
+		try {			
+//			ShowTime time = new ShowTime();
+//			time.checkBorrowing();
+			SendEmail.sendEmail(u.getEmail(), "szocscsillamaria@gmail.com");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					LoginManagedBean.getResourceBundleString("web.user.emailsent"), null));
+		} catch (ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
