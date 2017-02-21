@@ -207,8 +207,8 @@ public class UserManagedBean implements Serializable {
 
 	public void sendEmail(User u) {
 		try {			
-//			ShowTime time = new ShowTime();
-//			time.checkBorrowing();
+			//ShowTime time = new ShowTime();
+			//time.checkBorrowing();
 			SendEmail.sendEmail(u.getEmail(), "szocscsillamaria@gmail.com");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					LoginManagedBean.getResourceBundleString("web.user.emailsent"), null));
