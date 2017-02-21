@@ -16,6 +16,7 @@ import org.jboss.logging.Logger;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IPublicationService;
+import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.jpa.model.Article;
 import solomonj.msg.userapp.jpa.model.Author;
 import solomonj.msg.userapp.jpa.model.Book;
@@ -38,18 +39,20 @@ public class PublicationManagedBean implements Serializable {
 	private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
 	private IPublicationService publicationBean;
 	private List<Publication> publicationList;
-	private String filter;
+	private String titleFilter;
 
 	private Book book;
 	private Magazine magazine;
 	private Newspaper newspaper;
+	
+	private PublicationFilter filter;
 
 	public void onLoad() {
 
 		book = null;
 		magazine = null;
 		newspaper = null;
-		filter = "";
+		titleFilter = "";
 	}
 	
 	public void clearValues() {
@@ -91,7 +94,7 @@ public class PublicationManagedBean implements Serializable {
 
 		publicationList = new ArrayList<>();
 		try {
-			publicationList = getpublicationBean().filterPublicationByName(filter);
+			publicationList = getpublicationBean().filterPublicationByName(titleFilter);
 			return publicationList;
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -321,15 +324,15 @@ public class PublicationManagedBean implements Serializable {
 	}
 
 	public String getFilter() {
-		return filter;
+		return titleFilter;
 	}
 
 	public void setFilter(String filter) {
-		this.filter = filter;
+		this.titleFilter = filter;
 	}
 
 	public void clearFilter() {
-		filter = "";
+		titleFilter = "";
 	}
 
 	public Book getBook() {

@@ -1,0 +1,637 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<f:metadata>
+	<f:viewAction action="#{loginmanagedbean.isLoggedIn()}" />
+</f:metadata>
+<title>Publication</title>
+
+
+<script >
+
+	function change(selected) {
+		
+		document.getElementById('form:publicationType').value = selected;
+	}
+	
+	function add(type) {
+		console.log('adding ' + type);
+		switch(type) {
+		
+		case 'book':
+				document.getElementById('form:addBook').click();
+			break;
+		case 'magazine':
+				document.getElementById('form:addMagazine').click();
+			break;
+		case 'newspaper':
+				document.getElementById('form:addNewspaper').click();
+			break;
+		}
+	}
+	
+	function startClear(data) {
+		 if(data.status == 'success') 
+			 clearForm(); 
+	}
+	
+	function forget(data) {
+		
+		
+		
+	}
+	
+	function clearForm() {
+		
+		console.log('clear form');
+		var form = document.forms['form'];
+		for( var i=0; i &lt; form.length; i++) {
+			switch(form[i].type) {
+			
+				case 'text':
+					form[i].value = '';
+					break;			
+				case 'radio':
+					form[i].checked = false;
+					break;
+				case 'checkbox':
+					form[i].checked = false;
+					break;
+			}
+		}
+		document.getElementById('form:publicationType').style.display='block';
+		document.getElementById('form:panels').style.display='none';
+	}
+
+	function clearPubPanel(panel) {
+		
+		var boxes = panel[1].children[0].children;
+		
+		for(var i=0; i &lt; boxes.length; i++) {
+			boxes[i].children[0].children[0].checked = false;
+		}
+	}
+	
+	function bookDetails(data) {
+		
+		if(data.status == 'success') {
+			
+			displayBookDetails();
+		}							
+	}
+	
+	function magazineDetails(data) {
+		
+		if(data.status == 'success') {
+			
+			displayMagazineDetails();
+		}							
+	}
+	
+	function newspaperDetails(data) {
+		
+		if(data.status == 'success') {
+			
+			displayNewspaperDetails();
+		}							
+	}
+	
+</script>
+<h:panelGroup id="bookDetailsScript">
+	<script>
+		function displayBookDetails() {
+			
+			var authors = [
+				<ui:repeat value='#{publicationmanagedbean.book.bAuthors}' var="author" varStatus="loop">
+					{ id: #{author.id}, name: '#{author.name}' }#{loop.last ? '' : ','}
+				</ui:repeat>
+				];
+			
+			var displayAuthors = [];
+			
+			for(var i = 0; i &lt; authors.length; ++i) {
+				
+				displayAuthors.push('\n   -' + authors[i].name);
+			}
+			
+			alert(	"\tBook details" +
+					"\nTitle: #{publicationmanagedbean.book.title}" +
+					"\nStock: #{publicationmanagedbean.book.copiesLeft}" +
+					"\nPublisher: #{publicationmanagedbean.book.publisher}" +
+					"\nRelease: #{publicationmanagedbean.book.getReleaseYear()}" +
+					"\nAuthors:" + 
+					displayAuthors.join("") );
+			
+		}
+	</script>
+</h:panelGroup>
+
+<h:panelGroup id="magazineDetailsScript">
+	<script>
+		function displayMagazineDetails() {
+			
+			var authors = [
+				<ui:repeat value='#{publicationmanagedbean.magazine.mAuthors}' var="author" varStatus="loop">
+					{ id: #{author.id}, name: '#{author.name}' }#{loop.last ? '' : ','}
+				</ui:repeat>
+				];
+			
+			var displayAuthors = [];
+			
+			for(var i = 0; i &lt; authors.length; ++i) {
+				
+				displayAuthors.push('\n   -' + authors[i].name);
+			}
+			
+			alert(	"\Magazine details" +
+					"\nTitle: #{publicationmanagedbean.magazine.title}" +
+					"\nStock: #{publicationmanagedbean.magazine.copiesLeft}" +
+					"\nPublisher: #{publicationmanagedbean.magazine.publisher}" +
+					"\nRelease: #{publicationmanagedbean.magazine.getReleaseYear()} / #{publicationmanagedbean.magazine.getReleaseMonth()}" +
+					"\nAuthors:" + 
+					displayAuthors.join("") );
+			
+		}
+	</script>
+</h:panelGroup>
+
+<h:panelGroup id="newspaperDetailsScript">
+	<script>
+		function displayNewspaperDetails() {
+			
+			var articles = [
+				<ui:repeat value='#{publicationmanagedbean.newspaper.articles}' var="article" varStatus="loop">
+					{ id: #{article.id}, title: '#{article.title}' }#{loop.last ? '' : ','}
+				</ui:repeat>
+				];
+			
+			var displayArticles = [];
+			
+			for(var i = 0; i &lt; articles.length; ++i) {
+				
+				displayArticles.push('\n   -' + articles[i].title);
+			}
+			
+			alert(	"\Newspaper details" +
+					"\nTitle: #{publicationmanagedbean.newspaper.title}" +
+					"\nStock: #{publicationmanagedbean.newspaper.copiesLeft}" +
+					"\nPublisher: #{publicationmanagedbean.newspaper.publisher}" +
+					"\nRelease: #{publicationmanagedbean.newspaper.getReleaseYear()} / #{publicationmanagedbean.newspaper.getReleaseMonth()} / #{publicationmanagedbean.newspaper.getReleaseDay()}" +
+					"\nArticles:" + 
+					displayArticles.join("") );
+			
+		}
+	</script>
+</h:panelGroup>
+
+<h:panelGroup id="magazineScript">
+					<script>
+					
+						function editMagazine(data) {
+							switch(data.status) {
+							
+							case 'begin':
+								break;
+							case 'complete':
+								break;
+							case 'success':
+								
+								clearForm();
+								document.getElementById('form:publicationType').style.display='none';
+								
+								document.getElementById('formTitle').innerHTML="#{msg['web.publication.magazineedit']}";
+								
+								fillMagazineFields();
+
+								document.getElementById('form:publicationType:1').click();
+								
+								setTimeout(function(){ fillMagazinePanel(); }, 50);
+								
+								break;
+							}
+						}
+						
+						function fillMagazineFields() {
+							
+							document.getElementById('#{title.clientId}').value='#{publicationmanagedbean.magazine.title}'; 
+							document.getElementById('#{stock.clientId}').value='#{publicationmanagedbean.magazine.nrOfCopies}';
+							document.getElementById('#{publisher.clientId}').value='#{publicationmanagedbean.magazine.publisher}';
+							
+						}
+						
+						function fillMagazinePanel() {
+							
+							document.getElementById('#{magazineYear.clientId}').value='#{publicationmanagedbean.magazine.getReleaseYear()}';
+							document.getElementById('#{magazineMonth.clientId}').value='#{publicationmanagedbean.magazine.getReleaseMonth()}';
+
+							var form = document.forms['form'];
+							
+							var authors = [
+								<ui:repeat value='#{publicationmanagedbean.magazine.mAuthors}' var="author" varStatus="loop">
+									{ id: #{author.id}, name: '#{author.name}' }#{loop.last ? '' : ','}
+								</ui:repeat>
+								];
+							
+							for(var i = 0; i &lt; form.length; i++) {
+								
+								if(form[i].type == 'checkbox') {
+
+									for(var j = 0; j &lt; authors.length; j++) {
+										if(form[i].value == (authors[j].id + ',' + authors[j].name)) {
+			
+											form[i].checked = true;
+										}
+									}
+								}
+								
+							}
+						}
+						
+					</script>
+					
+</h:panelGroup>
+<h:panelGroup id="bookScript">
+					<script>
+						
+							function editBook(data) {
+								
+								switch(data.status) {
+								
+								case 'begin':
+									break;
+								case 'complete':
+									break;
+								case 'success':
+									
+									clearForm();
+									document.getElementById('form:publicationType').style.display='none';
+									
+									document.getElementById('formTitle').innerHTML="#{msg['web.publication.bookedit']}";
+									
+									fillBookFields();
+
+									document.getElementById('form:publicationType:0').click();
+								
+									setTimeout(function(){ fillBookPanel(); }, 50);
+								}
+							}
+							
+							function fillBookFields() {
+								
+								document.getElementById('#{title.clientId}').value='#{publicationmanagedbean.book.title}'; 
+								document.getElementById('#{stock.clientId}').value='#{publicationmanagedbean.book.nrOfCopies}';
+								document.getElementById('#{publisher.clientId}').value='#{publicationmanagedbean.book.publisher}';
+								
+							}
+							
+							function fillBookPanel() {
+							
+								document.getElementById('#{bookYear.clientId}').value='#{publicationmanagedbean.book.getReleaseYear()}';
+								
+								var form = document.forms['form'];
+								
+								var authors = [
+									<ui:repeat value='#{publicationmanagedbean.book.bAuthors}' var="author" varStatus="loop">
+										{ id: #{author.id}, name: '#{author.name}' }#{loop.last ? '' : ','}
+									</ui:repeat>
+									];
+								
+								for(var i = 0; i &lt; form.length; i++) {
+									
+									if(form[i].type == 'checkbox') {
+
+										for(var j = 0; j &lt; authors.length; j++) {
+											if(form[i].value == (authors[j].id + ',' + authors[j].name)) {
+				
+												form[i].checked = true;
+											}
+										}
+									}
+									
+								}
+							}
+							
+					</script>
+</h:panelGroup>
+
+<h:panelGroup id="newspaperScript">
+					<script>
+					
+						function editNewspaper(data) {
+							switch(data.status) {
+							
+							case 'begin':
+								break;
+							case 'complete':
+								break;
+							case 'success':
+								
+								clearForm();
+								document.getElementById('form:publicationType').style.display='none';
+								
+								document.getElementById('formTitle').innerHTML="#{msg['web.publication.newspaperedit']}";
+								
+								fillNewspaperFields();
+
+								document.getElementById('form:publicationType:2').click();
+								
+								setTimeout(function(){ fillNewspaperPanel(); }, 50);
+								
+								break;
+							}
+						}
+						
+						function fillNewspaperFields() {
+							
+							document.getElementById('#{title.clientId}').value='#{publicationmanagedbean.newspaper.title}'; 
+							document.getElementById('#{stock.clientId}').value='#{publicationmanagedbean.newspaper.nrOfCopies}';
+							document.getElementById('#{publisher.clientId}').value='#{publicationmanagedbean.newspaper.publisher}';
+							
+						}
+						
+						function fillNewspaperPanel() {
+							
+							document.getElementById('#{newspaperYear.clientId}').value='#{publicationmanagedbean.newspaper.getReleaseYear()}';
+							document.getElementById('#{newspaperMonth.clientId}').value='#{publicationmanagedbean.newspaper.getReleaseMonth()}';
+							document.getElementById('#{newspaperDay.clientId}').value='#{publicationmanagedbean.newspaper.getReleaseDay()}';
+							
+							var form = document.forms['form'];
+							
+							var articles = [
+								<ui:repeat value='#{publicationmanagedbean.newspaper.articles}' var="article" varStatus="loop">
+									{ id: #{article.id}, title: '#{article.title}' }#{loop.last ? '' : ','}
+								</ui:repeat>
+								];
+							
+							for(var i = 0; i &lt; form.length; i++) {
+								
+								if(form[i].type == 'checkbox') {
+
+									for(var j = 0; j &lt; articles.length; j++) {
+										if(form[i].value == (articles[j].id + ',' + articles[j].title)) {
+			
+											form[i].checked = true;
+										}
+									}
+								}
+								
+							}
+							
+						}
+						
+					</script>
+					
+</h:panelGroup>
+
+</h:head>
+<h:body onload="#{publicationmanagedbean.onLoad()}">
+
+	<h:panelGrid id="panel" columns="4" border="0" cellpadding="10"
+		cellspacing="1">		
+	<h:column rendered="#{loginmanagedbean.isAdmin() eq null}">
+		<ui:include src="/includes/navigation.xhtml" style="float: left; clear: both;" />
+	</h:column>
+	
+	<h:column>
+	<h2>#{msg['web.publication.header.publications']}</h2>
+
+		<h4>#{msg['web.publication.header.filterpublications']}</h4>
+		<h:form id="filterForm">
+			<p>
+				<h:inputText id="filter" value="#{publicationmanagedbean.filter}">
+				</h:inputText>
+				<br />
+				<h:commandButton value="#{msg['web.filter']}" >
+					<f:ajax execute="filter" render="tableForm:publicationList" />
+				</h:commandButton>
+				<h:commandButton value="#{msg['web.clear']}" >
+					<f:ajax listener="#{publicationmanagedbean.clearFilter()}" render="tableForm:publicationList"/>
+				</h:commandButton>
+
+			</p>
+		</h:form>
+		<p:dataTable var="item" value="#{publicationmanagedbean.publicationList}">
+			
+			
+
+			<p:column headerText="#{msg['web.title']}" filterBy="#{publicationmanagedbean.filter.title}" >
+				<h:outputText value="#{item.title}" />
+			</p:column>
+			<p:column headerText="#{msg['web.type']}">
+				<h:outputText value="#{publicationmanagedbean.getType(item)}" />
+			</p:column>
+			<p:column headerText="#{msg['web.onStock']}">
+				<h:outputText value="#{item.nrOfCopies}" />
+			</p:column>
+			<p:column headerText="#{msg['web.publisher']}">
+				<h:outputText value="#{item.publisher}" />
+			</p:column>
+			<p:column headerText="#{msg['web.release']}">
+				<h:outputText value="#{item.getReleaseYear()}" />
+				<h:outputText value=" / #{item.getReleaseMonth()}"
+					rendered="#{publicationmanagedbean.getType(item) eq 'Magazine' or publicationmanagedbean.getType(item) eq 'Newspaper'}" />
+				<h:outputText value=" / #{item.getReleaseMonth()}"
+					rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}" />
+			</p:column>
+			
+		</p:dataTable>
+		<h:panelGroup
+			rendered="#{empty publicationmanagedbean.publicationList}">
+			<p>#{msg['web.publication.nopublications']}</p>
+		</h:panelGroup>
+	</h:column>
+
+	<h:column rendered="#{loginmanagedbean.isAdmin() == null}">
+		<h:form id="form" >
+			<h2 id="formTitle">#{msg['web.publication.header.addpublication']}</h2>
+			<p>
+				#{msg['web.title']}:
+				<h:inputText id="publicationTitle" binding="#{title}" 
+					required="true" />
+			</p>
+
+			<p>
+				#{msg['web.publication.stock']}:
+				<h:inputText id="publicationStock" binding="#{stock}"
+					required="true" />
+			</p>
+
+			<p>
+				#{msg['web.publication.publisher']}:
+				<h:inputText id="publicationPublisher" binding="#{publisher}"
+					required="true" />
+			</p>
+
+
+
+
+			
+
+				<h:selectOneRadio id="publicationType" onchange="change(this.value)" 
+					binding="#{selectedPublicationType}" 
+					required="true">
+					<f:selectItem id="bookRadio" itemValue="book" itemLabel="#{msg['web.book']}" />
+					<f:selectItem id="magazineRadio" itemValue="magazine" itemLabel="#{msg['web.magazine']}" />
+					<f:selectItem id="newspaperRadio" itemValue="newspaper"	itemLabel="#{msg['web.newspaper']}" />
+					<f:ajax event="change" render="panels"/>
+
+				</h:selectOneRadio>
+<h:panelGroup id="panels">
+				<h:panelGroup id="bookPanel" rendered="#{selectedPublicationType.value == 'book'}">
+					<p>
+						#{msg['web.publication.releasedate']}:
+						<h:inputText id="bookYear" binding="#{bookYear}" a:placeholder="Year" style="width: 50px;" />
+					</p>
+					<h:selectManyCheckbox id="bookAuthorList" layout="pageDirection"
+						binding="#{selectedBookAuthors}">
+						<f:selectItems value="#{authorManagedBean.getAllAuthor()}"
+							var="bAuthor" itemLabel="#{bAuthor.name}"
+							itemValue="#{bAuthor.id},#{bAuthor.name}" />
+					</h:selectManyCheckbox>
+					<h:commandButton id="addBook"						
+						style="display: none;"  >
+						<f:actionListener binding="#{publicationmanagedbean.createBook()}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookTitle(title.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookStock(stock.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookPublisher(publisher.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookReleaseDate(bookYear.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookAuthors(selectedBookAuthors.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.addBook()}"/>
+						<f:ajax onevent="function(data) { if(data.status == 'success') clearForm(); }" 
+								execute="@form" render="tableForm:publicationList @form" />
+					</h:commandButton>
+				</h:panelGroup>
+
+				<h:panelGroup id="magazinePanel" rendered="#{selectedPublicationType.value == 'magazine'}">
+				
+					<p>
+						#{msg['web.publication.releasedate']}: <br/>
+						<h:inputText id="magazineYear" binding="#{magazineYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
+							 />
+						<h:inputText id="magazineMonth" binding="#{magazineMonth}" a:placeholder="Month" style="width: 50px;"
+							 />
+					</p>
+					<h:selectManyCheckbox id="magazineAuthorList"
+						layout="pageDirection" binding="#{selectedMagazineAuthors}">
+						<f:selectItems value="#{authorManagedBean.getAllAuthor()}"
+							var="mAuthor" itemLabel="#{mAuthor.name}"
+							itemValue="#{mAuthor.id},#{mAuthor.name}" />
+					</h:selectManyCheckbox>
+					<h:commandButton id="addMagazine"
+						style="display: none;" >
+						<f:actionListener binding="#{publicationmanagedbean.createMagazine()}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineTitle(title.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineStock(stock.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazinePublisher(publisher.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineReleaseDate(magazineYear.value, magazineMonth.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineAuthors(selectedMagazineAuthors.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.addMagazine()}"/>
+						<f:ajax onevent="function(data) { if(data.status == 'success') clearForm(); }" 
+								execute="@form" render="tableForm:publicationList @form" />
+					</h:commandButton>
+				</h:panelGroup>
+
+				<h:panelGroup id="newspaperPanel" rendered="#{selectedPublicationType.value == 'newspaper'}">
+				
+					<p>
+						#{msg['web.publication.releasedate']}: <br/>
+						<h:inputText id="newspaperYear" binding="#{newspaperYear}" a:placeholder="Year" style="width: 50px; margin-right: 15px;"
+							 />
+						<h:inputText id="newspaperMonth" binding="#{newspaperMonth}" a:placeholder="Month" style="width: 50px; margin-right: 15px;"
+							 />
+						<h:inputText id="newspaperDay" binding="#{newspaperDay}" a:placeholder="Day" style="width: 50px;"
+							 />
+					</p>
+					<h:selectManyCheckbox id="freeNewspaperArticleList" rendered="#{!(publicationmanagedbean.newspaper == null)}"
+						layout="pageDirection" binding="#{editSelectedNewspaperArticles}">
+						<f:selectItems value="#{articleManagedBean.getAllArticles()}"
+							var="earticle" itemLabel="#{earticle.title}"
+							itemValue="#{earticle.id},#{earticle.title}" /> 
+					</h:selectManyCheckbox>
+					
+					<h:selectManyCheckbox id="allNewspaperArticleList" rendered="#{publicationmanagedbean.newspaper == null}"
+						layout="pageDirection" binding="#{addSelectedNewspaperArticles}">
+						<f:selectItems value="#{articleManagedBean.getFreeArticles()}"
+							var="aarticle" itemLabel="#{aarticle.title}"
+							itemValue="#{aarticle.id},#{aarticle.title}" /> 
+					</h:selectManyCheckbox>				
+					
+					<h:commandButton id="addNewspaper"
+						style="display: none;" >
+						<f:actionListener binding="#{publicationmanagedbean.createNewspaper()}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperTitle(title.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperStock(stock.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperPublisher(publisher.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperReleaseDate(newspaperYear.value, newspaperMonth.value, newspaperDay.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperArticles(addSelectedNewspaperArticles.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.addNewspaper()}"/>
+						<f:ajax onevent="function(data) { if(data.status == 'success') clearForm(); }" 
+								execute="@form" render="tableForm:publicationList @form"/>
+					</h:commandButton>
+				</h:panelGroup>
+
+</h:panelGroup>			
+
+			<p>
+				<h:panelGroup id="savePanel">
+				
+					<h:commandButton id="add" value="#{msg['web.add']}" 
+						rendered="#{publicationmanagedbean.book == null and publicationmanagedbean.magazine == null and publicationmanagedbean.newspaper == null}" 
+						onclick="add(document.getElementById('form:publicationType').value);">
+						<f:ajax />
+					</h:commandButton>
+						
+					<h:commandButton id="saveBook" value="#{msg['web.save']}" rendered="#{!(publicationmanagedbean.book == null)}" >
+						<f:actionListener binding="#{publicationmanagedbean.setBookTitle(title.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookStock(stock.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookPublisher(publisher.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookReleaseDate(bookYear.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setBookAuthors(selectedBookAuthors.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.finalizeBookEdit()}"/>
+						<f:ajax onevent="startClear" execute="@form" render="tableForm:publicationList @form"/>
+						
+					</h:commandButton>
+					
+					<h:commandButton id="saveMagazine" value="#{msg['web.save']}" rendered="#{!(publicationmanagedbean.magazine == null)}" >
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineTitle(title.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineStock(stock.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazinePublisher(publisher.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineReleaseDate(magazineYear.value, magazineMonth.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setMagazineAuthors(selectedMagazineAuthors.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.finalizeMagazineEdit()}"/>
+						<f:ajax onevent="startClear" execute="@form" render="tableForm:publicationList @form"/>			
+					</h:commandButton>
+					
+					<h:commandButton id="saveNewspaper" value="#{msg['web.save']}" rendered="#{!(publicationmanagedbean.newspaper == null)}">
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperTitle(title.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperStock(stock.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperPublisher(publisher.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperReleaseDate(newspaperYear.value, newspaperMonth.value, newspaperDay.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.setNewspaperArticles(editSelectedNewspaperArticles.value)}"/>
+						<f:actionListener binding="#{publicationmanagedbean.finalizeNewspaperEdit()}"/>	
+						<f:ajax onevent="startClear" execute="@form" render="tableForm:publicationList @form"/>
+								
+					</h:commandButton>
+					
+					<h:commandButton id="cancelEdit" value="#{msg['web.publication.forgetit']}" 
+						rendered="#{!(publicationmanagedbean.book == null) or !(publicationmanagedbean.magazine == null) or !(publicationmanagedbean.newspaper == null)}" >
+						<f:ajax listener="#{publicationmanagedbean.clearValues()}" onevent="startClear" render="@form"/>
+					</h:commandButton>
+					
+				</h:panelGroup>
+			</p>
+
+		</h:form>
+	</h:column>
+	</h:panelGrid>
+
+</h:body>
+	<ui:include src="/includes/footer.xhtml" />	
+</html>
