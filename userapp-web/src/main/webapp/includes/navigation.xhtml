@@ -6,7 +6,7 @@
 	
 	#{loginmanagedbean.setLanguage()}
 	<nav style="float: left; max-width: 200px; margin: 0; padding: 1em;">			  
-		<h:form>
+		<h:form rendered="#{loginmanagedbean.isAdmin() eq null}">
 			<p:menu>
 				<p:submenu label="#{msg['web.navigation']}">
 					<p:menuitem value="#{msg['web.user.title']}" outcome="user"
