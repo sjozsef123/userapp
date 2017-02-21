@@ -82,6 +82,7 @@ public class UserManagedBean implements Serializable {
 
 		user.setRoles(rolesToInt());
 		insertUser(user);
+		allUsers.add(user);
 		user = new User();
 		selectedRoles = new ArrayList<>();
 
@@ -146,6 +147,7 @@ public class UserManagedBean implements Serializable {
 	public void deleteUserById(User user) {
 		try {
 			getUserBean().deleteUserById(user);
+			allUsers.remove(user);
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
