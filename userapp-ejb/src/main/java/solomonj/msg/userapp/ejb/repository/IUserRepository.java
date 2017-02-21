@@ -24,6 +24,15 @@ public interface IUserRepository extends IBasicRepository<User> {
 	public List<User> searchUserByName(String name) throws RepositoryException;
 
 	/**
+	 * This function gets all bad Users.
+	 * 
+	 * @param name
+	 * @return list
+	 * @throws RepositoryException
+	 */
+	public List<User> getAllBadUsers() throws RepositoryException;
+
+	/**
 	 * This function searches for the User with the id.
 	 * 
 	 * @param name
@@ -41,4 +50,5 @@ public interface IUserRepository extends IBasicRepository<User> {
 	 * @throws RepositoryException
 	 */
 	public User login(String name, String pass) throws RepositoryException;
+	
 }

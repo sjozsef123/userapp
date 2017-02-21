@@ -38,7 +38,18 @@ public class UserServiceBean implements IUserService {
 			oLogger.debug(DebugMessages.LIST_USERS);
 			return userRepositoryBean.getlAll();
 		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
+	
+	@Override
+	public List<User> getAllBadUsers() throws ServiceException {
+		try {
+			oLogger.debug(DebugMessages.LIST_USERS);
+			return userRepositoryBean.getAllBadUsers();
+		} catch (RepositoryException e) {
+			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -48,7 +59,7 @@ public class UserServiceBean implements IUserService {
 		try {
 			user.setPassword(PasswordEncrypting.encrypt(user.getPassword(), PASS_SALT));
 		} catch (ServiceException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
 			throw new ServiceException("user.create");
 		}
 
@@ -57,7 +68,7 @@ public class UserServiceBean implements IUserService {
 			userRepositoryBean.create(user);
 			oLogger.debug(DebugMessages.CREATE_USER_OK);
 		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -69,7 +80,7 @@ public class UserServiceBean implements IUserService {
 			userRepositoryBean.delete(user);
 			oLogger.debug(DebugMessages.DELETE_USER_OK);
 		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -81,7 +92,7 @@ public class UserServiceBean implements IUserService {
 			userRepositoryBean.update(user);
 			oLogger.debug(DebugMessages.UPDATE_USER_OK);
 		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -92,7 +103,7 @@ public class UserServiceBean implements IUserService {
 			oLogger.debug(DebugMessages.SEARCH_USERS_BY_NAME);
 			return userRepositoryBean.searchUserByName(name);
 		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -103,7 +114,7 @@ public class UserServiceBean implements IUserService {
 		try {
 			pass = PasswordEncrypting.encrypt(password, PASS_SALT);
 		} catch (ServiceException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
 			throw new ServiceException("user.login");
 		}
 				
@@ -111,7 +122,7 @@ public class UserServiceBean implements IUserService {
 			oLogger.debug(name + DebugMessages.LOGIN_USER);
 			return userRepositoryBean.login(name, pass);
 		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}

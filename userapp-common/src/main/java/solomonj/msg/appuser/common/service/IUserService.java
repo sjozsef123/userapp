@@ -22,6 +22,14 @@ public interface IUserService {
 	 * @throws ServiceException
 	 */
 	public List<User> getAllUsers() throws ServiceException;
+	
+	/**
+	 * This function gets all bad users;
+	 * 
+	 * @return list
+	 * @throws ServiceException
+	 */
+	public List<User> getAllBadUsers() throws ServiceException;
 
 	/**
 	 * This function inserts a user.
@@ -65,4 +73,5 @@ public interface IUserService {
 	 * @throws ServiceException
 	 */
 	public User login(String name, String pass) throws ServiceException;
+	
 }
