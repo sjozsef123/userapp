@@ -38,9 +38,9 @@ public class Role extends BaseEntity {
 		this.rolename = rolename;
 	}
 
-	@Override
-	public String toString() {
-		return "Role [rolename=" + rolename + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Role [rolename=" + rolename + "]";
+//	}
 
 }

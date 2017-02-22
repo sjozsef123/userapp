@@ -56,6 +56,15 @@ public class UserManagedBean implements Serializable {
 		return selectedRoles;
 	}
 
+	public List<String> electedRoles(User u) {
+		selectedRoles.clear();
+		List<Role> roles = user.getRoles();
+		for (Role r : roles) {
+			selectedRoles.add(new Integer(r.getId()).toString());
+		}
+		return selectedRoles;
+	}
+
 	public void setSelectedRoles(List<String> selectedRoles) {
 		this.selectedRoles = selectedRoles;
 	}
@@ -106,10 +115,9 @@ public class UserManagedBean implements Serializable {
 
 	public List<User> getAllUsers() {
 		try {
-			if(allUsers == null) {
-				allUsers = getUserBean().searchUserByName(searchName);	
+			if (allUsers == null) {
+				allUsers = getUserBean().searchUserByName(searchName);
 			}
-			
 
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -145,6 +153,8 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void deleteUserById(User user) {
+
+		System.out.println(user.getRoles() + "*********************");
 		try {
 			getUserBean().deleteUserById(user);
 			allUsers.remove(user);
@@ -157,7 +167,13 @@ public class UserManagedBean implements Serializable {
 
 	public void updateUser(User user) {
 		try {
+			if (selectedRoles.size() > 0) {
+				user.setRoles(rolesToInt());
+				selectedRoles = new ArrayList<>();
+			}
 			getUserBean().updateUser(user);
+			allUsers = getUserBean().searchUserByName(searchName);
+
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -169,15 +185,9 @@ public class UserManagedBean implements Serializable {
 		return user;
 	}
 
-	public boolean isEdit() {
-		return edit;
-	}
-
 	public void delete(User user) {
 
-		if (edit) {
-			cancelEdit();
-		}
+		System.out.println(user.getId() + "*********************");
 		deleteUserById(user);
 
 	}
@@ -213,9 +223,9 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void sendEmail(User u) {
-		try {			
-			//ShowTime time = new ShowTime();
-			//time.checkBorrowing();
+		try {
+			// ShowTime time = new ShowTime();
+			// time.checkBorrowing();
 			SendEmail.sendEmail(u.getEmail(), "szocscsillamaria@gmail.com");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					LoginManagedBean.getResourceBundleString("web.user.emailsent"), null));
@@ -224,17 +234,18 @@ public class UserManagedBean implements Serializable {
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
-	
+
 	public void onEdit(RowEditEvent event) {
-		
-		updateUser((User) event.getObject());
-	
+
+		User updateUser = (User) event.getObject();
+		updateUser(updateUser);
 
 		FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void onCancel(RowEditEvent event) {
+
 		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
