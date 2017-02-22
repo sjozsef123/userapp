@@ -19,6 +19,12 @@ import solomonj.msg.userapp.ejb.repository.bean.BorrowingRepositoryBean;
 import solomonj.msg.userapp.ejb.repository.bean.UserRepositoryBean;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * Email handling class
+ * 
+ * @author Szocs Csilla
+ *
+ */
 public class SendEmail {
 	private Logger oLogger = Logger.getLogger(UserRepositoryBean.class);
 	

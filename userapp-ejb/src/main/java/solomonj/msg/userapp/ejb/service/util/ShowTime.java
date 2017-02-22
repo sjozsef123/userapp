@@ -15,6 +15,12 @@ import solomonj.msg.userapp.ejb.repository.bean.UserRepositoryBean;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.User;
 
+/**
+ * Timer class, for: Email sending;
+ * 
+ * @author Szocs Csilla
+ *
+ */
 @Singleton
 @Startup
 public class ShowTime {
