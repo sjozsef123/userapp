@@ -11,6 +11,8 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.primefaces.event.RowEditEvent;
+
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.ejb.service.util.SendEmail;
@@ -36,7 +38,6 @@ public class UserManagedBean implements Serializable {
 	private List<User> allUsers = null;
 	private List<User> allBadUsers = null;
 	private String searchName = "";
-
 
 	private IUserService getUserBean() {
 		if (userBean == null) {
@@ -81,6 +82,7 @@ public class UserManagedBean implements Serializable {
 
 		user.setRoles(rolesToInt());
 		insertUser(user);
+		allUsers.add(user);
 		user = new User();
 		selectedRoles = new ArrayList<>();
 
@@ -104,7 +106,11 @@ public class UserManagedBean implements Serializable {
 
 	public List<User> getAllUsers() {
 		try {
-			allUsers = getUserBean().searchUserByName(searchName);
+			if(allUsers == null) {
+				allUsers = getUserBean().searchUserByName(searchName);	
+			}
+			
+
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -114,7 +120,7 @@ public class UserManagedBean implements Serializable {
 		}
 		return allUsers;
 	}
-	
+
 	public List<User> getAllBadUsers() {
 		try {
 			allBadUsers = getUserBean().getAllBadUsers();
@@ -141,6 +147,7 @@ public class UserManagedBean implements Serializable {
 	public void deleteUserById(User user) {
 		try {
 			getUserBean().deleteUserById(user);
+			allUsers.remove(user);
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -216,6 +223,20 @@ public class UserManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
+	}
+	
+	public void onEdit(RowEditEvent event) {
+		
+		updateUser((User) event.getObject());
+	
+
+		FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 }
