@@ -1,34 +1,42 @@
 package solomonj.msg.appuser.common.util;
 
-import java.sql.Date;
-import java.util.List;
-
 public class PublicationFilter {
 
 	private String title;
-	private List<String> type; 
-	private int minStock;
-	private int maxStock;
+	private String[] type;
+	private Integer minStock;
+	private Integer maxStock;
 	private String publisher;
-	private Date releasedAfter;
-	private Date releasedBefore;
+	private String releasedAfter;
+	private String releasedBefore;
+	
+	public PublicationFilter() {
+
+		title = null;
+		type = new String[]{"Book", "Magazine", "Newspaper"};
+		minStock = null;
+		maxStock = null;
+		publisher = null;
+		releasedAfter = null;
+		releasedBefore = null;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
-		System.out.println("title set to " + title);
 		this.title = title;
 	}
-	public int getMinStock() {
+	public Integer getMinStock() {
 		return minStock;
 	}
-	public void setMinStock(int minStock) {
+	public void setMinStock(Integer minStock) {
 		this.minStock = minStock;
 	}
-	public int getMaxStock() {
+	public Integer getMaxStock() {
 		return maxStock;
 	}
-	public void setMaxStock(int maxStock) {
+	public void setMaxStock(Integer maxStock) {
 		this.maxStock = maxStock;
 	}
 	public String getPublisher() {
@@ -37,22 +45,22 @@ public class PublicationFilter {
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-	public Date getReleasedAfter() {
+	public String getReleasedAfter() {
 		return releasedAfter;
 	}
-	public void setReleasedAfter(Date releasedFrom) {
+	public void setReleasedAfter(String releasedFrom) {
 		this.releasedAfter = releasedFrom;
 	}
-	public Date getReleasedBefore() {
+	public String getReleasedBefore() {
 		return releasedBefore;
 	}
-	public void setReleasedBefore(Date releasedBefore) {
+	public void setReleasedBefore(String releasedBefore) {
 		this.releasedBefore = releasedBefore;
 	}
-	public List<String> getType() {
+	public String[] getType() {
 		return type;
 	}
-	public void setType(List<String> type) {
+	public void setType(String[] type) {
 		this.type = type;
 	}
 	@Override

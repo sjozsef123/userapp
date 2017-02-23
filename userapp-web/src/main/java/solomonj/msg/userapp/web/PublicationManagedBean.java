@@ -106,7 +106,7 @@ public class PublicationManagedBean implements Serializable {
 
 		publicationList = new ArrayList<>();
 		try {
-			publicationList = getpublicationBean().filterPublicationByName(titleFilter);
+			publicationList = getpublicationBean().getPublicationByFilter(publicationFilter);
 			return publicationList;
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -344,7 +344,8 @@ public class PublicationManagedBean implements Serializable {
 	}
 
 	public void clearFilter() {
-		titleFilter = "";
+		
+		publicationFilter = new PublicationFilter();	
 	}
 
 	public Book getBook() {
@@ -392,11 +393,6 @@ public class PublicationManagedBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publication edit cancelled."));
 	}
 	
-	public void filter() {
-		
-		System.out.println(publicationFilter);
-		
-	}
 	
 
 }

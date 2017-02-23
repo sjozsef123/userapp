@@ -27,18 +27,19 @@
 	
 	<h2>#{msg['web.publication.header.publications']}</h2>
 		
+		<h:form id="tableForm">
 		<p:dataTable id="publicationTable" var="item" value="#{publicationmanagedbean.publicationList}"
 					emptyMessage="No publications found!" 
 					>
-			<p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}" update="publicationTable" />
-       		<p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}" update="publicationTable" />			
+			<p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}" update="tableForm:publicationTable" />
+       		<p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}" update="tableForm:publicationTable" />			
 			
 
 			<p:column>
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.title']}" /> <br/>
-					<p:inputText value="#{publicationmanagedbean.publicationFilter.title}">
-						<p:ajax event="keyup" listener="#{publicationmanagedbean.filter()}" />
+					<p:inputText id="titleFilter" value="#{publicationmanagedbean.publicationFilter.title}" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="titleFilter"/>
 					</p:inputText>
 				</f:facet>
 					<h:outputText value="#{item.title}" />
@@ -46,10 +47,11 @@
 			
 			<p:column>
 				<f:facet name="header">
-					<p:selectCheckboxMenu label="#{msg['web.type']}" value="#{publicationmanagedbean.publicationFilter.type}">
-						<f:selectItem itemLabel="Book" />
-						<f:selectItem itemLabel="Magazine" />
-						<f:selectItem itemLabel="Newspaper" />
+					<p:selectCheckboxMenu label="#{msg['web.type']}" value="#{publicationmanagedbean.publicationFilter.type}" >
+						<f:selectItem itemLabel="Book" itemValue="Book"/>
+						<f:selectItem itemLabel="Magazine" itemValue="Magazine"/>
+						<f:selectItem itemLabel="Newspaper" itemValue="Newspaper"/>
+						<p:ajax event="change" update="tableForm:publicationTable" />
 					</p:selectCheckboxMenu>
 				</f:facet>
 					<h:outputText value="#{publicationmanagedbean.getType(item)}" />
@@ -58,9 +60,16 @@
 			<p:column>
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.onStock']}" /> <br/>
-					<p:inputText value="#{publicationmanagedbean.publicationFilter.minStock}" placeholder="min" style="width: 50px;"/>
+					
+					<p:spinner id="minStock" value="#{publicationmanagedbean.publicationFilter.minStock}" 
+									placeholder="min" style="width: 70px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" />
+					</p:spinner>
 					<p:outputLabel value=" - " />
-					<p:inputText value="#{publicationmanagedbean.publicationFilter.maxStock}" placeholder="max" style="width: 50px;"/>
+					<p:spinner id="maxStock" value="#{publicationmanagedbean.publicationFilter.maxStock}" 
+									placeholder="max" style="width: 75px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" />
+					</p:spinner>>
 				</f:facet>
 				<h:outputText value="#{item.nrOfCopies}" />
 			</p:column>
@@ -77,6 +86,7 @@
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.release']}" /> <br/>
 					<p:inputText value="#{publicationmanagedbean.publicationFilter.releasedAfter}" placeholder="after" style="width: 50px;" />
+					<p:outputLabel value=" - " />
 					<p:inputText value="#{publicationmanagedbean.publicationFilter.releasedBefore}" placeholder="before" style="width: 50px;" />
 				</f:facet>
 				<h:outputText value="#{item.getReleaseYear()}" />
@@ -86,12 +96,17 @@
 					rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}" />
 			</p:column>
 			
-			<p:column style="width:32px">
+			<p:column style="width:50px">
+				<f:facet name="header">
+					<p:commandButton value="X" >
+						<p:ajax listener="#{publicationmanagedbean.clearFilter()}" update="@form"/>
+					</p:commandButton>
+				</f:facet>
 				<p:rowEditor />
 			</p:column>
 			
 		</p:dataTable>
-		
+		</h:form>
 	</h:column>
 
 	

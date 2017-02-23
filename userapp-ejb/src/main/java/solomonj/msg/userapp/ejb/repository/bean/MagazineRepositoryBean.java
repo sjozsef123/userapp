@@ -10,10 +10,12 @@ import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.jboss.logging.Logger;
 
+import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.ejb.repository.IMagazineRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Magazine;
@@ -39,7 +41,7 @@ public class MagazineRepositoryBean extends PublicationRepositoryBean<Magazine> 
 	}
 	
 	@Override
-	public List<Magazine> filterMagazineByName(String filter) throws RepositoryException {
+	public List<Magazine> getByFilter(PublicationFilter filter) throws RepositoryException {
 
 		List<Magazine> filteredMagazines = new ArrayList<>();
 		
@@ -49,8 +51,13 @@ public class MagazineRepositoryBean extends PublicationRepositoryBean<Magazine> 
 			Root<Magazine> root = criteriaQuery.from(Magazine.class);
 			
 			root.fetch("mAuthors", JoinType.LEFT);
+			criteriaQuery.select(root).distinct(true);
 			
-			criteriaQuery.select(root).where(builder.like(root.get(Magazine_.title), "%" + filter + "%")).distinct(true);
+			if(filter.getTitle() != null && filter.getTitle() != "") {
+				
+				Predicate titleFilter = builder.like(root.get(Magazine_.title), "%" + filter.getTitle() + "%");
+				criteriaQuery.where(titleFilter);
+			}
 			
 			filteredMagazines = entityManager.createQuery(criteriaQuery).getResultList();
 			return filteredMagazines;
