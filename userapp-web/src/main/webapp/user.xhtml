@@ -13,7 +13,8 @@
 </h:head>
 
 <h:body>
-
+	<p:messages id="messages" showDetail="false" autoUpdate="true"
+		closable="true" />
 	<h:panelGrid id="panel" columns="2" cellpadding="10">
 		<h:column>
 			<ui:include src="/includes/navigation.xhtml" />
@@ -102,6 +103,8 @@
 						<p:ajax event="rowEditCancel"
 							listener="#{usermanagedbean.onCancel}" update=":form1:messages" />
 
+						<p:ajax event="rowEditInit"
+							listener="#{usermanagedbean.onRowEditInit}" process="check"  />
 
 						<p:column>
 							<f:facet name="header">
@@ -156,7 +159,7 @@
 							<p:cellEditor>
 								<f:facet name="output">
 									<ui:repeat value="#{u.roles}" var="r">
-            						#{r.rolename}- 
+            						#{r.rolename} 
         						</ui:repeat>
 								</f:facet>
 								<f:facet name="input">

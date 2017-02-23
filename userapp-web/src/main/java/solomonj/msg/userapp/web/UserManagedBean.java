@@ -50,10 +50,6 @@ public class UserManagedBean implements Serializable {
 		return userBean;
 	}
 
-	public List<String> getSelectedRoles() {
-		return selectedRoles;
-	}
-
 	public List<String> selectedRoles(User u) {
 		selectedRoles.clear();
 		List<Role> roles = u.getRoles();
@@ -63,10 +59,13 @@ public class UserManagedBean implements Serializable {
 		return selectedRoles;
 	}
 
+	public List<String> getSelectedRoles() {
+		return selectedRoles;
+	}
+
 	public void setSelectedRoles(List<String> selectedRoles) {
 		this.selectedRoles = selectedRoles;
 	}
-
 
 	public void resetAdd() {
 		System.out.println(user.getUsername());
@@ -74,7 +73,6 @@ public class UserManagedBean implements Serializable {
 		selectedRoles = new ArrayList<>();
 	}
 
-	
 	public List<User> getAllUsers() {
 		try {
 			if (allUsers == null) {
@@ -112,7 +110,7 @@ public class UserManagedBean implements Serializable {
 			allUsers.add(user);
 			user = new User();
 			selectedRoles = new ArrayList<>();
-			
+
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -121,7 +119,7 @@ public class UserManagedBean implements Serializable {
 
 	public void delete(User user) {
 
-		System.out.println(user.getRoles() + "*********************");
+		System.out.println(user.getId() + "*********************");
 		try {
 			getUserBean().deleteUserById(user);
 			allUsers.remove(user);
@@ -134,10 +132,10 @@ public class UserManagedBean implements Serializable {
 
 	public void updateUser(User user) {
 		try {
-			if (selectedRoles.size() > 0) {
-				user.setRoles(rolesToInt());
-				selectedRoles = new ArrayList<>();
-			}
+
+			user.setRoles(rolesToInt());
+			selectedRoles.clear();
+
 			getUserBean().updateUser(user);
 			allUsers = getUserBean().searchUserByName(searchName);
 
@@ -152,7 +150,6 @@ public class UserManagedBean implements Serializable {
 		return user;
 	}
 
-
 	private List<Role> rolesToInt() {
 		List<Role> roles = new ArrayList<>();
 		for (String i : selectedRoles) {
@@ -160,7 +157,6 @@ public class UserManagedBean implements Serializable {
 		}
 		return roles;
 	}
-
 
 	public User login(String n, String p) {
 		try {
@@ -198,6 +194,16 @@ public class UserManagedBean implements Serializable {
 
 		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
+	public void onRowEditInit(RowEditEvent event) {
+		User editUser = (User) event.getObject();
+		System.out.println("User edit " + editUser.getId());
+		selectedRoles.clear();
+		List<Role> roles = editUser.getRoles();
+		for (Role r : roles) {
+			selectedRoles.add(new Integer(r.getId()).toString());
+		}
 	}
 
 	public String getSearchName() {
