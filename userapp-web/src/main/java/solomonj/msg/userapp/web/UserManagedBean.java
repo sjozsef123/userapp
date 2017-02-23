@@ -12,6 +12,7 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
@@ -52,7 +53,14 @@ public class UserManagedBean implements Serializable {
 		return userBean;
 	}
 
-
+	public boolean selectedRoles(User u) {
+		selectedRoles.clear();
+		List<Role> roles = u.getRoles();
+		for (Role r : roles) {
+			selectedRoles.add(new Integer(r.getId()).toString());
+		}
+		return true;
+	}
 
 	public List<String> getSelectedRoles() {
 		return selectedRoles;
@@ -190,8 +198,8 @@ public class UserManagedBean implements Serializable {
 		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-	
-	public void onRowEditInit(RowEditEvent event) {
+
+/*	public void onRowEditInit(RowEditEvent event) {
 		User editUser = (User) event.getObject();
 		System.out.println("User edit " + editUser.getId());
 		selectedRoles.clear();
@@ -199,7 +207,7 @@ public class UserManagedBean implements Serializable {
 		for (Role r : roles) {
 			selectedRoles.add(new Integer(r.getId()).toString());
 		}
-	}
+	}*/
 
 	public String getSearchName() {
 		return searchName;
