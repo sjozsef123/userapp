@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -11,11 +12,13 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.ejb.service.util.SendEmail;
+import solomonj.msg.userapp.ejb.service.util.ShowTime;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
@@ -32,7 +35,7 @@ public class UserManagedBean implements Serializable {
 	private static final long serialVersionUID = -16296420798818231L;
 	private IUserService userBean = null;
 	private User user = new User();
-	private List<Integer> selectedRoles = new ArrayList<>();
+	private List<String> selectedRoles = new ArrayList<>();
 	private List<User> allUsers = null;
 	private List<User> allBadUsers = null;
 	private String searchName = "";
@@ -50,20 +53,20 @@ public class UserManagedBean implements Serializable {
 		return userBean;
 	}
 
-	public List<Integer> selectedRoles(User u) {
+	public boolean selectedRoles(User u) {
 		selectedRoles.clear();
 		List<Role> roles = u.getRoles();
 		for (Role r : roles) {
-			selectedRoles.add(r.getId());
+			selectedRoles.add(new Integer(r.getId()).toString());
 		}
+		return true;
+	}
+
+	public List<String> getSelectedRoles() {
 		return selectedRoles;
 	}
 
-	public List<Integer> getSelectedRoles() {
-		return selectedRoles;
-	}
-
-	public void setSelectedRoles(List<Integer> selectedRoles) {
+	public void setSelectedRoles(List<String> selectedRoles) {
 		this.selectedRoles = selectedRoles;
 	}
 
@@ -152,8 +155,8 @@ public class UserManagedBean implements Serializable {
 
 	private List<Role> rolesToInt() {
 		List<Role> roles = new ArrayList<>();
-		for (int i : selectedRoles) {
-			roles.add(new Role(i));
+		for (String i : selectedRoles) {
+			roles.add(new Role(Integer.parseInt(i)));
 		}
 		return roles;
 	}
@@ -195,16 +198,16 @@ public class UserManagedBean implements Serializable {
 		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-	
-	public void onRowEditInit(RowEditEvent event) {
+
+/*	public void onRowEditInit(RowEditEvent event) {
 		User editUser = (User) event.getObject();
 		System.out.println("User edit " + editUser.getId());
 		selectedRoles.clear();
 		List<Role> roles = editUser.getRoles();
 		for (Role r : roles) {
-			selectedRoles.add(r.getId());
+			selectedRoles.add(new Integer(r.getId()).toString());
 		}
-	}
+	}*/
 
 	public String getSearchName() {
 		return searchName;

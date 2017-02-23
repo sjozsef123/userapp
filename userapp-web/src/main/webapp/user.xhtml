@@ -103,6 +103,9 @@
 						<p:ajax event="rowEditCancel"
 							listener="#{usermanagedbean.onCancel}" update=":form1:messages" />
 
+						<!--p:ajax event="rowEditInit"
+							listener="#{usermanagedbean.onRowEditInit}" update="checkmenu"  /-->
+
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Item Name" />
@@ -149,20 +152,20 @@
 
 						</p:column>
 
-						<p:column>
+						<p:column >
 							<f:facet name="header">
 								<h:outputText value="roles" />
 							</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
 									<ui:repeat value="#{u.roles}" var="r">
-            						#{r.rolename} 
-        						</ui:repeat>
+            			#{r.rolename} 
+        				</ui:repeat>
 								</f:facet>
 								<f:facet name="input">
-									<p:selectCheckboxMenu converter="javax.faces.Integer"
-										value="#{usermanagedbean.selectedRoles(u)}"
-										label="#{msg['web.role.header.roles']}">
+									<p:selectCheckboxMenu rendered="#{usermanagedbean.selectedRoles(u)}" value="#{usermanagedbean.selectedRoles}"
+										label="#{msg['web.role.header.roles']}" >
+										<p:ajax event="change" update="@this"/>
 										<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
 											itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
 
