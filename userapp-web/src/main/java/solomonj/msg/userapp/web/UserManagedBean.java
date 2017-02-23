@@ -32,7 +32,7 @@ public class UserManagedBean implements Serializable {
 	private static final long serialVersionUID = -16296420798818231L;
 	private IUserService userBean = null;
 	private User user = new User();
-	private List<String> selectedRoles = new ArrayList<>();
+	private List<Integer> selectedRoles = new ArrayList<>();
 	private List<User> allUsers = null;
 	private List<User> allBadUsers = null;
 	private String searchName = "";
@@ -50,20 +50,20 @@ public class UserManagedBean implements Serializable {
 		return userBean;
 	}
 
-	public List<String> selectedRoles(User u) {
+	public List<Integer> selectedRoles(User u) {
 		selectedRoles.clear();
 		List<Role> roles = u.getRoles();
 		for (Role r : roles) {
-			selectedRoles.add(r.getRolename());
+			selectedRoles.add(r.getId());
 		}
 		return selectedRoles;
 	}
 
-	public List<String> getSelectedRoles() {
+	public List<Integer> getSelectedRoles() {
 		return selectedRoles;
 	}
 
-	public void setSelectedRoles(List<String> selectedRoles) {
+	public void setSelectedRoles(List<Integer> selectedRoles) {
 		this.selectedRoles = selectedRoles;
 	}
 
@@ -152,8 +152,8 @@ public class UserManagedBean implements Serializable {
 
 	private List<Role> rolesToInt() {
 		List<Role> roles = new ArrayList<>();
-		for (String i : selectedRoles) {
-			roles.add(new Role(Integer.parseInt(i)));
+		for (int i : selectedRoles) {
+			roles.add(new Role(i));
 		}
 		return roles;
 	}
@@ -202,7 +202,7 @@ public class UserManagedBean implements Serializable {
 		selectedRoles.clear();
 		List<Role> roles = editUser.getRoles();
 		for (Role r : roles) {
-			selectedRoles.add(new Integer(r.getId()).toString());
+			selectedRoles.add(r.getId());
 		}
 	}
 
