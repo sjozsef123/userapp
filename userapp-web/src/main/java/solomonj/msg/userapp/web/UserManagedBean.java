@@ -75,9 +75,9 @@ public class UserManagedBean implements Serializable {
 
 	public List<User> getAllUsers() {
 		try {
-			if (allUsers == null) {
+			
 				allUsers = getUserBean().searchUserByName(searchName);
-			}
+			
 
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,

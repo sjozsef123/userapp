@@ -101,12 +101,14 @@
 						<p:ajax event="rowEditCancel"
 							listener="#{usermanagedbean.onCancel}" update=":form1:messages" />
 
-						<!--p:ajax event="rowEditInit"
-							listener="#{usermanagedbean.onRowEditInit}" update="checkmenu"  /-->
+			
 
 						<p:column>
 							<f:facet name="header">
-								<h:outputText value="Item Name" />
+								<h:outputText value="Name" />
+								<p:inputText id="titleFilter" value="#{usermanagedbean.searchName}" >
+						<p:ajax event="keyup" update="form1:userTable" process="titleFilter"/>
+					</p:inputText>
 							</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
