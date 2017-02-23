@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,7 +11,6 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
@@ -134,9 +132,15 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void updateUser(User user) {
+		System.out.println("Edit2");
+		for(String s:selectedRoles) {
+			System.out.println(s);
+		}
+		
 		try {
 
 			user.setRoles(rolesToInt());
+			
 			selectedRoles.clear();
 
 			getUserBean().updateUser(user);
@@ -185,8 +189,9 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void onEdit(RowEditEvent event) {
-
+System.out.println("Edit1");
 		User updateUser = (User) event.getObject();
+		
 		updateUser(updateUser);
 
 		FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
