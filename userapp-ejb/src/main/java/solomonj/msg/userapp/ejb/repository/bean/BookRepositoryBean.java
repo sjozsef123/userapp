@@ -1,7 +1,8 @@
 package solomonj.msg.userapp.ejb.repository.bean;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -44,7 +45,8 @@ public class BookRepositoryBean extends PublicationRepositoryBean<Book> implemen
 	public List<Book> getByFilter(PublicationFilter filter) throws RepositoryException {
 
 		List<Book> filteredBooks = new ArrayList<>();
-
+		List<Predicate> predicates = new ArrayList<>();
+		
 		try {
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
@@ -55,21 +57,39 @@ public class BookRepositoryBean extends PublicationRepositoryBean<Book> implemen
 
 			if (filter.getTitle() != null && filter.getTitle() != "") {
 
-				Predicate titleFilter = builder.like(root.get(Book_.title), "%" + filter.getTitle() + "%");
-				criteriaQuery.where(titleFilter);
+				predicates.add(builder.like(root.get(Book_.title), "%" + filter.getTitle() + "%"));
 			}
 
 			if (filter.getMinStock() != null) {
 				
-				Predicate minStock = builder.greaterThanOrEqualTo(root.get(Book_.copiesLeft), filter.getMinStock());
-				criteriaQuery.where(builder.and(minStock));
+				predicates.add(builder.greaterThanOrEqualTo(root.get(Book_.copiesLeft), filter.getMinStock()));
 			}
 			
 			if(filter.getMaxStock() != null) {
 				
-				Predicate maxStock = builder.lessThanOrEqualTo(root.get(Book_.copiesLeft), filter.getMaxStock());
-				criteriaQuery.where(builder.and(maxStock));
+				predicates.add(builder.lessThanOrEqualTo(root.get(Book_.copiesLeft), filter.getMaxStock()));
 			}
+			
+			if (filter.getPublisher() != null && filter.getPublisher() != "") {
+				
+				predicates.add(builder.like(root.get(Book_.publisher), "%" + filter.getPublisher() + "%"));
+			}
+			
+			if (filter.getReleasedAfter() != null) {
+			
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.YEAR, filter.getReleasedAfter());
+				predicates.add(builder.greaterThanOrEqualTo(root.<Date>get(Book_.releaseDate), calendar.getTime()));
+			}
+			
+			if (filter.getReleasedBefore() != null) {
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.YEAR, filter.getReleasedBefore());
+				predicates.add(builder.lessThanOrEqualTo(root.<Date>get(Book_.releaseDate), calendar.getTime()));
+			}
+			
+			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
 			
 			filteredBooks = entityManager.createQuery(criteriaQuery).getResultList();
 			return filteredBooks;

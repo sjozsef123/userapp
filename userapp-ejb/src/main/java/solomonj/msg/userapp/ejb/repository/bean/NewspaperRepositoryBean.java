@@ -1,6 +1,8 @@
 package solomonj.msg.userapp.ejb.repository.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -18,6 +20,7 @@ import org.jboss.logging.Logger;
 import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.ejb.repository.INewspaperRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.jpa.model.Book_;
 import solomonj.msg.userapp.jpa.model.Newspaper;
 import solomonj.msg.userapp.jpa.model.Newspaper_;
 
@@ -42,7 +45,8 @@ public class NewspaperRepositoryBean extends PublicationRepositoryBean<Newspaper
 	public List<Newspaper> getByFilter(PublicationFilter filter) throws RepositoryException {
 
 		List<Newspaper> filteredNewspapers = new ArrayList<>();
-
+		List<Predicate> predicates = new ArrayList<>();
+		
 		try {
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Newspaper> criteriaQuery = builder.createQuery(Newspaper.class);
@@ -53,9 +57,39 @@ public class NewspaperRepositoryBean extends PublicationRepositoryBean<Newspaper
 
 			if (filter.getTitle() != null && filter.getTitle() != "") {
 
-				Predicate titleFilter = builder.like(root.get(Newspaper_.title), "%" + filter.getTitle() + "%");
-				criteriaQuery.where(titleFilter);
+				predicates.add(builder.like(root.get(Newspaper_.title), "%" + filter.getTitle() + "%"));
 			}
+
+			if (filter.getMinStock() != null) {
+
+				predicates.add(builder.greaterThanOrEqualTo(root.get(Newspaper_.copiesLeft), filter.getMinStock()));
+			}
+
+			if (filter.getMaxStock() != null) {
+
+				predicates.add(builder.lessThanOrEqualTo(root.get(Newspaper_.copiesLeft), filter.getMaxStock()));
+			}
+
+			if (filter.getPublisher() != null && filter.getPublisher() != "") {
+
+				predicates.add(builder.like(root.get(Newspaper_.publisher), "%" + filter.getPublisher() + "%"));
+			}
+			
+			if (filter.getReleasedAfter() != null) {
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.YEAR, filter.getReleasedAfter());
+				predicates.add(builder.greaterThanOrEqualTo(root.<Date>get(Newspaper_.releaseDate), calendar.getTime()));
+			}
+			
+			if (filter.getReleasedBefore() != null) {
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.YEAR, filter.getReleasedBefore());
+				predicates.add(builder.lessThanOrEqualTo(root.<Date>get(Newspaper_.releaseDate), calendar.getTime()));
+			}
+			
+			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
 
 			filteredNewspapers = entityManager.createQuery(criteriaQuery).getResultList();
 			System.out.println(filteredNewspapers.size());

@@ -61,23 +61,25 @@
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.onStock']}" /> <br/>
 					
-					<p:spinner id="minStock" value="#{publicationmanagedbean.publicationFilter.minStock}" 
+					<p:inputText id="minStock" value="#{publicationmanagedbean.publicationFilter.minStock}" 
 									placeholder="min" style="width: 70px;" >
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" />
-					</p:spinner>
+					</p:inputText>
 					<p:outputLabel value=" - " />
-					<p:spinner id="maxStock" value="#{publicationmanagedbean.publicationFilter.maxStock}" 
+					<p:inputText id="maxStock" value="#{publicationmanagedbean.publicationFilter.maxStock}" 
 									placeholder="max" style="width: 75px;" >
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" />
-					</p:spinner>>
+					</p:inputText>
 				</f:facet>
-				<h:outputText value="#{item.nrOfCopies}" />
+				<h:outputText value="#{item.copiesLeft}" />
 			</p:column>
 			
 			<p:column>
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.publisher']}" /> <br/>
-					<p:inputText value="#{publicationmanagedbean.publicationFilter.publisher}" />
+					<p:inputText id="publicationFilter" value="#{publicationmanagedbean.publicationFilter.publisher}" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="publicationFilter" />
+					</p:inputText>
 				</f:facet>
 				<h:outputText value="#{item.publisher}" />
 			</p:column>
@@ -85,9 +87,13 @@
 			<p:column>
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.release']}" /> <br/>
-					<p:inputText value="#{publicationmanagedbean.publicationFilter.releasedAfter}" placeholder="after" style="width: 50px;" />
+					<p:inputText id="afterYear" value="#{publicationmanagedbean.publicationFilter.releasedAfter}" placeholder="after" style="width: 50px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="afterYear"/>
+					</p:inputText>
 					<p:outputLabel value=" - " />
-					<p:inputText value="#{publicationmanagedbean.publicationFilter.releasedBefore}" placeholder="before" style="width: 50px;" />
+					<p:inputText id="beforeYear" value="#{publicationmanagedbean.publicationFilter.releasedBefore}" placeholder="before" style="width: 50px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="beforeYear" />
+					</p:inputText>
 				</f:facet>
 				<h:outputText value="#{item.getReleaseYear()}" />
 				<h:outputText value=" / #{item.getReleaseMonth()}"

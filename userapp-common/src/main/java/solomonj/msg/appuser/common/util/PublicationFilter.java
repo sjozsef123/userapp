@@ -7,8 +7,8 @@ public class PublicationFilter {
 	private Integer minStock;
 	private Integer maxStock;
 	private String publisher;
-	private String releasedAfter;
-	private String releasedBefore;
+	private Integer releasedAfter;
+	private Integer releasedBefore;
 	
 	public PublicationFilter() {
 
@@ -45,16 +45,16 @@ public class PublicationFilter {
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-	public String getReleasedAfter() {
+	public Integer getReleasedAfter() {
 		return releasedAfter;
 	}
-	public void setReleasedAfter(String releasedFrom) {
+	public void setReleasedAfter(Integer releasedFrom) {
 		this.releasedAfter = releasedFrom;
 	}
-	public String getReleasedBefore() {
+	public Integer getReleasedBefore() {
 		return releasedBefore;
 	}
-	public void setReleasedBefore(String releasedBefore) {
+	public void setReleasedBefore(Integer releasedBefore) {
 		this.releasedBefore = releasedBefore;
 	}
 	public String[] getType() {
