@@ -86,8 +86,6 @@
 						</h:column>
 					</p:panelGrid>
 
-
-					<!-- ********************* -->
 					<p:spacer height="30px;" />
 
 					<p:dataTable id="userTable" value="#{usermanagedbean.allUsers}"
@@ -134,9 +132,6 @@
 							</p:cellEditor>
 						</p:column>
 
-
-
-
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="loyalty" />
@@ -173,8 +168,6 @@
 							</p:cellEditor>
 						</p:column>
 
-
-
 						<p:column headerText="Options" style="width:50px">
 							<p:rowEditor />
 							<p:commandButton action="#{usermanagedbean.delete(u)}"
@@ -182,11 +175,8 @@
 								update="userTable" process="@this">
 							</p:commandButton>
 						</p:column>
-
+						
 					</p:dataTable>
-
-
-					<!-- ********************* -->
 				</p:panel>
 
 			</h:form>

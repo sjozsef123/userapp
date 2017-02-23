@@ -69,7 +69,6 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void resetAdd() {
-		System.out.println(user.getUsername());
 		user = new User();
 		selectedRoles = new ArrayList<>();
 	}
@@ -120,7 +119,7 @@ public class UserManagedBean implements Serializable {
 
 	public void delete(User user) {
 
-		System.out.println(user.getId() + "*********************");
+	
 		try {
 			getUserBean().deleteUserById(user);
 			allUsers.remove(user);
@@ -132,10 +131,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void updateUser(User user) {
-		System.out.println("Edit2");
-		for(String s:selectedRoles) {
-			System.out.println(s);
-		}
+	
 		
 		try {
 
@@ -189,7 +185,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void onEdit(RowEditEvent event) {
-System.out.println("Edit1");
+
 		User updateUser = (User) event.getObject();
 		
 		updateUser(updateUser);
@@ -204,15 +200,6 @@ System.out.println("Edit1");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-/*	public void onRowEditInit(RowEditEvent event) {
-		User editUser = (User) event.getObject();
-		System.out.println("User edit " + editUser.getId());
-		selectedRoles.clear();
-		List<Role> roles = editUser.getRoles();
-		for (Role r : roles) {
-			selectedRoles.add(new Integer(r.getId()).toString());
-		}
-	}*/
 
 	public String getSearchName() {
 		return searchName;
