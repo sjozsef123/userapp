@@ -111,7 +111,18 @@
 				<p:rowEditor />
 			</p:column>
 			
+			<p:column style="width: 16px;">
+				<p:commandLink oncomplete="PF('authorList').show()" 
+					rendered="#{publicationmanagedbean.getType(item) == 'Book' or publicationmanagedbean.getType(item) == 'Magazine'}"
+					styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+				<p:commandLink oncomplete="PF('articleList').show()" rendered="#{publicationmanagedbean.getType(item) == 'Newspaper'}"
+					styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+			</p:column>
+			
 		</p:dataTable>
+			
+				<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="authorList" modal="true"/>
+				<p:dialog header="Articles" hideEffect="explode" resizable="false" widgetVar="articleList" modal="true"/>
 		</h:form>
 	</h:column>
 
