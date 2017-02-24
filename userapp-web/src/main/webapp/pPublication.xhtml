@@ -29,7 +29,7 @@
 		
 		<h:form id="tableForm">
 		<p:dataTable id="publicationTable" var="item" value="#{publicationmanagedbean.publicationList}"
-					emptyMessage="No publications found!" 
+					emptyMessage="No publications found!" editable="true"
 					>
 			<p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}" update="tableForm:publicationTable" />
        		<p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}" update="tableForm:publicationTable" />			
