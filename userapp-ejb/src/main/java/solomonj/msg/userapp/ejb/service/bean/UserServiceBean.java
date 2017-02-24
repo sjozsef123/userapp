@@ -77,6 +77,7 @@ public class UserServiceBean implements IUserService {
 	public void deleteUserById(User user) throws ServiceException {
 		try {
 			oLogger.debug(DebugMessages.DELETE_USER);
+			System.out.println(user.getId() + "**userService**");
 			userRepositoryBean.delete(user);
 			oLogger.debug(DebugMessages.DELETE_USER_OK);
 		} catch (RepositoryException e) {
