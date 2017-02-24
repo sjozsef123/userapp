@@ -72,6 +72,9 @@ public class UserManagedBean implements Serializable {
 		user = new User();
 		selectedRoles = new ArrayList<>();
 	}
+	public void dummy () {
+		
+	}
 
 	public List<User> getAllUsers() {
 		try {
