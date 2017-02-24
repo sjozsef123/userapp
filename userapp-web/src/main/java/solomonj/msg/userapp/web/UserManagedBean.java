@@ -71,15 +71,16 @@ public class UserManagedBean implements Serializable {
 		user = new User();
 		selectedRoles = new ArrayList<>();
 	}
-	public void dummy () {
-		
+
+	public void dummy() {
+
 	}
 
 	public List<User> getAllUsers() {
 		try {
-			
+			if (allUsers == null) {
 				allUsers = getUserBean().searchUserByName(searchName);
-			
+			}
 
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -93,6 +94,7 @@ public class UserManagedBean implements Serializable {
 
 	public List<User> getAllBadUsers() {
 		try {
+
 			allBadUsers = getUserBean().getAllBadUsers();
 			return allBadUsers;
 		} catch (ServiceException e) {
@@ -121,7 +123,6 @@ public class UserManagedBean implements Serializable {
 
 	public void delete(User user) {
 
-	
 		try {
 			getUserBean().deleteUserById(user);
 			allUsers.remove(user);
@@ -133,12 +134,11 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void updateUser(User user) {
-	
-		
+
 		try {
 
 			user.setRoles(rolesToInt());
-			
+
 			selectedRoles.clear();
 
 			getUserBean().updateUser(user);
@@ -189,7 +189,7 @@ public class UserManagedBean implements Serializable {
 	public void onEdit(RowEditEvent event) {
 
 		User updateUser = (User) event.getObject();
-		
+
 		updateUser(updateUser);
 
 		FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
@@ -201,7 +201,6 @@ public class UserManagedBean implements Serializable {
 		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-
 
 	public String getSearchName() {
 		return searchName;
