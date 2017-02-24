@@ -17,6 +17,9 @@
 </h:head>
 <h:body onload="#{publicationmanagedbean.onLoad()}">
 
+	<p:messages id="messages" showDetail="false" autoUpdate="true"
+		closable="true" />
+
 	<h:panelGrid id="panel" columns="4" border="0" cellpadding="10"
 		cellspacing="1">		
 	<h:column rendered="#{loginmanagedbean.isAdmin() eq null}">
@@ -31,8 +34,8 @@
 		<p:dataTable id="publicationTable" var="item" value="#{publicationmanagedbean.publicationList}"
 					emptyMessage="No publications found!" editable="true"
 					>
-			<p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}" update="tableForm:publicationTable" />
-       		<p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}" update="tableForm:publicationTable" />			
+			<p:ajax event="rowEdit" listener="#{publicationmanagedbean.onRowEdit}" update="messages" />
+       		<p:ajax event="rowEditCancel" listener="#{publicationmanagedbean.onRowCancel}" update="messages" />			
 			
 
 			<p:column>
@@ -42,7 +45,16 @@
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="titleFilter"/>
 					</p:inputText>
 				</f:facet>
-					<h:outputText value="#{item.title}" />
+				
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{item.title}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="newTitle" value="#{item.title}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+				
 			</p:column>
 			
 			<p:column>

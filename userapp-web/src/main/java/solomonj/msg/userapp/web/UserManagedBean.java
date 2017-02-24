@@ -16,7 +16,6 @@ import org.primefaces.event.RowEditEvent;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.ejb.service.util.SendEmail;
-import solomonj.msg.userapp.ejb.service.util.ShowTime;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 

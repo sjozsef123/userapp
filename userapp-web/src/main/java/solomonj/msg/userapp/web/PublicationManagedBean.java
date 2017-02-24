@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.persistence.criteria.CriteriaBuilder.Case;
 
 import org.primefaces.event.RowEditEvent;
 
@@ -24,6 +25,7 @@ import solomonj.msg.userapp.jpa.model.Book;
 import solomonj.msg.userapp.jpa.model.Magazine;
 import solomonj.msg.userapp.jpa.model.Newspaper;
 import solomonj.msg.userapp.jpa.model.Publication;
+import solomonj.msg.userapp.jpa.model.User;
 
 /**
  * Managed bean for publications.
@@ -384,13 +386,31 @@ public class PublicationManagedBean implements Serializable {
 	
 	
 	public void onRowEdit(RowEditEvent event) {
+
+		try {
+			switch (event.getObject().getClass().getSimpleName()) {
+			case "Book":
+				getpublicationBean().updatePublication((Book)event.getObject());
+				break;
+			case "Magazine":
+				getpublicationBean().updatePublication((Magazine)event.getObject());
+				break;
+			case "Newspaper":
+				getpublicationBean().updatePublication((Newspaper)event.getObject());
+				break;
+			}
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 		
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publication Edited."));
+		FacesMessage msg = new FacesMessage("Publication Edited", ((Publication) event.getObject()).getTitle());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
-	public void onRowCancell(RowEditEvent event) {
+	public void onRowCancel(RowEditEvent event) {
 		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publication edit cancelled."));
+		FacesMessage msg = new FacesMessage("Edit Cancelled", ((Publication) event.getObject()).getTitle());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	
