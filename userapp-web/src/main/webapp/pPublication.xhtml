@@ -112,17 +112,46 @@
 			</p:column>
 			
 			<p:column style="width: 16px;">
-				<p:commandLink oncomplete="PF('authorList').show()" 
-					rendered="#{publicationmanagedbean.getType(item) == 'Book' or publicationmanagedbean.getType(item) == 'Magazine'}"
+			
+				<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Book'}">
+					<p:commandLink oncomplete="PF('bAuthorList').show()" 
+						styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+						
+					<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="bAuthorList" modal="true" showEffect="blind" stlye="display: none;">
+						<p:dataList value="#{item.bAuthors}" var="bAuthor">
+							<h:outputText value="#{bAuthor.name}" style="display:inline-block"/>
+						</p:dataList>
+					</p:dialog>			
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Magazine'}">
+					<p:commandLink oncomplete="PF('mAuthorList').show()" 
+						styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+					
+					<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="mAuthorList" modal="true" showEffect="blind">
+						<p:dataList value="#{item.mAuthors}" var="mAuthor">
+							<h:outputText value="#{mAuthor.name}" style="display:inline-block"/>
+						</p:dataList>
+					</p:dialog>
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Newspaper'}">
+				<p:commandLink oncomplete="PF('articleList').show()" 
 					styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
-				<p:commandLink oncomplete="PF('articleList').show()" rendered="#{publicationmanagedbean.getType(item) == 'Newspaper'}"
-					styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+					
+					<p:dialog header="Articles" hideEffect="explode" resizable="false" widgetVar="articleList" modal="true" showEffect="blind" >
+						<p:dataList value="#{item.articles}" var="article">
+							<h:outputText value="#{article.title}" style="display:inline-block"/>
+						</p:dataList>
+					</p:dialog>
+				</h:panelGroup>
+				
+					
 			</p:column>
 			
 		</p:dataTable>
 			
-				<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="authorList" modal="true"/>
-				<p:dialog header="Articles" hideEffect="explode" resizable="false" widgetVar="articleList" modal="true"/>
+				
 		</h:form>
 	</h:column>
 
