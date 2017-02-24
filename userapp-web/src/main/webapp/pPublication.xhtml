@@ -34,7 +34,7 @@
 		<p:dataTable id="publicationTable" var="item" value="#{publicationmanagedbean.publicationList}"
 					emptyMessage="No publications found!" editable="true"
 					>
-			<p:ajax event="rowEdit" listener="#{publicationmanagedbean.onRowEdit}" update="messages" />
+			<p:ajax event="rowEdit" listener="#{publicationmanagedbean.onRowEdit}" update="messages tableForm:publicationTable" process="newTitle"/>
        		<p:ajax event="rowEditCancel" listener="#{publicationmanagedbean.onRowCancel}" update="messages" />			
 			
 
@@ -42,7 +42,7 @@
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.title']}" /> <br/>
 					<p:inputText id="titleFilter" value="#{publicationmanagedbean.publicationFilter.title}" >
-						<p:ajax event="keyup" update="tableForm:publicationTable" process="titleFilter"/>
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="titleFilter" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 				</f:facet>
 				
@@ -63,7 +63,7 @@
 						<f:selectItem itemLabel="Book" itemValue="Book"/>
 						<f:selectItem itemLabel="Magazine" itemValue="Magazine"/>
 						<f:selectItem itemLabel="Newspaper" itemValue="Newspaper"/>
-						<p:ajax event="change" update="tableForm:publicationTable" />
+						<p:ajax event="change" update="tableForm:publicationTable" listener="#{publicationmanagedbean.init()}"/>
 					</p:selectCheckboxMenu>
 				</f:facet>
 					<h:outputText value="#{publicationmanagedbean.getType(item)}" />
@@ -75,12 +75,12 @@
 					
 					<p:inputText id="minStock" value="#{publicationmanagedbean.publicationFilter.minStock}" 
 									placeholder="min" style="width: 70px;" >
-						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" />
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 					<p:outputLabel value=" - " />
 					<p:inputText id="maxStock" value="#{publicationmanagedbean.publicationFilter.maxStock}" 
 									placeholder="max" style="width: 75px;" >
-						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" />
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 				</f:facet>
 				<h:outputText value="#{item.copiesLeft}" />
@@ -90,7 +90,7 @@
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.publisher']}" /> <br/>
 					<p:inputText id="publicationFilter" value="#{publicationmanagedbean.publicationFilter.publisher}" >
-						<p:ajax event="keyup" update="tableForm:publicationTable" process="publicationFilter" />
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="publicationFilter" listener="#{publicationmanagedbean.init()}" />
 					</p:inputText>
 				</f:facet>
 				<h:outputText value="#{item.publisher}" />
@@ -100,11 +100,11 @@
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.release']}" /> <br/>
 					<p:inputText id="afterYear" value="#{publicationmanagedbean.publicationFilter.releasedAfter}" placeholder="after" style="width: 50px;" >
-						<p:ajax event="keyup" update="tableForm:publicationTable" process="afterYear"/>
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="afterYear" listener="#{publicationmanagedbean.init()}" />
 					</p:inputText>
 					<p:outputLabel value=" - " />
 					<p:inputText id="beforeYear" value="#{publicationmanagedbean.publicationFilter.releasedBefore}" placeholder="before" style="width: 50px;" >
-						<p:ajax event="keyup" update="tableForm:publicationTable" process="beforeYear" />
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="beforeYear" listener="#{publicationmanagedbean.init()}" />
 					</p:inputText>
 				</f:facet>
 				<h:outputText value="#{item.getReleaseYear()}" />
@@ -117,7 +117,7 @@
 			<p:column style="width:50px">
 				<f:facet name="header">
 					<p:commandButton value="X" >
-						<p:ajax listener="#{publicationmanagedbean.clearFilter()}" update="@form"/>
+						<p:ajax listener="#{publicationmanagedbean.clearFilter()}" update="@form" listener="#{publicationmanagedbean.init()}"/>
 					</p:commandButton>
 				</f:facet>
 				<p:rowEditor />

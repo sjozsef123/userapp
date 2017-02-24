@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.persistence.criteria.CriteriaBuilder.Case;
 
 import org.primefaces.event.RowEditEvent;
 
@@ -25,7 +24,6 @@ import solomonj.msg.userapp.jpa.model.Book;
 import solomonj.msg.userapp.jpa.model.Magazine;
 import solomonj.msg.userapp.jpa.model.Newspaper;
 import solomonj.msg.userapp.jpa.model.Publication;
-import solomonj.msg.userapp.jpa.model.User;
 
 /**
  * Managed bean for publications.
@@ -58,6 +56,13 @@ public class PublicationManagedBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		
+		publicationList = new ArrayList<>();
+		try {
+			publicationList = getpublicationBean().getPublicationByFilter(publicationFilter);
+		} catch (ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
+		}
 	}
 	
 
@@ -106,15 +111,7 @@ public class PublicationManagedBean implements Serializable {
 
 	public List<Publication> getPublicationList() {
 
-		publicationList = new ArrayList<>();
-		try {
-			publicationList = getpublicationBean().getPublicationByFilter(publicationFilter);
-			return publicationList;
-		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
-			return publicationList;
-		}
+		return publicationList;
 	}
 
 	public void setPublicationList(List<Publication> publicationList) {
@@ -384,9 +381,10 @@ public class PublicationManagedBean implements Serializable {
 		this.publicationFilter = publicationFilter;
 	}
 	
-	
+ 	
 	public void onRowEdit(RowEditEvent event) {
 
+		System.out.println(((Publication)event.getObject()).getTitle());
 		try {
 			switch (event.getObject().getClass().getSimpleName()) {
 			case "Book":
