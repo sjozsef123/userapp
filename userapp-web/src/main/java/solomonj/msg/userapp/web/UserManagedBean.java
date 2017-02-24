@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -52,7 +51,14 @@ public class UserManagedBean implements Serializable {
 		return userBean;
 	}
 
-
+	public boolean selectedRoles(User u) {
+		selectedRoles.clear();
+		List<Role> roles = u.getRoles();
+		for (Role r : roles) {
+			selectedRoles.add(new Integer(r.getId()).toString());
+		}
+		return true;
+	}
 
 	public List<String> getSelectedRoles() {
 		return selectedRoles;
@@ -63,16 +69,18 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void resetAdd() {
-		System.out.println(user.getUsername());
 		user = new User();
 		selectedRoles = new ArrayList<>();
+	}
+	public void dummy () {
+		
 	}
 
 	public List<User> getAllUsers() {
 		try {
-			if (allUsers == null) {
+			
 				allUsers = getUserBean().searchUserByName(searchName);
-			}
+			
 
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -114,7 +122,7 @@ public class UserManagedBean implements Serializable {
 
 	public void delete(User user) {
 
-		System.out.println(user.getId() + "*********************");
+	
 		try {
 			getUserBean().deleteUserById(user);
 			allUsers.remove(user);
@@ -126,9 +134,12 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void updateUser(User user) {
+	
+		
 		try {
 
 			user.setRoles(rolesToInt());
+			
 			selectedRoles.clear();
 
 			getUserBean().updateUser(user);
@@ -179,6 +190,7 @@ public class UserManagedBean implements Serializable {
 	public void onEdit(RowEditEvent event) {
 
 		User updateUser = (User) event.getObject();
+		
 		updateUser(updateUser);
 
 		FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
@@ -190,16 +202,7 @@ public class UserManagedBean implements Serializable {
 		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-	
-	public void onRowEditInit(RowEditEvent event) {
-		User editUser = (User) event.getObject();
-		System.out.println("User edit " + editUser.getId());
-		selectedRoles.clear();
-		List<Role> roles = editUser.getRoles();
-		for (Role r : roles) {
-			selectedRoles.add(new Integer(r.getId()).toString());
-		}
-	}
+
 
 	public String getSearchName() {
 		return searchName;

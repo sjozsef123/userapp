@@ -21,11 +21,11 @@
 		</h:column>
 
 		<h:column>
-			<h:form id="form1">
-				<p:growl id="messages" showDetail="true" />
-				<p:panel header="#{msg['web.user.adduser']}">
 
 
+			<p:panel header="#{msg['web.user.adduser']}">
+
+				<h:form>
 					<p:panelGrid columns="6">
 
 						<h:column>
@@ -85,10 +85,13 @@
 
 						</h:column>
 					</p:panelGrid>
-
-
-					<!-- ********************* -->
-					<p:spacer height="30px;" />
+				</h:form>
+				<!-- ***************** -->
+				<p:spacer height="30px;" />
+				<h:form id="form1">
+					<p:defaultCommand target="dummy" />
+					<p:commandButton id="dummy" process="@none" global="false"
+						style="display:none;" />
 
 					<p:dataTable id="userTable" value="#{usermanagedbean.allUsers}"
 						var="u" widgetVar="50" editable="true">
@@ -98,17 +101,21 @@
                     	</f:facet>
 
 						<p:ajax event="rowEdit" listener="#{usermanagedbean.onEdit}"
-							update=":form1:messages" />
+							update="messages" />
 
 						<p:ajax event="rowEditCancel"
-							listener="#{usermanagedbean.onCancel}" update=":form1:messages" />
+							listener="#{usermanagedbean.onCancel}" update=":messages" />
 
-						<p:ajax event="rowEditInit"
-							listener="#{usermanagedbean.onRowEditInit}" process="check"  />
+
 
 						<p:column>
 							<f:facet name="header">
-								<h:outputText value="Item Name" />
+								<h:outputText value="#{msg['web.user.name']}" />
+								<p:inputText id="titleFilter"
+									value="#{usermanagedbean.searchName}">
+									<p:ajax event="keyup" update="form1:userTable"
+										process="titleFilter" />
+								</p:inputText>
 							</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
@@ -134,12 +141,9 @@
 							</p:cellEditor>
 						</p:column>
 
-
-
-
 						<p:column>
 							<f:facet name="header">
-								<h:outputText value="loyalty" />
+								<h:outputText value="#{msg['web.user.loyalty']}" />
 							</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
@@ -154,7 +158,7 @@
 
 						<p:column>
 							<f:facet name="header">
-								<h:outputText value="roles" />
+								<h:outputText value="#{msg['web.role.header.roles']}" />
 							</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
@@ -163,7 +167,9 @@
         				</ui:repeat>
 								</f:facet>
 								<f:facet name="input">
-									<p:selectCheckboxMenu  id="check" value="#{usermanagedbean.selectedRoles}"
+									<p:selectCheckboxMenu
+										rendered="#{usermanagedbean.selectedRoles(u)}"
+										value="#{usermanagedbean.selectedRoles}"
 										label="#{msg['web.role.header.roles']}">
 										<f:selectItems value="#{rolemanagedbean.roles}" var="roles"
 											itemValue="#{roles.id}" itemLabel="#{roles.rolename}" />
@@ -173,23 +179,19 @@
 							</p:cellEditor>
 						</p:column>
 
-
-
-						<p:column headerText="Options" style="width:50px">
+						<p:column headerText="#{msg['web.user.options']}" style="width:50px">
 							<p:rowEditor />
 							<p:commandButton action="#{usermanagedbean.delete(u)}"
-								title="delete" icon="ui-icon-close" ajax="true"
+								title="#{msg['web.delete']}" icon="ui-icon-close" ajax="true"
 								update="userTable" process="@this">
 							</p:commandButton>
 						</p:column>
 
 					</p:dataTable>
+				</h:form>
+			</p:panel>
 
 
-					<!-- ********************* -->
-				</p:panel>
-
-			</h:form>
 		</h:column>
 	</h:panelGrid>
 	<ui:include src="/includes/footer.xhtml" />
