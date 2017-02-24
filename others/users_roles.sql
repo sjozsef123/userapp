@@ -82,6 +82,16 @@ FOREIGN KEY (publication_id)
 INSERT INTO `userapp`.`articles` (`id`,`publication_id` , `title`) VALUES ('123', '2134','elso cikk');
 INSERT INTO `userapp`.`articles` (`id`,`publication_id` , `title`) VALUES ('124', '2134','masodik cikk');
 INSERT INTO `userapp`.`articles` (`id`,`publication_id` , `title`) VALUES ('125', '2134','harmadik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('126', '2134', 'negyedik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('127', '2134', 'otodik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('128', '2134', 'hatodik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('129', '2134', 'hetedik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('130', '2134', 'nyolcadik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('131', '2134', 'kilencedik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('132', '2134', 'tizedik cikk');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('133', '2134', 'tizenegyedik cik');
+INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('134', '2134', 'tizenkettedik cikk');
+
 
 CREATE TABLE `userapp`.`publications_authors` (
   `publication_id` INT(10) NOT NULL,

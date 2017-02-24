@@ -7,7 +7,7 @@ import solomonj.msg.userapp.jpa.model.Article;
 
 /**
  * Interface for Article CRUD operations.
- * 
+ *
  * @author Szocs Csilla
  *
  */
@@ -16,15 +16,23 @@ public interface IArticleService {
 
 	/**
 	 * This function gets all the articles.
-	 * 
+	 *
 	 * @return list
 	 * @throws ServiceException
 	 */
 	public List<Article> getAllArticles() throws ServiceException;
 
 	/**
+	 * This function counts all the articles with specified title.
+	 *
+	 * @return list
+	 * @throws ServiceException
+	 */
+	public int getCountArticlesByName(String title) throws ServiceException;
+
+	/**
 	 * This method inserts an article.
-	 * 
+	 *
 	 * @param article
 	 * @throws ServiceException
 	 */
@@ -32,7 +40,7 @@ public interface IArticleService {
 
 	/**
 	 * This method updates the article.
-	 * 
+	 *
 	 * @param article
 	 * @throws ServiceException
 	 */
@@ -40,7 +48,7 @@ public interface IArticleService {
 
 	/**
 	 * This method deletes the article
-	 * 
+	 *
 	 * @param article
 	 * @throws ServiceException
 	 */
@@ -48,18 +56,19 @@ public interface IArticleService {
 
 	/**
 	 * This method searches for an article with the specified name.
-	 * 
+	 *
 	 * @param name
 	 * @return list
 	 * @throws ServiceException
 	 */
-	public List<Article> searchArticleByName(String name) throws ServiceException;
-	
+	public List<Article> searchArticleByName(String name, int start, int fin) throws ServiceException;
+
 	/**
-	 * Thos method queries those articles which are not listed in any of the existing newspapers
-	 * 
+	 * Thos method queries those articles which are not listed in any of the
+	 * existing newspapers
+	 *
 	 * @return list
 	 * @throws ServiceException
 	 */
-	public List<Article> getFreeArticles() throws ServiceException; 
+	public List<Article> getFreeArticles() throws ServiceException;
 }
