@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -196,6 +197,26 @@ public class ArticleManagedBean implements Serializable {
 
 	public void setSearchName(final String searchName) {
 		this.searchName = searchName;
+	}
+
+	public void onEdit(final RowEditEvent event) {
+
+		final Article article = (Article) event.getObject();
+
+		updateArticle(article);
+
+		final FacesMessage msg = new FacesMessage("Article Edited", ((Article) event.getObject()).getTitle());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onCancel(final RowEditEvent event) {
+
+		final FacesMessage msg = new FacesMessage("Edit Cancelled", ((Article) event.getObject()).getTitle());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void dummy() {
+
 	}
 
 	private IArticleService getArticleBean() {
