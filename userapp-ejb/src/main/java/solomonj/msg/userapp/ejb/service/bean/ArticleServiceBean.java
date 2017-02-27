@@ -17,7 +17,7 @@ import solomonj.msg.userapp.jpa.model.Article;
 
 /**
  * This session bean manages the articles.
- * 
+ *
  * @author Szocs Csilla
  *
  */
@@ -27,81 +27,90 @@ public class ArticleServiceBean implements IArticleService {
 	@EJB
 	private IArticleRepository articleRepositoryBean;
 
-	private Logger oLogger = Logger.getLogger(ArticleRepositoryBean.class);
+	private final Logger oLogger = Logger.getLogger(ArticleRepositoryBean.class);
 
 	@Override
 	public List<Article> getAllArticles() throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.LIST_ARTICLES);
-			return articleRepositoryBean.getlAll();
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.LIST_ARTICLES);
+			return this.articleRepositoryBean.getlAll();
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
-	public void insertArticle(Article article) throws ServiceException {
+	public void insertArticle(final Article article) throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.CREATE_ARTICLE);
-			articleRepositoryBean.create(article);
-			oLogger.debug(DebugMessages.CREATE_ARTICLE_OK);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
-			throw new ServiceException(e.getMessage());
-		}
-
-	}
-
-	@Override
-	public void updateArticle(Article article) throws ServiceException {
-		try {
-			oLogger.debug(DebugMessages.UPDATE_ARTICLE);
-			articleRepositoryBean.update(article);
-			oLogger.debug(DebugMessages.UPDATE_ARTICLE_OK);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.CREATE_ARTICLE);
+			this.articleRepositoryBean.create(article);
+			this.oLogger.debug(DebugMessages.CREATE_ARTICLE_OK);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 
 	}
 
 	@Override
-	public void deleteArticle(Article article) throws ServiceException {
+	public void updateArticle(final Article article) throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.DELETE_ARTICLE_OK);
-			articleRepositoryBean.delete(article);
-			oLogger.debug(DebugMessages.DELETE_ARTICLE_OK);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.UPDATE_ARTICLE);
+			this.articleRepositoryBean.update(article);
+			this.oLogger.debug(DebugMessages.UPDATE_ARTICLE_OK);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 
 	}
 
 	@Override
-	public List<Article> searchArticleByName(String name) throws ServiceException {
+	public void deleteArticle(final Article article) throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.SEARCH_ARTICLES_BY_NAME);
-			return articleRepositoryBean.searchArticleByName(name);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.DELETE_ARTICLE_OK);
+			this.articleRepositoryBean.delete(article);
+			this.oLogger.debug(DebugMessages.DELETE_ARTICLE_OK);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+
+	}
+
+	@Override
+	public List<Article> searchArticleByName(final String name, final int start, final int fin) throws ServiceException {
+		try {
+			this.oLogger.debug(DebugMessages.SEARCH_ARTICLES_BY_NAME);
+			return this.articleRepositoryBean.searchArticleByName(name, start, fin);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
 	public List<Article> getFreeArticles() throws ServiceException {
-
 		try {
-			oLogger.debug(DebugMessages.LIST_FREE_ARTICLES);
-			return articleRepositoryBean.getFreeArticles();
-		} catch (RepositoryException e) {
-			
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.LIST_FREE_ARTICLES);
+			return this.articleRepositoryBean.getFreeArticles();
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
-	
+
+	}
+
+	@Override
+	public int getCountArticlesByName(final String title) throws ServiceException {
+		try {
+			this.oLogger.debug(DebugMessages.COUNT_ALL_ARTICLES);
+			return this.articleRepositoryBean.getCountArticlesByName(title);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 }
