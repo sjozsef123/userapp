@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -77,19 +78,22 @@ public class UserManagedBean implements Serializable {
 
 	}
 
-	public List<User> getAllUsers() {
+	@PostConstruct
+	public void init() {
 		try {
-			if (allUsers == null) {
-				allUsers = getUserBean().searchUserByName(searchName);
-			}
+
+			allUsers = getUserBean().searchUserByName(searchName);
 
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 		if (allUsers == null) {
-			return new ArrayList<>();
+			allUsers = new ArrayList<>();
 		}
+	}
+
+	public List<User> getAllUsers() {
 		return allUsers;
 	}
 
