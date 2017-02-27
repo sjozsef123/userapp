@@ -344,7 +344,8 @@ public class PublicationManagedBean implements Serializable {
 
 	public void clearFilter() {
 		
-		publicationFilter = new PublicationFilter();	
+		publicationFilter = new PublicationFilter();
+		init();
 	}
 
 	public Book getBook() {
