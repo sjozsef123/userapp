@@ -17,7 +17,7 @@ import solomonj.msg.userapp.jpa.model.Author;
 
 /**
  * This session bean manages the authors.
- * 
+ *
  * @author Szocs Csilla
  *
  */
@@ -25,69 +25,80 @@ import solomonj.msg.userapp.jpa.model.Author;
 public class AuthorServiceBean implements IAuthorService {
 	@EJB
 	private IAuthorRepository authorRepositoryBean;
-	private Logger oLogger = Logger.getLogger(AuthorRepositoryBean.class);
+	private final Logger oLogger = Logger.getLogger(AuthorRepositoryBean.class);
 
 	@Override
 	public List<Author> getAllAuthors() throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.LIST_AUTHORS);
-			return authorRepositoryBean.getlAll();
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.LIST_AUTHORS);
+			return this.authorRepositoryBean.getlAll();
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 
 	}
 
 	@Override
-	public void insertAuthor(Author author) throws ServiceException {
+	public void insertAuthor(final Author author) throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.CREATE_AUTHOR);
-			authorRepositoryBean.create(author);
-			oLogger.debug(DebugMessages.CREATE_AUTHOR_OK);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.CREATE_AUTHOR);
+			this.authorRepositoryBean.create(author);
+			this.oLogger.debug(DebugMessages.CREATE_AUTHOR_OK);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 
 	}
 
 	@Override
-	public void updateAuthor(Author author) throws ServiceException {
+	public void updateAuthor(final Author author) throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.UPDATE_AUTHOR);
-			authorRepositoryBean.update(author);
-			oLogger.debug(DebugMessages.UPDATE_AUTHOR_OK);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.UPDATE_AUTHOR);
+			this.authorRepositoryBean.update(author);
+			this.oLogger.debug(DebugMessages.UPDATE_AUTHOR_OK);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 
 	}
 
 	@Override
-	public void deleteAuthor(Author author) throws ServiceException {
+	public void deleteAuthor(final Author author) throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.DELETE_AUTHOR);
-			authorRepositoryBean.delete(author);
-			oLogger.debug(DebugMessages.DELETE_AUTHOR_OK);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.DELETE_AUTHOR);
+			this.authorRepositoryBean.delete(author);
+			this.oLogger.debug(DebugMessages.DELETE_AUTHOR_OK);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 
 	}
 
 	@Override
-	public List<Author> searchAuthorByName(String name) throws ServiceException {
+	public List<Author> searchAuthorByName(final String name,final int start, final int fin) throws ServiceException {
 		try {
-			oLogger.debug(DebugMessages.SEARCH_AUTHORS_BY_NAME);
-			return authorRepositoryBean.searchAuthorByName(name);
-		} catch (RepositoryException e) {
-			oLogger.error(e.getClass() + e.getMessage());
+			this.oLogger.debug(DebugMessages.SEARCH_AUTHORS_BY_NAME);
+			return this.authorRepositoryBean.searchAuthorByName(name, start, fin);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getClass() + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 
+	}
+
+	@Override
+	public int getCountAuthorsByName(final String name) throws ServiceException {
+		try {
+			this.oLogger.debug(DebugMessages.COUNT_ALL_ARTICLES);
+			return this.authorRepositoryBean.getCountAuthorsByName(name);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 }

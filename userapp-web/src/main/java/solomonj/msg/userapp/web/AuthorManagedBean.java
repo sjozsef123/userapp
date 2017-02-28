@@ -3,7 +3,9 @@ package solomonj.msg.userapp.web;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,6 +14,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IAuthorService;
@@ -33,12 +37,43 @@ public class AuthorManagedBean implements Serializable {
 	private List<Author> allAuthors = null;
 	private String searchName = "";
 	private boolean edit;
+	private LazyDataModel<Author> lazyModel = null;
+
+	@PostConstruct
+	public void init() {
+		this.lazyModel = new LazyDataModel<Author>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public List<Author> load(final int first, final int pageSize, final String sortField,
+					final SortOrder sortOrder, final Map<String, Object> filters) {
+				List<Author> data = new ArrayList<>();
+
+				try {
+					final int dataSize = (AuthorManagedBean.this.getAuthorBean()
+							.getCountAuthorsByName(AuthorManagedBean.this.searchName));
+					this.setRowCount(dataSize);
+
+					data = AuthorManagedBean.this.getAuthorBean().searchAuthorByName(AuthorManagedBean.this.searchName, first, pageSize);
+				} catch (final ServiceException e) {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							LoginManagedBean.getResourceBundleString(e.getMessage()), null));
+				}
+				return data;
+			}
+		};
+	}
+
+	public LazyDataModel<Author> getLazyModel() {
+		return this.lazyModel;
+	}
 
 	public List<Author> getAllAuthor() {
 		try {
-			this.allAuthors = getAuthorBean().searchAuthorByName(this.searchName);
+			this.allAuthors = getAuthorBean().searchAuthorByName(this.searchName, 0 , 0);
 		} catch (final ServiceException e) {
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 		if (this.allAuthors == null) {
 			return new ArrayList<>();
