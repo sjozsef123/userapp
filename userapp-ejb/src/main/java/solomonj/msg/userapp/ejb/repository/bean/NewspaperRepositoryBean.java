@@ -20,7 +20,6 @@ import org.jboss.logging.Logger;
 import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.ejb.repository.INewspaperRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
-import solomonj.msg.userapp.jpa.model.Book_;
 import solomonj.msg.userapp.jpa.model.Newspaper;
 import solomonj.msg.userapp.jpa.model.Newspaper_;
 

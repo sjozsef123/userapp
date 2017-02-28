@@ -42,9 +42,6 @@
 				<h:panelGroup rendered="#{selected.value eq 'Book'}">
 				
 					<p:inputText value="#{publicationmanagedbean.book.title}"
-						required="true"
-						requiredMessage="#{msg['error.validation.required']}"
-						validatorMessage="#{msg['error.validation.mincharacter']}"
 						placeholder="#{msg['web.title']}">
 						<f:validateLength minimum="3" />
 					</p:inputText>
@@ -52,16 +49,12 @@
 					<br/>
 						
 					<p:inputText value="#{publicationmanagedbean.book.nrOfCopies}"
-						required="true"
-						requiredMessage="#{msg['error.validation.required']}"
 						placeholder="#{msg['web.publication.stock']}">
 					</p:inputText>
 					<br/>
 					<br/>
 					
 					<p:inputText value="#{publicationmanagedbean.book.publisher}"
-						required="true"
-						requiredMessage="#{msg['error.validation.required']}"
 						placeholder="#{msg['web.publication.publisher']}">
 					</p:inputText>
 					<br/>
@@ -71,17 +64,117 @@
 					<br/>
 					<br/>
 					
-					<p:selectCheckboxMenu value="#{publicationmanagedbean.book.bAuthors}"
-						layout="pageDirection"
+					<p:selectCheckboxMenu value="#{publicationmanagedbean.selectedAuthors}"
 						label="#{msg['web.author.authors']}">
 						<f:selectItems value="#{authorManagedBean.getAllAuthor()}"
-							var="author" itemLabel="#{author.name}" />
-					</p:selectCheckboxMenu>
+							var="author" itemLabel="#{author.name}" itemValue="#{author.id}"/>
+					</p:selectCheckboxMenu>					
+					<br/>
+					<br/>
 					
-					<p:commandButton value="#{msg['web.add']}">
-						<p:ajax process="@form" update="tableForm @form" listener="#{publicationmanagedbean.addBook()}"/>
+					<p:commandButton value="#{msg['web.add']}" >
+						<p:ajax update="tableForm:publicationTable @form" process="@form" listener="#{publicationmanagedbean.addBook()}"/>
 					</p:commandButton>										
 				</h:panelGroup>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<h:panelGroup rendered="#{selected.value eq 'Magazine'}">
+				
+					<p:inputText value="#{publicationmanagedbean.magazine.title}"
+						placeholder="#{msg['web.title']}">
+						<f:validateLength minimum="3" />
+					</p:inputText>
+					<br/>
+					<br/>
+						
+					<p:inputText value="#{publicationmanagedbean.magazine.nrOfCopies}"
+						placeholder="#{msg['web.publication.stock']}">
+					</p:inputText>
+					<br/>
+					<br/>
+					
+					<p:inputText value="#{publicationmanagedbean.magazine.publisher}"
+						placeholder="#{msg['web.publication.publisher']}">
+					</p:inputText>
+					<br/>
+					<br/>
+					
+					<p:calendar value="#{publicationmanagedbean.magazine.releaseDate}" placeholder="#{msg['web.publication.releasedate']}"/>
+					<br/>
+					<br/>
+					
+					<p:selectCheckboxMenu value="#{publicationmanagedbean.selectedAuthors}"
+						label="#{msg['web.author.authors']}">
+						<f:selectItems value="#{authorManagedBean.getAllAuthor()}"
+							var="author" itemLabel="#{author.name}" itemValue="#{author.id}"/>
+					</p:selectCheckboxMenu>					
+					<br/>
+					<br/>
+					
+					<p:commandButton value="#{msg['web.add']}" >
+						<p:ajax update="tableForm:publicationTable @form" process="@form" listener="#{publicationmanagedbean.addMagazine()}"/>
+					</p:commandButton>										
+				</h:panelGroup>
+				
+				
+				
+				
+				
+				
+				
+				
+				<h:panelGroup rendered="#{selected.value eq 'Newspaper'}">
+				
+					<p:inputText value="#{publicationmanagedbean.newspaper.title}"
+						placeholder="#{msg['web.title']}">
+						<f:validateLength minimum="3" />
+					</p:inputText>
+					<br/>
+					<br/>
+						
+					<p:inputText value="#{publicationmanagedbean.newspaper.nrOfCopies}"
+						placeholder="#{msg['web.publication.stock']}">
+					</p:inputText>
+					<br/>
+					<br/>
+					
+					<p:inputText value="#{publicationmanagedbean.newspaper.publisher}"
+						placeholder="#{msg['web.publication.publisher']}">
+					</p:inputText>
+					<br/>
+					<br/>
+					
+					<p:calendar value="#{publicationmanagedbean.newspaper.releaseDate}" placeholder="#{msg['web.publication.releasedate']}"/>
+					<br/>
+					<br/>
+					
+					<p:selectCheckboxMenu value="#{publicationmanagedbean.selectedArticles}"
+						label="#{msg['web.article.header.articles']}">
+						<f:selectItems value="#{articleManagedBean.getFreeArticles()}"
+							var="article" itemLabel="#{article.title}" itemValue="#{article.id}"/>
+					</p:selectCheckboxMenu>					
+					<br/>
+					<br/>
+					
+					<p:commandButton value="#{msg['web.add']}" >
+						<p:ajax update="tableForm:publicationTable @form" process="@form" listener="#{publicationmanagedbean.addNewspaper()}"/>
+					</p:commandButton>										
+				</h:panelGroup>
+				
+				
+				
+				
+				
+				
+				
+				
 			</h:form>
 		</p:panel>
 		
@@ -131,12 +224,12 @@
 					<p:outputLabel value="#{msg['web.onStock']}" /> <br/>
 					
 					<p:inputText id="minStock" value="#{publicationmanagedbean.publicationFilter.minStock}" 
-									placeholder="min" style="width: 70px;" >
+									placeholder="min" style="width: 60px;" >
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 					<p:outputLabel value=" - " />
 					<p:inputText id="maxStock" value="#{publicationmanagedbean.publicationFilter.maxStock}" 
-									placeholder="max" style="width: 75px;" >
+									placeholder="max" style="width: 60px;" >
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 				</f:facet>
@@ -293,10 +386,13 @@
 				
 			</p:column>
 			
-			<p:column style="width:50px">
+			<p:column style="width:120px">
 				<f:facet name="header">
 					<p:commandButton value="X" >
 						<p:ajax listener="#{publicationmanagedbean.clearFilter()}" update="@form"/>
+					</p:commandButton>
+					<p:commandButton value="R" >
+						<p:ajax listener="#{publicationmanagedbean.init()}" update="@form"/>
 					</p:commandButton>
 				</f:facet>
 				<p:rowEditor />
