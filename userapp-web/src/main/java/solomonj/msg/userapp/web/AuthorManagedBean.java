@@ -68,7 +68,7 @@ public class AuthorManagedBean implements Serializable {
 		return this.lazyModel;
 	}
 
-	public List<Author> getAllAuthors() {
+	public List<Author> getAllAuthor() {
 		try {
 			this.allAuthors = getAuthorBean().searchAuthorByName(this.searchName, 0, 0);
 		} catch (final ServiceException e) {

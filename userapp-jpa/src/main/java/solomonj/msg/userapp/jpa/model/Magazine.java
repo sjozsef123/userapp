@@ -1,7 +1,6 @@
 package solomonj.msg.userapp.jpa.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -34,5 +33,5 @@ public class Magazine extends Publication {
 	public void setmAuthors(final List<Author> mAuthors) {
 		this.mAuthors = mAuthors;
 	}
-	
+
 }
