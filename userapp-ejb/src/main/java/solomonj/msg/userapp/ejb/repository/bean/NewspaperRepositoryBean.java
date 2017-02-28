@@ -1,6 +1,8 @@
 package solomonj.msg.userapp.ejb.repository.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -10,12 +12,15 @@ import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.jboss.logging.Logger;
 
+import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.ejb.repository.INewspaperRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.jpa.model.Book_;
 import solomonj.msg.userapp.jpa.model.Newspaper;
 import solomonj.msg.userapp.jpa.model.Newspaper_;
 
@@ -28,37 +33,72 @@ import solomonj.msg.userapp.jpa.model.Newspaper_;
 @Stateless
 public class NewspaperRepositoryBean extends PublicationRepositoryBean<Newspaper> implements INewspaperRepository {
 
-	
 	@PersistenceContext
 	private EntityManager entityManager;
 	private Logger oLogger = Logger.getLogger(NewspaperRepositoryBean.class);
-	
+
 	public NewspaperRepositoryBean() {
 		super(Newspaper.class);
 	}
-	
+
 	@Override
-	public List<Newspaper> filterNewspaperByName(String filter) throws RepositoryException {
+	public List<Newspaper> getByFilter(PublicationFilter filter) throws RepositoryException {
 
 		List<Newspaper> filteredNewspapers = new ArrayList<>();
+		List<Predicate> predicates = new ArrayList<>();
 		
 		try {
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Newspaper> criteriaQuery = builder.createQuery(Newspaper.class);
 			Root<Newspaper> root = criteriaQuery.from(Newspaper.class);
-			
+
 			root.fetch("articles", JoinType.LEFT);
+			criteriaQuery.select(root).distinct(true);
+
+			if (filter.getTitle() != null && filter.getTitle() != "") {
+
+				predicates.add(builder.like(root.get(Newspaper_.title), "%" + filter.getTitle() + "%"));
+			}
+
+			if (filter.getMinStock() != null) {
+
+				predicates.add(builder.greaterThanOrEqualTo(root.get(Newspaper_.copiesLeft), filter.getMinStock()));
+			}
+
+			if (filter.getMaxStock() != null) {
+
+				predicates.add(builder.lessThanOrEqualTo(root.get(Newspaper_.copiesLeft), filter.getMaxStock()));
+			}
+
+			if (filter.getPublisher() != null && filter.getPublisher() != "") {
+
+				predicates.add(builder.like(root.get(Newspaper_.publisher), "%" + filter.getPublisher() + "%"));
+			}
 			
-			criteriaQuery.select(root).where(builder.like(root.get(Newspaper_.title), "%" + filter + "%")).distinct(true);
+			if (filter.getReleasedAfter() != null) {
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.YEAR, filter.getReleasedAfter());
+				predicates.add(builder.greaterThanOrEqualTo(root.<Date>get(Newspaper_.releaseDate), calendar.getTime()));
+			}
 			
+			if (filter.getReleasedBefore() != null) {
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.YEAR, filter.getReleasedBefore());
+				predicates.add(builder.lessThanOrEqualTo(root.<Date>get(Newspaper_.releaseDate), calendar.getTime()));
+			}
+			
+			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()]))).distinct(true);
+
 			filteredNewspapers = entityManager.createQuery(criteriaQuery).getResultList();
 			return filteredNewspapers;
-			
+
 		} catch (PersistenceException e) {
-			
+
 			oLogger.error("Failed to query newspapers by filter.");
 			throw new RepositoryException("newspaper.read");
-			
+
 		}
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,10 +13,11 @@ import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.logging.Logger;
+import org.primefaces.event.RowEditEvent;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IPublicationService;
+import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.jpa.model.Article;
 import solomonj.msg.userapp.jpa.model.Author;
 import solomonj.msg.userapp.jpa.model.Book;
@@ -35,29 +37,61 @@ public class PublicationManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1565015472267456236L;
 
-	private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
+	// private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
 	private IPublicationService publicationBean;
 	private List<Publication> publicationList;
-	private String filter;
+	private String titleFilter;
 
 	private Book book;
 	private Magazine magazine;
 	private Newspaper newspaper;
+
+	private PublicationFilter publicationFilter;
+	private List<String> selectedAuthors;
+	private List<String> selectedArticles;
+
+	public PublicationManagedBean() {
+
+		publicationFilter = new PublicationFilter();
+		selectedAuthors = new ArrayList<>();
+		selectedArticles = new ArrayList<>();
+	}
+
+	@PostConstruct
+	public void init() {
+
+		publicationList = new ArrayList<>();
+		try {
+			publicationList = getpublicationBean().getPublicationByFilter(publicationFilter);
+			System.out.println("size: " + publicationList.size());
+		} catch (ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
+		}
+	}
+	
+	public void newPubs() {
+		
+		book = new Book();
+		magazine = new Magazine();
+		newspaper = new Newspaper();
+		
+	}
 
 	public void onLoad() {
 
 		book = null;
 		magazine = null;
 		newspaper = null;
-		filter = "";
+		titleFilter = "";
 	}
-	
+
 	public void clearValues() {
-		
+
 		book = null;
 		magazine = null;
 		newspaper = null;
-		
+
 	}
 
 	public IPublicationService getpublicationBean() {
@@ -87,17 +121,42 @@ public class PublicationManagedBean implements Serializable {
 		}
 	}
 
+	public boolean selectedBAuthors(Book book) {
+
+		selectedAuthors.clear();
+		List<Author> authors = book.getbAuthors();
+
+		for (Author a : authors) {
+			selectedAuthors.add(new Integer(a.getId()).toString());
+		}
+		return true;
+	}
+
+	public boolean selectedMAuthors(Magazine book) {
+
+		selectedAuthors.clear();
+		List<Author> authors = book.getmAuthors();
+
+		for (Author a : authors) {
+			selectedAuthors.add(new Integer(a.getId()).toString());
+		}
+		return true;
+	}
+	
+	public boolean selectedArticles(Newspaper newspaper) {
+		
+		selectedArticles.clear();
+		List<Article> articles = newspaper.getArticles();
+		
+		for(Article a: articles) {
+			selectedArticles.add(new Integer(a.getId()).toString());
+		}
+		return true;
+	}
+
 	public List<Publication> getPublicationList() {
 
-		publicationList = new ArrayList<>();
-		try {
-			publicationList = getpublicationBean().filterPublicationByName(filter);
-			return publicationList;
-		} catch (ServiceException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
-			return publicationList;
-		}
+		return publicationList;
 	}
 
 	public void setPublicationList(List<Publication> publicationList) {
@@ -321,15 +380,22 @@ public class PublicationManagedBean implements Serializable {
 	}
 
 	public String getFilter() {
-		return filter;
+		return titleFilter;
 	}
 
 	public void setFilter(String filter) {
-		this.filter = filter;
+		this.titleFilter = filter;
 	}
 
 	public void clearFilter() {
-		filter = "";
+
+		publicationFilter = new PublicationFilter();
+		init();
+	}
+
+	public boolean isStockValid(int maxStock, int editedCurrentStock) {
+
+		return maxStock > editedCurrentStock ? true : false;
 	}
 
 	public Book getBook() {
@@ -354,6 +420,79 @@ public class PublicationManagedBean implements Serializable {
 
 	public void setNewspaper(Newspaper newspaper) {
 		this.newspaper = newspaper;
+	}
+
+	public PublicationFilter getPublicationFilter() {
+		return publicationFilter;
+	}
+
+	public void setPublicationFilter(PublicationFilter publicationFilter) {
+		this.publicationFilter = publicationFilter;
+	}
+
+	public List<String> getSelectedAuthors() {
+		return selectedAuthors;
+	}
+
+	public void setSelectedAuthors(List<String> selectedAuthors) {
+		this.selectedAuthors = selectedAuthors;
+	}
+	
+	
+
+	public List<String> getSelectedArticles() {
+		return selectedArticles;
+	}
+
+	public void setSelectedArticles(List<String> selectedArticles) {
+		this.selectedArticles = selectedArticles;
+	}
+
+	public void onRowEdit(RowEditEvent event) {
+
+		try {
+			switch (event.getObject().getClass().getSimpleName()) {
+			case "Book":
+				List<Author> bAuthors = new ArrayList<>();
+				for (String author : selectedAuthors) {
+					bAuthors.add(new Author(Integer.parseInt(author)));
+				}
+				Book book = (Book) event.getObject();
+				book.setbAuthors(bAuthors);
+				getpublicationBean().updatePublication(book);
+				selectedAuthors.clear();
+				break;
+			case "Magazine":
+				List<Author> mAuthors = new ArrayList<>();
+				for(String author: selectedAuthors) {
+					mAuthors.add(new Author(Integer.parseInt(author)));
+				}
+				Magazine magazine = (Magazine) event.getObject();
+				magazine.setmAuthors(mAuthors);
+				getpublicationBean().updatePublication(magazine);
+				selectedAuthors.clear();
+				break;
+			case "Newspaper":
+				getpublicationBean().updatePublication((Newspaper) event.getObject());
+				break;
+			}
+			init();
+			FacesMessage msg = new FacesMessage("Publication Edited", ((Publication) event.getObject()).getTitle());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			getClass();
+			FacesMessage msg = new FacesMessage("Edit Failed", ((Publication) event.getObject()).getTitle());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+
+	}
+
+	public void onRowCancel(RowEditEvent event) {
+
+		FacesMessage msg = new FacesMessage("Edit Cancelled", ((Publication) event.getObject()).getTitle());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		selectedAuthors.clear();
 	}
 
 }

@@ -3,6 +3,7 @@ package solomonj.msg.appuser.common.service;
 import java.util.List;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
+import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.jpa.model.Publication;
 
 /**
@@ -39,7 +40,8 @@ public interface IPublicationService {
 	 * @return list
 	 * @throws ServiceException
 	 */
-	List<Publication> filterPublicationByName(String filter) throws ServiceException;
+	List<Publication> getPublicationByFilter(PublicationFilter filter) throws ServiceException;
+	
 	void createPublication(Publication publication) throws ServiceException;
 	void updatePublication(Publication publication) throws ServiceException;
 }

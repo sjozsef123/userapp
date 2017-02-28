@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<f:metadata>
+	<f:viewAction action="#{loginmanagedbean.isLoggedIn()}" />
+</f:metadata>
+<title>Publication</title>
+
+
+</h:head>
+<h:body onload="#{publicationmanagedbean.onLoad()}">
+
+	<p:messages id="messages" showDetail="false" autoUpdate="true"
+		closable="true" />
+
+	<h:panelGrid id="panel" columns="4" border="0" cellpadding="10"
+		cellspacing="1">		
+	<h:column rendered="#{loginmanagedbean.isAdmin() eq null}">
+		<ui:include src="/includes/navigation.xhtml" style="float: left; clear: both;" />
+	</h:column>
+	
+	<h:column>
+	
+		
+		<p:panel header="#{msg['web.publication.add']}" toggleable="true">
+			<h:form >
+				<p:selectOneButton binding="#{selected}">
+					<f:selectItem itemValue="Book" itemLabel="Book"/>
+					<f:selectItem itemValue="Magazine" itemLabel="Magazine"/>
+					<f:selectItem itemValue="Newspaper" itemLabel="Newspaper"/>
+					<p:ajax update="@form" listener="#{publicationmanagedbean.newPubs()}"/>
+				</p:selectOneButton>
+				<br/>
+				<br/>
+				<h:panelGroup rendered="#{selected.value eq 'Book'}">
+				
+					<p:inputText value="#{publicationmanagedbean.book.title}"
+						required="true"
+						requiredMessage="#{msg['error.validation.required']}"
+						validatorMessage="#{msg['error.validation.mincharacter']}"
+						placeholder="#{msg['web.title']}">
+						<f:validateLength minimum="3" />
+					</p:inputText>
+					<br/>
+					<br/>
+						
+					<p:inputText value="#{publicationmanagedbean.book.nrOfCopies}"
+						required="true"
+						requiredMessage="#{msg['error.validation.required']}"
+						placeholder="#{msg['web.publication.stock']}">
+					</p:inputText>
+					<br/>
+					<br/>
+					
+					<p:inputText value="#{publicationmanagedbean.book.publisher}"
+						required="true"
+						requiredMessage="#{msg['error.validation.required']}"
+						placeholder="#{msg['web.publication.publisher']}">
+					</p:inputText>
+					<br/>
+					<br/>
+					
+					<p:calendar value="#{publicationmanagedbean.book.releaseDate}" placeholder="#{msg['web.publication.releasedate']}"/>
+					<br/>
+					<br/>
+					
+					<p:selectCheckboxMenu value="#{publicationmanagedbean.book.bAuthors}"
+						layout="pageDirection"
+						label="#{msg['web.author.authors']}">
+						<f:selectItems value="#{authorManagedBean.getAllAuthor()}"
+							var="author" itemLabel="#{author.name}" />
+					</p:selectCheckboxMenu>
+					
+					<p:commandButton value="#{msg['web.add']}">
+						<p:ajax process="@form" update="tableForm @form" listener="#{publicationmanagedbean.addBook()}"/>
+					</p:commandButton>										
+				</h:panelGroup>
+			</h:form>
+		</p:panel>
+		
+		
+		<h:form id="tableForm">
+		<p:panel header="#{msg['web.publication.header.publications']}" toggleable="true">
+		<p:dataTable id="publicationTable" var="item" value="#{publicationmanagedbean.publicationList}" 
+					emptyMessage="No publications found!" editable="true"
+					>
+			<p:ajax event="rowEdit" listener="#{publicationmanagedbean.onRowEdit}" update="messages tableForm:publicationTable" process="newTitle"/>
+       		<p:ajax event="rowEditCancel" listener="#{publicationmanagedbean.onRowCancel}" update="messages" />			
+			
+
+			<p:column>
+				<f:facet name="header">
+					<p:outputLabel value="#{msg['web.title']}" /> <br/>
+					<p:inputText id="titleFilter" value="#{publicationmanagedbean.publicationFilter.title}" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="titleFilter" listener="#{publicationmanagedbean.init()}"/>
+					</p:inputText>
+				</f:facet>
+				
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{item.title}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="newTitle" value="#{item.title}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+				
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">
+					<p:selectCheckboxMenu label="#{msg['web.type']}" value="#{publicationmanagedbean.publicationFilter.type}" >
+						<f:selectItem itemLabel="Book" itemValue="Book"/>
+						<f:selectItem itemLabel="Magazine" itemValue="Magazine"/>
+						<f:selectItem itemLabel="Newspaper" itemValue="Newspaper"/>
+						<p:ajax event="change" update="tableForm:publicationTable" listener="#{publicationmanagedbean.init()}"/>
+					</p:selectCheckboxMenu>
+				</f:facet>
+					<h:outputText value="#{publicationmanagedbean.getType(item)}" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">
+					<p:outputLabel value="#{msg['web.onStock']}" /> <br/>
+					
+					<p:inputText id="minStock" value="#{publicationmanagedbean.publicationFilter.minStock}" 
+									placeholder="min" style="width: 70px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
+					</p:inputText>
+					<p:outputLabel value=" - " />
+					<p:inputText id="maxStock" value="#{publicationmanagedbean.publicationFilter.maxStock}" 
+									placeholder="max" style="width: 75px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
+					</p:inputText>
+				</f:facet>
+				
+				
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{item.copiesLeft}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="newStock" value="#{item.copiesLeft}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+				
+				
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">
+					<p:outputLabel value="#{msg['web.publisher']}" /> <br/>
+					<p:inputText id="publicationFilter" value="#{publicationmanagedbean.publicationFilter.publisher}" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="publicationFilter" listener="#{publicationmanagedbean.init()}" />
+					</p:inputText>
+				</f:facet>
+				
+				
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{item.publisher}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="newPublisher" value="#{item.publisher}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+				
+				
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">
+					<p:outputLabel value="#{msg['web.release']}" /> <br/>
+					<p:inputText id="afterYear" value="#{publicationmanagedbean.publicationFilter.releasedAfter}" placeholder="after" style="width: 50px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="afterYear" listener="#{publicationmanagedbean.init()}" />
+					
+					</p:inputText>
+					<p:outputLabel value=" - " />
+					<p:inputText id="beforeYear" value="#{publicationmanagedbean.publicationFilter.releasedBefore}" placeholder="before" style="width: 50px;" >
+						<p:ajax event="keyup" update="tableForm:publicationTable" process="beforeYear" listener="#{publicationmanagedbean.init()}" />
+					</p:inputText>
+				</f:facet>
+				
+					
+					
+					
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{item.releaseDate}" 
+							rendered="#{publicationmanagedbean.getType(item) eq 'Book'}">							<f:convertDateTime pattern="yyyy" />
+						</h:outputText>
+						<h:outputText value="#{item.releaseDate}"
+							rendered="#{publicationmanagedbean.getType(item) eq 'Magazine'}" >
+							<f:convertDateTime pattern="MMM - yyyy" />
+						</h:outputText>
+						<h:outputText value="#{item.releaseDate}"
+							rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}" >
+							<f:convertDateTime pattern="dd - MMM - yyyy" />
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<p:calendar value="#{item.releaseDate}" pattern="yyyy" rendered="#{publicationmanagedbean.getType(item) eq 'Book'}" />
+						<p:calendar value="#{item.releaseDate}" pattern="MMM - yyyy" rendered="#{publicationmanagedbean.getType(item) eq 'Magazine'}" />
+						<p:calendar value="#{item.releaseDate}" pattern="dd - MMM - yyyy" rendered="#{publicationmanagedbean.getType(item) eq 'Newspaper'}" />
+					</f:facet>
+				</p:cellEditor>
+					
+					
+					
+			</p:column>
+			
+			<p:column style="width: 100px;">
+					
+						<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Book'}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<p:commandLink oncomplete="PF('bAuthorList').show()" 
+										styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+									<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="bAuthorList" modal="true" showEffect="blind">
+										<p:dataList value="#{item.bAuthors}" var="bAuthor">
+											<h:outputText value="#{bAuthor.name}" style="display:inline-block"/>
+										</p:dataList>
+									</p:dialog>	
+								</f:facet>
+								<f:facet name="input">
+									<p:selectCheckboxMenu id="bookAuthorList" layout="pageDirection" 
+										rendered="#{publicationmanagedbean.selectedBAuthors(item)}"
+										value="#{publicationmanagedbean.selectedAuthors}"
+										label="#{msg['web.author.authors']}">
+										<f:selectItems value="#{authorManagedBean.getAllAuthor()}"
+											var="author" itemLabel="#{author.name}"
+											itemValue="#{author.id}" />
+									</p:selectCheckboxMenu>
+								</f:facet>
+							</p:cellEditor>	
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Magazine'}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<p:commandLink oncomplete="PF('mAuthorList').show()" 
+										styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+									<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="mAuthorList" modal="true" showEffect="blind">
+										<p:dataList value="#{item.mAuthors}" var="mAuthor">
+											<h:outputText value="#{mAuthor.name}" style="display:inline-block"/>
+										</p:dataList>
+									</p:dialog>
+								</f:facet>
+								<f:facet name="input">
+									<p:selectCheckboxMenu id="magazineAuthorList" layout="pageDirection" 
+										rendered="#{publicationmanagedbean.selectedMAuthors(item)}"
+										value="#{publicationmanagedbean.selectedAuthors}"
+										label="#{msg['web.author.authors']}">
+										<f:selectItems value="#{authorManagedBean.getAllAuthor()}"
+											var="author" itemLabel="#{author.name}"
+											itemValue="#{author.id}" />
+									</p:selectCheckboxMenu>
+								</f:facet>
+							</p:cellEditor>
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Newspaper'}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<p:commandLink oncomplete="PF('articleList').show()" 
+										styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
+									<p:dialog header="Articles" hideEffect="explode" resizable="false" widgetVar="articleList" modal="true" showEffect="blind">
+										<p:dataList value="#{item.articles}" var="article">
+											<h:outputText value="#{article.title}" style="display:inline-block"/>
+										</p:dataList>
+									</p:dialog>
+								</f:facet>
+								<f:facet name="input">
+									<p:selectCheckboxMenu id="newspaperArticleList" layout="pageDirection" 
+										rendered="#{publicationmanagedbean.selectedArticles(item)}"
+										value="#{publicationmanagedbean.selectedArticles}"
+										label="#{msg['web.article.header.articles']}">
+										<f:selectItems value="#{articleManagedBean.getAllArticles()}"
+											var="article" itemLabel="#{article.title}"
+											itemValue="#{article.id}" />
+									</p:selectCheckboxMenu>
+								</f:facet>
+							</p:cellEditor>
+						</h:panelGroup>
+				
+				
+			</p:column>
+			
+			<p:column style="width:50px">
+				<f:facet name="header">
+					<p:commandButton value="X" >
+						<p:ajax listener="#{publicationmanagedbean.clearFilter()}" update="@form"/>
+					</p:commandButton>
+				</f:facet>
+				<p:rowEditor />
+			</p:column>
+			
+		</p:dataTable>
+		</p:panel>	
+				
+		</h:form>
+	</h:column>
+
+	
+	</h:panelGrid>
+
+</h:body>
+	<ui:include src="/includes/footer.xhtml" />	
+</html>

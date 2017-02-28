@@ -34,16 +34,5 @@ public class Magazine extends Publication {
 	public void setmAuthors(final List<Author> mAuthors) {
 		this.mAuthors = mAuthors;
 	}
-
-	public int getReleaseYear() {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getReleaseDate());
-		return calendar.get(Calendar.YEAR);
-	}
-
-	public int getReleaseMonth() {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getReleaseDate());
-		return calendar.get(Calendar.MONTH) + 1;
-	}
+	
 }

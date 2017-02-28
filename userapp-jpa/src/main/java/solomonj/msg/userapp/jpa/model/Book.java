@@ -34,10 +34,5 @@ public class Book extends Publication {
 	public void setbAuthors(final List<Author> bAuthors) {
 		this.bAuthors = bAuthors;
 	}
-
-	public int getReleaseYear() {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getReleaseDate());
-		return calendar.get(Calendar.YEAR);
-	}
+	
 }

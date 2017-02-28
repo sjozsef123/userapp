@@ -2,6 +2,7 @@ package solomonj.msg.userapp.ejb.repository;
 
 import java.util.List;
 
+import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Magazine;
 
@@ -14,5 +15,5 @@ import solomonj.msg.userapp.jpa.model.Magazine;
 public interface IMagazineRepository extends IPublicationRepository<Magazine> {
 
 	
-	List<Magazine> filterMagazineByName(String filter) throws RepositoryException;
+	List<Magazine> getByFilter(PublicationFilter filter) throws RepositoryException;
 }
