@@ -8,16 +8,17 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import org.jboss.logging.Logger;
+
 import solomonj.msg.appuser.common.exception.ServiceException;
-import solomonj.msg.userapp.ejb.repository.IBorrowingRepository;
 import solomonj.msg.userapp.ejb.repository.IUserRepository;
-import solomonj.msg.userapp.ejb.repository.bean.UserRepositoryBean;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
+import solomonj.msg.userapp.ejb.util.DebugMessages;
 import solomonj.msg.userapp.jpa.model.User;
 
 /**
  * Timer class, for: Email sending;
- * 
+ *
  * @author Szocs Csilla
  *
  */
@@ -27,17 +28,19 @@ public class ShowTime {
 	@EJB
 	private IUserRepository userRepositoryBean;
 
-	@Schedule(second = "*/86400", minute = "*/1440", hour = "*", persistent = false)
+	private final Logger oLogger = Logger.getLogger(ShowTime.class);
+
+	@Schedule(second = "*/86400", minute = "*", hour = "*", persistent = false)
 	public void checkBorrowing() throws ServiceException {
 		try {
-			List<User> asd = userRepositoryBean.getAllBadUsers();
-//			System.out.println("check borrowing method");
-//			System.out.println("number of users " + asd.size());
+			this.oLogger.debug(DebugMessages.SEND_EMAIL_WITH_TIMER);
+			final List<User> asd = this.userRepositoryBean.getAllBadUsers();
+			System.out.println("check borrowing method");
+			System.out.println("number of users " + asd.size());
 	//		SendEmail.sendEmail("szocscsillamaria@gmail.com", "szocscsillamaria@gmail.com");
-		
-		} catch (RepositoryException e) {
-
-			e.printStackTrace();
+			this.oLogger.debug(DebugMessages.SEND_EMAIL_WITH_TIMER_OK);
+		} catch (final RepositoryException e) {
+			this.oLogger.error(e.getMessage());
 		}
 
 	}
@@ -46,9 +49,8 @@ public class ShowTime {
 	public void startUp() {
 		try {
 			checkBorrowing();
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (final ServiceException e) {
+			this.oLogger.error(e.getMessage());
 		}
 	}
 }
