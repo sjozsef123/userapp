@@ -34,7 +34,6 @@ public class ArticleManagedBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private IArticleService articleBean = null;
 	private Article article = new Article();
-	private boolean edit;
 	private List<Article> allArticles = null;
 	private String searchName = "";
 	private LazyDataModel<Article> lazyModel = null;
@@ -85,7 +84,9 @@ public class ArticleManagedBean implements Serializable {
 
 	public void insertArticle(final Article article) {
 		try {
-			getArticleBean().insertArticle(article);
+			if (checkArticleTitle(article.getTitle())) {
+				getArticleBean().insertArticle(article);
+			}
 		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -103,7 +104,9 @@ public class ArticleManagedBean implements Serializable {
 
 	public void updateArticle(final Article article) {
 		try {
-			getArticleBean().updateArticle(article);
+			if (checkArticleTitle(article.getTitle())) {
+				getArticleBean().updateArticle(article);
+			}
 		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -123,56 +126,13 @@ public class ArticleManagedBean implements Serializable {
 		}
 	}
 
-	public void delete(final Article article) {
-		if (this.edit) {
-			cancelEdit();
-		}
-		deleteArticleById(article);
-	}
-
-	public void cancelEdit() {
-		this.article = new Article();
-		this.edit = false;
-
-	}
-
-	public void editArticle(final Article article) {
-		this.article = article;
-		this.edit = true;
-	}
-
 	public void add() {
-		if (checkUserName()) {
-			insertArticle(this.article);
-			this.article = new Article();
-		}
-	}
-
-	public void resetAdd() {
+		insertArticle(this.article);
 		this.article = new Article();
-
-	}
-
-	public void saveEdit() {
-		if (checkUserName()) {
-			updateArticle(this.article);
-			this.article = new Article();
-			this.edit = false;
-		}
 	}
 
 	public void clearFilter() {
 		this.searchName = "";
-	}
-
-	private boolean checkUserName() {
-		if (this.article.getTitle().length() < 3) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min 3 character", null));
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 	public Article getArticle() {
@@ -181,14 +141,6 @@ public class ArticleManagedBean implements Serializable {
 
 	public void setArticle(final Article article) {
 		this.article = article;
-	}
-
-	public boolean isEdit() {
-		return this.edit;
-	}
-
-	public void setEdit(final boolean edit) {
-		this.edit = edit;
 	}
 
 	public String getSearchName() {
@@ -230,6 +182,16 @@ public class ArticleManagedBean implements Serializable {
 			}
 		}
 		return this.articleBean;
+	}
+
+	private boolean checkArticleTitle(final String title) {
+		if (title.length() < 3) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min 3 character", null));
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }
