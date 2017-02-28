@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	#{loginmanagedbean.setLanguage()}
-	<nav style="float: left; max-width: 200px; margin: 0; padding: 1em;">			  
+	<nav style="float: left; max-width: 220px; margin: 0; padding: 1em;">			  
 		<h:form rendered="#{loginmanagedbean.isAdmin() eq null}">
 			<p:menu>
 				<p:submenu label="#{msg['web.navigation']}">
@@ -17,11 +17,11 @@
 						icon="ui-icon-home" />
 					<p:menuitem	value="#{msg['web.author.title']}" outcome="author"
 						icon="ui-icon-star" />
-					<p:menuitem	value="#{msg['web.article.title']}" outcome="particle"
+					<p:menuitem	value="#{msg['web.article.title']}" outcome="article"
 						icon="ui-icon-star" />
 					<p:menuitem	value="#{msg['web.borrowing.title']}" outcome="borrowing"
 						icon="ui-icon-star" />
-						<p:menuitem	value="Bad users" outcome="baduser"
+						<p:menuitem	value="#{msg['web.deadline.title']}" outcome="deadline"
 						icon="ui-icon-star" />
 				</p:submenu>
 			</p:menu>

@@ -110,4 +110,11 @@ public final class DebugMessages {
 	public static final String DELETE_GENERIC = "< generic delete...";
 	public static final String DELETE_GENERIC_OK = "< generic delete.";
 
+	/**
+	 * EMAIL SEND + TIMER
+	 */
+	public static final String SEND_EMAIL = "Send email...";
+	public static final String SEND_EMAIL_OK = "Send email ok.";
+	public static final String SEND_EMAIL_WITH_TIMER = "Send email with timer...";
+	public static final String SEND_EMAIL_WITH_TIMER_OK = "Send email with timer ok.";
 }
