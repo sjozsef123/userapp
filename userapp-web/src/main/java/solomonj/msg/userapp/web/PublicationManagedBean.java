@@ -106,6 +106,7 @@ public class PublicationManagedBean implements Serializable {
 
 		try {
 			publicationBean.deletePublication(publication);
+			init();
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
