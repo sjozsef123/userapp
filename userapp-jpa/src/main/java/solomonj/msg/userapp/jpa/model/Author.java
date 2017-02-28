@@ -22,6 +22,10 @@ public class Author extends BaseEntity {
 
 	public Author() {
 	}
+	
+	public Author(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return this.name;

@@ -37,7 +37,7 @@ public class PublicationManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1565015472267456236L;
 
-//	private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
+	// private Logger oLogger = Logger.getLogger(PublicationManagedBean.class);
 	private IPublicationService publicationBean;
 	private List<Publication> publicationList;
 	private String titleFilter;
@@ -47,24 +47,36 @@ public class PublicationManagedBean implements Serializable {
 	private Newspaper newspaper;
 
 	private PublicationFilter publicationFilter;
-	
+	private List<String> selectedAuthors;
+	private List<String> selectedArticles;
+
 	public PublicationManagedBean() {
 
 		publicationFilter = new PublicationFilter();
+		selectedAuthors = new ArrayList<>();
+		selectedArticles = new ArrayList<>();
 	}
-	
+
 	@PostConstruct
 	public void init() {
-		
+
 		publicationList = new ArrayList<>();
 		try {
 			publicationList = getpublicationBean().getPublicationByFilter(publicationFilter);
+			System.out.println("size: " + publicationList.size());
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 	
+	public void newPubs() {
+		
+		book = new Book();
+		magazine = new Magazine();
+		newspaper = new Newspaper();
+		
+	}
 
 	public void onLoad() {
 
@@ -73,13 +85,13 @@ public class PublicationManagedBean implements Serializable {
 		newspaper = null;
 		titleFilter = "";
 	}
-	
+
 	public void clearValues() {
-		
+
 		book = null;
 		magazine = null;
 		newspaper = null;
-		
+
 	}
 
 	public IPublicationService getpublicationBean() {
@@ -107,6 +119,39 @@ public class PublicationManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
+	}
+
+	public boolean selectedBAuthors(Book book) {
+
+		selectedAuthors.clear();
+		List<Author> authors = book.getbAuthors();
+
+		for (Author a : authors) {
+			selectedAuthors.add(new Integer(a.getId()).toString());
+		}
+		return true;
+	}
+
+	public boolean selectedMAuthors(Magazine book) {
+
+		selectedAuthors.clear();
+		List<Author> authors = book.getmAuthors();
+
+		for (Author a : authors) {
+			selectedAuthors.add(new Integer(a.getId()).toString());
+		}
+		return true;
+	}
+	
+	public boolean selectedArticles(Newspaper newspaper) {
+		
+		selectedArticles.clear();
+		List<Article> articles = newspaper.getArticles();
+		
+		for(Article a: articles) {
+			selectedArticles.add(new Integer(a.getId()).toString());
+		}
+		return true;
 	}
 
 	public List<Publication> getPublicationList() {
@@ -343,9 +388,14 @@ public class PublicationManagedBean implements Serializable {
 	}
 
 	public void clearFilter() {
-		
+
 		publicationFilter = new PublicationFilter();
 		init();
+	}
+
+	public boolean isStockValid(int maxStock, int editedCurrentStock) {
+
+		return maxStock > editedCurrentStock ? true : false;
 	}
 
 	public Book getBook() {
@@ -372,46 +422,77 @@ public class PublicationManagedBean implements Serializable {
 		this.newspaper = newspaper;
 	}
 
-
 	public PublicationFilter getPublicationFilter() {
 		return publicationFilter;
 	}
 
-
 	public void setPublicationFilter(PublicationFilter publicationFilter) {
 		this.publicationFilter = publicationFilter;
 	}
+
+	public List<String> getSelectedAuthors() {
+		return selectedAuthors;
+	}
+
+	public void setSelectedAuthors(List<String> selectedAuthors) {
+		this.selectedAuthors = selectedAuthors;
+	}
 	
- 	
+	
+
+	public List<String> getSelectedArticles() {
+		return selectedArticles;
+	}
+
+	public void setSelectedArticles(List<String> selectedArticles) {
+		this.selectedArticles = selectedArticles;
+	}
+
 	public void onRowEdit(RowEditEvent event) {
 
-		System.out.println(((Publication)event.getObject()).getTitle());
 		try {
 			switch (event.getObject().getClass().getSimpleName()) {
 			case "Book":
-				getpublicationBean().updatePublication((Book)event.getObject());
+				List<Author> bAuthors = new ArrayList<>();
+				for (String author : selectedAuthors) {
+					bAuthors.add(new Author(Integer.parseInt(author)));
+				}
+				Book book = (Book) event.getObject();
+				book.setbAuthors(bAuthors);
+				getpublicationBean().updatePublication(book);
+				selectedAuthors.clear();
 				break;
 			case "Magazine":
-				getpublicationBean().updatePublication((Magazine)event.getObject());
+				List<Author> mAuthors = new ArrayList<>();
+				for(String author: selectedAuthors) {
+					mAuthors.add(new Author(Integer.parseInt(author)));
+				}
+				Magazine magazine = (Magazine) event.getObject();
+				magazine.setmAuthors(mAuthors);
+				getpublicationBean().updatePublication(magazine);
+				selectedAuthors.clear();
 				break;
 			case "Newspaper":
-				getpublicationBean().updatePublication((Newspaper)event.getObject());
+				getpublicationBean().updatePublication((Newspaper) event.getObject());
 				break;
 			}
+			init();
+			FacesMessage msg = new FacesMessage("Publication Edited", ((Publication) event.getObject()).getTitle());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (ServiceException e) {
 			e.printStackTrace();
+			getClass();
+			FacesMessage msg = new FacesMessage("Edit Failed", ((Publication) event.getObject()).getTitle());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-		
-		FacesMessage msg = new FacesMessage("Publication Edited", ((Publication) event.getObject()).getTitle());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+
 	}
-	
+
 	public void onRowCancel(RowEditEvent event) {
-		
+
 		FacesMessage msg = new FacesMessage("Edit Cancelled", ((Publication) event.getObject()).getTitle());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		selectedAuthors.clear();
 	}
-	
-	
 
 }

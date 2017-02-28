@@ -20,7 +20,6 @@ import org.jboss.logging.Logger;
 import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.ejb.repository.IMagazineRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
-import solomonj.msg.userapp.jpa.model.Book_;
 import solomonj.msg.userapp.jpa.model.Magazine;
 import solomonj.msg.userapp.jpa.model.Magazine_;
 
@@ -89,7 +88,7 @@ public class MagazineRepositoryBean extends PublicationRepositoryBean<Magazine> 
 				predicates.add(builder.lessThanOrEqualTo(root.<Date>get(Magazine_.releaseDate), calendar.getTime()));
 			}
 			
-			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()]))).distinct(true);
 			
 			filteredMagazines = entityManager.createQuery(criteriaQuery).getResultList();
 			return filteredMagazines;

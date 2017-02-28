@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -36,15 +35,4 @@ public class Magazine extends Publication {
 		this.mAuthors = mAuthors;
 	}
 	
-	public int getReleaseYear() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getReleaseDate());
-		return calendar.get(Calendar.YEAR);
-	}
-	
-	public int getReleaseMonth() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getReleaseDate());
-		return calendar.get(Calendar.MONTH) + 1;
-	}
 }

@@ -89,7 +89,7 @@ public class BookRepositoryBean extends PublicationRepositoryBean<Book> implemen
 				predicates.add(builder.lessThanOrEqualTo(root.<Date>get(Book_.releaseDate), calendar.getTime()));
 			}
 			
-			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()]))).distinct(true);
 			
 			filteredBooks = entityManager.createQuery(criteriaQuery).getResultList();
 			return filteredBooks;

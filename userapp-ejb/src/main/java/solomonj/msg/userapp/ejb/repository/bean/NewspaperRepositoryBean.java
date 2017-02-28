@@ -89,10 +89,9 @@ public class NewspaperRepositoryBean extends PublicationRepositoryBean<Newspaper
 				predicates.add(builder.lessThanOrEqualTo(root.<Date>get(Newspaper_.releaseDate), calendar.getTime()));
 			}
 			
-			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+			criteriaQuery.where(builder.and(predicates.toArray(new Predicate[predicates.size()]))).distinct(true);
 
 			filteredNewspapers = entityManager.createQuery(criteriaQuery).getResultList();
-			System.out.println(filteredNewspapers.size());
 			return filteredNewspapers;
 
 		} catch (PersistenceException e) {

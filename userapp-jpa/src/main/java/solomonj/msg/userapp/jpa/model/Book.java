@@ -36,9 +36,4 @@ public class Book extends Publication {
 		this.bAuthors = bAuthors;
 	}
 	
-	public int getReleaseYear() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getReleaseDate());
-		return calendar.get(Calendar.YEAR);
-	}
 }
