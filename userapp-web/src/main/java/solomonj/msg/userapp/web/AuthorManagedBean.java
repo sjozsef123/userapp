@@ -38,7 +38,8 @@ public class AuthorManagedBean implements Serializable {
 		try {
 			this.allAuthors = getAuthorBean().searchAuthorByName(this.searchName);
 		} catch (final ServiceException e) {
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 		if (this.allAuthors == null) {
 			return new ArrayList<>();
