@@ -22,7 +22,8 @@
 
 		<h:column>
 			<h2>#{msg['web.borrowing.header.users']}</h2>
-			<h:form rendered="#{not empty usermanagedbean.allUsers}">
+			<h:form rendered="#{not empty usermanagedbean.allUsers}">				
+				#{usermanagedbean.init()}
 				<h:dataTable value="#{usermanagedbean.allUsers}" var="item">
 					<h:column>
 						<f:facet name="header">#{msg['web.name']}</f:facet>#{item.username}</h:column>
@@ -34,7 +35,7 @@
 							<h:commandButton value="#{msg['web.select']}"
 								action="#{borrowingmanagedbean.selectUser(item)}" />
 						</h:column>
-					</h:column>
+					</h:column>				
 				</h:dataTable>
 			</h:form>
 
