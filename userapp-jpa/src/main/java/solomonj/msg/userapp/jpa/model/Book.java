@@ -2,7 +2,6 @@ package solomonj.msg.userapp.jpa.model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -18,26 +17,26 @@ public class Book extends Publication {
 
 	@Transient
 	private static final long serialVersionUID = 6162720738158711916L;
-	
+
 	@ManyToMany
 	@JoinTable(name = "publications_authors", joinColumns = @JoinColumn(name = "publication_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private List<Author> bAuthors;
-	
+
 	public Book() {
-		
-		bAuthors = new ArrayList<>();
+
+		this.bAuthors = new ArrayList<>();
 	}
 
 	public List<Author> getbAuthors() {
-		return bAuthors;
+		return this.bAuthors;
 	}
 
-	public void setbAuthors(List<Author> bAuthors) {
+	public void setbAuthors(final List<Author> bAuthors) {
 		this.bAuthors = bAuthors;
 	}
-	
+
 	public int getReleaseYear() {
-		Calendar calendar = Calendar.getInstance();
+		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(getReleaseDate());
 		return calendar.get(Calendar.YEAR);
 	}

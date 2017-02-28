@@ -17,13 +17,12 @@ import org.primefaces.event.RowEditEvent;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IUserService;
 import solomonj.msg.userapp.ejb.service.util.SendEmail;
-import solomonj.msg.userapp.ejb.service.util.ShowTime;
 import solomonj.msg.userapp.jpa.model.Role;
 import solomonj.msg.userapp.jpa.model.User;
 
 /**
  * Managed bean for users.
- * 
+ *
  * @author Solomon Jozsef.
  *
  */
@@ -40,38 +39,38 @@ public class UserManagedBean implements Serializable {
 	private String searchName = "";
 
 	private IUserService getUserBean() {
-		if (userBean == null) {
+		if (this.userBean == null) {
 			try {
-				InitialContext jndi = new InitialContext();
-				userBean = (IUserService) jndi.lookup(IUserService.jndiNAME);
-			} catch (NamingException e) {
+				final InitialContext jndi = new InitialContext();
+				this.userBean = (IUserService) jndi.lookup(IUserService.jndiNAME);
+			} catch (final NamingException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						LoginManagedBean.getResourceBundleString("user.naming"), null));
 			}
 		}
-		return userBean;
+		return this.userBean;
 	}
 
-	public boolean selectedRoles(User u) {
-		selectedRoles.clear();
-		List<Role> roles = u.getRoles();
-		for (Role r : roles) {
-			selectedRoles.add(new Integer(r.getId()).toString());
+	public boolean selectedRoles(final User u) {
+		this.selectedRoles.clear();
+		final List<Role> roles = u.getRoles();
+		for (final Role r : roles) {
+			this.selectedRoles.add(new Integer(r.getId()).toString());
 		}
 		return true;
 	}
 
 	public List<String> getSelectedRoles() {
-		return selectedRoles;
+		return this.selectedRoles;
 	}
 
-	public void setSelectedRoles(List<String> selectedRoles) {
+	public void setSelectedRoles(final List<String> selectedRoles) {
 		this.selectedRoles = selectedRoles;
 	}
 
 	public void resetAdd() {
-		user = new User();
-		selectedRoles = new ArrayList<>();
+		this.user = new User();
+		this.selectedRoles = new ArrayList<>();
 	}
 
 	public void dummy() {
@@ -82,74 +81,74 @@ public class UserManagedBean implements Serializable {
 	public void init() {
 		try {
 
-			allUsers = getUserBean().searchUserByName(searchName);
+			this.allUsers = getUserBean().searchUserByName(this.searchName);
 
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
-		if (allUsers == null) {
-			allUsers = new ArrayList<>();
+		if (this.allUsers == null) {
+			this.allUsers = new ArrayList<>();
 		}
 	}
 
 	public List<User> getAllUsers() {
-		return allUsers;
+		return this.allUsers;
 	}
 
 	public List<User> getAllBadUsers() {
 		try {
 
-			allBadUsers = getUserBean().getAllBadUsers();
-			return allBadUsers;
-		} catch (ServiceException e) {
+			this.allBadUsers = getUserBean().getAllBadUsers();
+			return this.allBadUsers;
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
-		if (allBadUsers == null) {
+		if (this.allBadUsers == null) {
 			return new ArrayList<>();
 		}
-		return allBadUsers;
+		return this.allBadUsers;
 	}
 
 	public void insert() {
 		try {
-			user.setRoles(rolesToInt());
-			getUserBean().insertUser(user);
-			allUsers.add(user);
-			user = new User();
-			selectedRoles = new ArrayList<>();
+			this.user.setRoles(rolesToInt());
+			getUserBean().insertUser(this.user);
+			this.allUsers.add(this.user);
+			this.user = new User();
+			this.selectedRoles = new ArrayList<>();
 
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
-	public void delete(User user) {
+	public void delete(final User user) {
 
 		try {
 			getUserBean().deleteUserById(user);
-			allUsers.remove(user);
-		} catch (ServiceException e) {
+			this.allUsers.remove(user);
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 
 	}
 
-	public void updateUser(User user) {
+	public void updateUser(final User user) {
 
 		try {
 
 			user.setRoles(rolesToInt());
 
-			selectedRoles.clear();
+			this.selectedRoles.clear();
 
 			getUserBean().updateUser(user);
-			allUsers = getUserBean().searchUserByName(searchName);
+			this.allUsers = getUserBean().searchUserByName(this.searchName);
 
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
@@ -157,61 +156,59 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
 	private List<Role> rolesToInt() {
-		List<Role> roles = new ArrayList<>();
-		for (String i : selectedRoles) {
+		final List<Role> roles = new ArrayList<>();
+		for (final String i : this.selectedRoles) {
 			roles.add(new Role(Integer.parseInt(i)));
 		}
 		return roles;
 	}
 
-	public User login(String n, String p) {
+	public User login(final String n, final String p) {
 		try {
 			return getUserBean().login(n, p);
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 			return new User();
 		}
 	}
 
-	public void sendEmail(User u) {
+	public void sendEmail(final User u) {
 		try {
-			// ShowTime time = new ShowTime();
-			// time.checkBorrowing();
 			SendEmail.sendEmail(u.getEmail(), "szocscsillamaria@gmail.com");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					LoginManagedBean.getResourceBundleString("web.user.emailsent"), null));
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
-	public void onEdit(RowEditEvent event) {
+	public void onEdit(final RowEditEvent event) {
 
-		User updateUser = (User) event.getObject();
+		final User updateUser = (User) event.getObject();
 
 		updateUser(updateUser);
 
-		FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
+		final FacesMessage msg = new FacesMessage("User Edited", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void onCancel(RowEditEvent event) {
+	public void onCancel(final RowEditEvent event) {
 
-		FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
+		final FacesMessage msg = new FacesMessage("Edit Cancelled", ((User) event.getObject()).getUsername());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public String getSearchName() {
-		return searchName;
+		return this.searchName;
 	}
 
-	public void setSearchName(String searchName) {
+	public void setSearchName(final String searchName) {
 		this.searchName = searchName;
 	}
 
