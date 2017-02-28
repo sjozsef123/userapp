@@ -13,6 +13,8 @@
 	<title>#{msg['web.author.title']}</title>
 </h:head>
 <body>
+	<p:messages id="messages" showDetail="false" autoUpdate="true"
+		closable="true" />
 
 	<h:panelGrid id="panel" columns="2" border="0" cellpadding="20"
 		cellspacing="1">
@@ -22,88 +24,82 @@
 		</h:column>
 
 		<h:column>
-			<h2>#{msg['web.author.authors']}</h2>
-			<h:form rendered="#{not empty authorManagedBean.allAuthor}">
-				<h:dataTable id="authorList" value="#{authorManagedBean.allAuthor}"
-					var="item">
-					<h:column>
-						<f:facet name="header">ID</f:facet>#{item.id}</h:column>
-					<h:column>
-						<f:facet name="header">#{msg['web.name']}</f:facet>#{item.name}</h:column>
-
-					<h:column>
-						<h:commandButton value="#{msg['web.edit']}"
-							action="#{authorManagedBean.editAuthor(item)}" />
-					</h:column>
-					<h:column>
-						<h:commandButton value="#{msg['web.delete']}"
-							action="#{authorManagedBean.delete(item)}"
-							onclick="if(!confirm('Do you really wanna do that?')) return false" />
-					</h:column>
-				</h:dataTable>
-			</h:form>
-
-			<h:panelGroup rendered="#{empty authorManagedBean.allAuthor}">
-				<p>#{msg['web.empty']}.</p>
-			</h:panelGroup>
-
-			<br />
-			<h:panelGroup rendered="#{!authorManagedBean.edit}">
-				<h2>#{msg['web.author.header.createauthor']}</h2>
-
+			<p:panel header="#{msg['web.author.authors']}">
 				<h:form>
-					<p>
-						#{msg['web.name']}
-						<h:inputText id="nameInput"
-							value="#{authorManagedBean.author.name}" required="true">
-						</h:inputText>
-					</p>
+					<p:panelGrid columns="2">
 
-					<p>
-						<h:commandButton value="#{msg['web.create']}"
-							action="#{authorManagedBean.add}" />
-						<h:commandButton value="#{msg['web.reset']}"
-							action="#{authorManagedBean.resetAdd}" />
-					</p>
+						<h:column>
+							<h:outputLabel value="#{msg['web.title']}" />
+							<br />
+							<h:inputText value="#{authorManagedBean.author.name}"
+								required="true"
+								requiredMessage="#{msg['error.validation.required']}"
+								validatorMessage="#{msg['error.validation.mincharacter']}">
+								<f:validateLength minimum="3" />
+							</h:inputText>
+						</h:column>
 
+						<h:column>
+							<h:outputLabel value="#{msg['web.add']}" />
+							<br />
+							<p:commandButton action="#{authorManagedBean.add()}"
+								title="#{msg['web.add']}" icon="ui-icon-add" ajax="false" />
+						</h:column>
+					</p:panelGrid>
 				</h:form>
-			</h:panelGroup>
 
+				<p:spacer height="30px;" />
+				<h:form id="form1">
+					<p:defaultCommand target="dummy" />
+					<p:commandButton id="dummy" process="@none" global="false"
+						style="display:none;" />
 
+					<p:dataTable id="authorTable"
+						value="#{authorManagedBean.lazyModel}" var="a" widgetVar="50"
+						editable="true" paginator="true" rows="5"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="5,10,15" lazy="true">
+						<f:facet name="header">  
+                    			#{msg['web.author.authors']}
+                    		</f:facet>
 
-			<h:panelGroup rendered="#{authorManagedBean.edit}">
-				<h3>Edit user with id: #{authorManagedBean.author.id}</h3>
-				<h:form>
-					<p>
-						#{msg['web.name']}
-						<h:inputText value="#{authorManagedBean.author.name}" />
-					</p>
-					<p>
-						<h:commandButton value="#{msg['web.save']}"
-							action="#{authorManagedBean.saveEdit}" />
-						<h:commandButton value="#{msg['web.cancel']}"
-							action="#{authorManagedBean.cancelEdit}" />
-					</p>
+						<p:ajax event="rowEdit" listener="#{authorManagedBean.onEdit}"
+							update="messages" />
+
+						<p:ajax event="rowEditCancel"
+							listener="#{authorManagedBean.onCancel}" update=":messages" />
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.name']}" />
+								<p:inputText id="titleFilter"
+									value="#{authorManagedBean.searchName}">
+									<p:ajax event="keyup" update="form1:authorTable"
+										process="titleFilter" />
+								</p:inputText>
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{a.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{a.name}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="#{msg['web.operations']}"
+							style="width:110px">
+							<p:rowEditor />
+							<p:commandButton action="#{authorManagedBean.delete(a)}"
+								title="#{msg['web.delete']}" icon="ui-icon-close" ajax="true"
+								update="authorTable" process="@this">
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
 				</h:form>
-			</h:panelGroup>
-
-			<h:messages globalOnly="true" />
-			<br />
-
-			<h3>#{msg['web.author.header.searchauthor']}</h3>
-
-			<h:form>
-				<p>
-					<h:inputText value="#{authorManagedBean.searchName}">
-					</h:inputText>
-					<h:commandButton value="#{msg['web.search']}" outcome="author" />
-					<h:commandButton value="#{msg['web.delete']}" render=""
-						action="#{authorManagedBean.clearFilter}" />
-				</p>
-			</h:form>
+			</p:panel>
 		</h:column>
 	</h:panelGrid>
-
 	<ui:include src="/includes/footer.xhtml" />
 </body>
 </html>

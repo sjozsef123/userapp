@@ -3,13 +3,19 @@ package solomonj.msg.userapp.web;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import javax.faces.application.FacesMessage;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IAuthorService;
@@ -17,7 +23,7 @@ import solomonj.msg.userapp.jpa.model.Author;
 
 /**
  * Managed bean for authors.
- * 
+ *
  * @author Szocs Csilla
  *
  */
@@ -30,126 +36,142 @@ public class AuthorManagedBean implements Serializable {
 	private Author author = new Author();
 	private List<Author> allAuthors = null;
 	private String searchName = "";
-	private boolean edit;
+	private LazyDataModel<Author> lazyModel = null;
+
+	@PostConstruct
+	public void init() {
+		this.lazyModel = new LazyDataModel<Author>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public List<Author> load(final int first, final int pageSize, final String sortField,
+					final SortOrder sortOrder, final Map<String, Object> filters) {
+				List<Author> data = new ArrayList<>();
+
+				try {
+					final int dataSize = (AuthorManagedBean.this.getAuthorBean()
+							.getCountAuthorsByName(AuthorManagedBean.this.searchName));
+					this.setRowCount(dataSize);
+
+					data = AuthorManagedBean.this.getAuthorBean().searchAuthorByName(AuthorManagedBean.this.searchName,
+							first, pageSize);
+				} catch (final ServiceException e) {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							LoginManagedBean.getResourceBundleString(e.getMessage()), null));
+				}
+				return data;
+			}
+		};
+	}
+
+	public LazyDataModel<Author> getLazyModel() {
+		return this.lazyModel;
+	}
 
 	public List<Author> getAllAuthor() {
 		try {
-			allAuthors = getAuthorBean().searchAuthorByName(searchName);
-		} catch (ServiceException e) {
-			e.printStackTrace();
+			this.allAuthors = getAuthorBean().searchAuthorByName(this.searchName, 0, 0);
+		} catch (final ServiceException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
-		if (allAuthors == null) {
+		if (this.allAuthors == null) {
 			return new ArrayList<>();
 		}
-		return allAuthors;
+		return this.allAuthors;
 	}
 
-	public void editAuthor(Author author) {
-		this.author = author;
-		edit = true;
-	}
-
-	public void cancelEdit() {
-		this.author = new Author();
-		edit = false;
-	}
-
-	public void resetAdd() {
-		author = new Author();
-	}
-
-	public void insertAuthor(Author author) {
+	public void insertAuthor(final Author author) {
 		try {
-			getAuthorBean().insertAuthor(author);
-		} catch (ServiceException e) {
+			if (checkAuthorName(author.getName())) {
+				getAuthorBean().insertAuthor(author);
+			}
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
 	public void add() {
-		if (checkUserName()) {
-			insertAuthor(author);
-			author = new Author();
-		}
+		insertAuthor(this.author);
+		this.author = new Author();
 	}
 
-	public void updateAuthor(Author author) {
+	public void updateAuthor(final Author author) {
 		try {
-			getAuthorBean().updateAuthor(author);
-		} catch (ServiceException e) {
+			if (checkAuthorName(author.getName())) {
+				getAuthorBean().updateAuthor(author);
+			}
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
-	public void saveEdit() {
-		if (checkUserName()) {
-
-			updateAuthor(author);
-			this.author = new Author();
-		}
-	}
-
-	public void deleteAuthorById(Author author) {
+	public void deleteAuthorById(final Author author) {
 		try {
 			getAuthorBean().deleteAuthor(author);
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
 
-	public void delete(Author author) {
-		if (edit) {
-			cancelEdit();
-		}
+	public void delete(final Author author) {
 		deleteAuthorById(author);
 	}
 
-	public boolean isEdit() {
-		return edit;
-	}
-
-	public void setEdit(boolean edit) {
-		this.edit = edit;
-	}
-
 	public Author getAuthor() {
-		return author;
+		return this.author;
 	}
 
-	public void setAuthor(Author author) {
+	public void setAuthor(final Author author) {
 		this.author = author;
 	}
 
 	public String getSearchName() {
-		return searchName;
+		return this.searchName;
 	}
 
-	public void setSearchName(String searchName) {
+	public void setSearchName(final String searchName) {
 		this.searchName = searchName;
 	}
 
 	public void clearFilter() {
-		searchName = "";
+		this.searchName = "";
+	}
+
+	public void onEdit(final RowEditEvent event) {
+
+		final Author author = (Author) event.getObject();
+
+		updateAuthor(author);
+
+		final FacesMessage msg = new FacesMessage("Author Edited", ((Author) event.getObject()).getName());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onCancel(final RowEditEvent event) {
+
+		final FacesMessage msg = new FacesMessage("Edit Cancelled", ((Author) event.getObject()).getName());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	private IAuthorService getAuthorBean() {
-		if (authorBean == null) {
+		if (this.authorBean == null) {
 			try {
-				InitialContext jndi = new InitialContext();
-				authorBean = (IAuthorService) jndi.lookup(IAuthorService.jndiNAME);
-			} catch (NamingException e) {
+				final InitialContext jndi = new InitialContext();
+				this.authorBean = (IAuthorService) jndi.lookup(IAuthorService.jndiNAME);
+			} catch (final NamingException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						LoginManagedBean.getResourceBundleString("author.naming"), null));
 			}
 		}
-		return authorBean;
+		return this.authorBean;
 	}
 
-	private boolean checkUserName() {
-		if (author.getName().length() < 3) {
+	private boolean checkAuthorName(final String name) {
+		if (name.length() < 3) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Min 3 character", null));
 			return false;

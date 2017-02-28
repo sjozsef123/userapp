@@ -60,9 +60,6 @@ public class RoleManagedBean implements Serializable {
 		return roleBean;
 	}
 
-	public void delete(Role role) {
-		deleteRole(role);
-	}
 
 	public void deleteRole(Role role) {
 		try {

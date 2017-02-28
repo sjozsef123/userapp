@@ -68,6 +68,8 @@ public final class DebugMessages {
 	public static final String DELETE_AUTHOR_OK = "Delete author ok.";
 	public static final String SEARCH_AUTHORS_BY_NAME = "Search authors by name...";
 	public static final String SEARCH_AUTHORS_BY_NAME_OK = "Search authors by name ok.";
+	public static final String COUNT_ALL_AUTHORS = "Count all authors...";
+	public static final String COUNT_ALL_AUTHORS_OK = "Count all authors ok.";
 
 	/**
 	 * ARTICLES
@@ -110,4 +112,11 @@ public final class DebugMessages {
 	public static final String DELETE_GENERIC = "< generic delete...";
 	public static final String DELETE_GENERIC_OK = "< generic delete.";
 
+	/**
+	 * EMAIL SEND + TIMER
+	 */
+	public static final String SEND_EMAIL = "Send email...";
+	public static final String SEND_EMAIL_OK = "Send email ok.";
+	public static final String SEND_EMAIL_WITH_TIMER = "Send email with timer...";
+	public static final String SEND_EMAIL_WITH_TIMER_OK = "Send email with timer ok.";
 }

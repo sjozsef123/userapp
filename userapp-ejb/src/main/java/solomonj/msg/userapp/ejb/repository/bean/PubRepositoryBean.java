@@ -4,11 +4,10 @@ import javax.ejb.Stateless;
 
 import solomonj.msg.userapp.ejb.repository.IPubRepository;
 import solomonj.msg.userapp.jpa.model.Publication;
-import solomonj.msg.userapp.jpa.model.User;
 
 /**
  * This session bean manages the publications.
- * 
+ *
  * @author Majai Robert
  *
  */
