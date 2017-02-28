@@ -119,7 +119,7 @@ public class ArticleRepositoryBean extends BasicRepositoryBean<Article> implemen
 			this.oLogger.debug(DebugMessages.COUNT_ALL_ARTICLES);
 			final Query query = this.entityManager.createQuery("SELECT count(a) FROM Article a WHERE a.title LIKE ?1");
 			query.setParameter(1, "%" + title + "%");
-			this.oLogger.debug(DebugMessages.COUNT_ALL_ARTICLES);
+			this.oLogger.debug(DebugMessages.COUNT_ALL_ARTICLES_OK);
 			return (int) ((long) (query.getSingleResult()));
 		} catch (final PersistenceException e) {
 			this.oLogger.error("Failed to count articles", e);

@@ -7,7 +7,7 @@ import solomonj.msg.userapp.jpa.model.Author;
 
 /**
  * Interface for author CRUD operations.
- * 
+ *
  * @author Szocs Csilla
  *
  */
@@ -16,15 +16,23 @@ public interface IAuthorService {
 
 	/**
 	 * This function gets all the authors.
-	 * 
+	 *
 	 * @return list
 	 * @throws ServiceException
 	 */
 	public List<Author> getAllAuthors() throws ServiceException;
 
 	/**
+	 * This function counts all the authors with specified name.
+	 *
+	 * @return list
+	 * @throws ServiceException
+	 */
+	public int getCountAuthorsByName(String name) throws ServiceException;
+
+	/**
 	 * This function inserts an author.
-	 * 
+	 *
 	 * @param author
 	 * @throws ServiceException
 	 */
@@ -32,7 +40,7 @@ public interface IAuthorService {
 
 	/**
 	 * This function updates the author.
-	 * 
+	 *
 	 * @param author
 	 * @throws ServiceException
 	 */
@@ -40,7 +48,7 @@ public interface IAuthorService {
 
 	/**
 	 * This function deletes the author
-	 * 
+	 *
 	 * @param author
 	 * @throws ServiceException
 	 */
@@ -48,10 +56,13 @@ public interface IAuthorService {
 
 	/**
 	 * This function searches for an author with the specified name.
-	 * 
+	 *
 	 * @param name
+	 * @param pageSize
+	 * @param first
 	 * @return list
 	 * @throws ServiceException
 	 */
-	public List<Author> searchAuthorByName(String name) throws ServiceException;
+	public List<Author> searchAuthorByName(String name, int start, int fin) throws ServiceException;
+
 }

@@ -55,7 +55,7 @@
 						style="display:none;" />
 
 					<p:dataTable id="authorTable"
-						value="#{authorManagedBean.allAuthor}" var="a" widgetVar="50"
+						value="#{authorManagedBean.lazyModel}" var="a" widgetVar="50"
 						editable="true" paginator="true" rows="5"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 						rowsPerPageTemplate="5,10,15" lazy="true">
