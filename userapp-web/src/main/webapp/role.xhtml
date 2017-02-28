@@ -31,7 +31,7 @@
 
 				<p:column style="width:100px">
 					<h:commandButton value="#{msg['web.delete']}"
-						action="#{rolemanagedbean.delete(item)}" 
+						action="#{rolemanagedbean.deleteRole(item)}" 
 						onclick="if(!confirm('Do you really wanna do that?')) return false" />
 				</p:column>
 
@@ -52,7 +52,7 @@
 
 			<p>
 				<h:commandButton value="#{msg['web.save']}" action="#{rolemanagedbean.add}" />
-				<h:commandButton value="#{msg['web.reset']}" action="#{rolemanagedbean.resetAdd}" immediate="true" />
+				<h:commandButton value="#{msg['web.reset']}" action="#{rolemanagedbean.resetAdd}" />
 			</p>
 		</h:form>
 		 </p:panel>
