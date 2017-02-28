@@ -30,13 +30,12 @@ public class ShowTime {
 
 	private final Logger oLogger = Logger.getLogger(ShowTime.class);
 
-	@Schedule(second = "*/86400", minute = "*", hour = "*", persistent = false)
+	@Schedule(hour = "1", persistent = false)
 	public void checkBorrowing() throws ServiceException {
 		try {
 			this.oLogger.debug(DebugMessages.SEND_EMAIL_WITH_TIMER);
 			final List<User> asd = this.userRepositoryBean.getAllBadUsers();
-			System.out.println("check borrowing method");
-			System.out.println("number of users " + asd.size());
+			System.out.println("Number of bad users " + asd.size());
 	//		SendEmail.sendEmail("szocscsillamaria@gmail.com", "szocscsillamaria@gmail.com");
 			this.oLogger.debug(DebugMessages.SEND_EMAIL_WITH_TIMER_OK);
 		} catch (final RepositoryException e) {
