@@ -19,6 +19,10 @@ public class Article extends BaseEntity {
 
 	public Article() {
 	}
+	
+	public Article(int id) {
+		this.id = id;
+	}
 
 	public int getId() {
 		return this.id;
