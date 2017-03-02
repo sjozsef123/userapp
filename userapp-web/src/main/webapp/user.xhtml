@@ -189,7 +189,8 @@
 							<p:rowEditor />
 							<p:commandButton action="#{usermanagedbean.delete(u)}"
 								title="#{msg['web.delete']}" icon="ui-icon-close" ajax="true"
-								update="userTable" process="@this" style="width:20px;height:20px">
+								update="userTable" process="@this" style="width:20px;height:20px"
+								onclick="if(!confirm('Do you really wanna do that?')) return false">
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>
