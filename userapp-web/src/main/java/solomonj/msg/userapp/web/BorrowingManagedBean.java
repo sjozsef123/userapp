@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
@@ -20,7 +20,7 @@ import solomonj.msg.userapp.jpa.model.User;
 
 /**
  * Managed bean for borrowings.
- * 
+ *
  * @author Simo Zoltan
  *
  */
@@ -34,18 +34,20 @@ public class BorrowingManagedBean implements Serializable {
 	private PublicationBorrowing borrowing = new PublicationBorrowing();
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
 	private User user = new User();
+	private Publication publication = null;
+	private Publication returnPublication = null;
 
 	IBorrowingService getBorrowingBean() {
-		if (borrowingBean == null) {
+		if (this.borrowingBean == null) {
 			try {
-				InitialContext jndi = new InitialContext();
-				borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
-			} catch (NamingException e) {
+				final InitialContext jndi = new InitialContext();
+				this.borrowingBean = (IBorrowingService) jndi.lookup(IBorrowingService.jndiNAME);
+			} catch (final NamingException e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						LoginManagedBean.getResourceBundleString("borrowing.naming"), null));
 			}
 		}
-		return borrowingBean;
+		return this.borrowingBean;
 	}
 
 	public boolean getBorrowingIdCompleted() {
@@ -53,44 +55,86 @@ public class BorrowingManagedBean implements Serializable {
 				|| ((getBorrowingId().getUserId() == 0) || (getBorrowingId().getPublicationId() == 0)) ? false : true;
 	}
 
-	public void selectUser(User u) {
+	public void selectUser() {
+		final User u = this.user;
 		clearVariables();
-		setUser(u);
-		getBorrowingId().setUserId(u.getId());
+		this.user = u;
+		System.out.println(this.user+"U");
+		if (this.user != null) {
+			getBorrowingId().setUserId(this.user.getId());
+		}
 	}
 
-	public void selectPublication(Publication p) {
-		getBorrowingId().setPublicationId(p.getId());
+	public void selectPublication() {
+		System.out.println(this.publication+"P");
+		if (this.publication != null) {
+			getBorrowingId().setPublicationId(this.publication.getId());
+		}
 	}
 
-	public void setBorrowingId(PublicationBorrowingPK borrowingId) {
+	public void selectReturnPublication() {
+		System.out.println(this.returnPublication+"R");
+		if (this.returnPublication != null) {
+			getBorrowingId().setPublicationId(this.returnPublication.getId());
+		}
+	}
+
+	public void setBorrowingId(final PublicationBorrowingPK borrowingId) {
 		this.borrowingId = borrowingId;
 	}
 
 	public PublicationBorrowingPK getBorrowingId() {
-		return borrowingId;
+		return this.borrowingId;
 	}
 
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(final User user) {
 		this.user = user;
+	}
+
+	public Publication getPublication() {
+		return this.publication;
+	}
+
+	public void setPublication(final Publication publication) {
+		this.publication = publication;
+	}
+
+	public Publication getReturnPublication() {
+		return this.returnPublication;
+	}
+
+	public void setReturnPublication(final Publication returnPublication) {
+		this.returnPublication = returnPublication;
+	}
+
+	public PublicationBorrowing getBorrowing() {
+		return this.borrowing;
+	}
+
+	public void setBorrowing(final PublicationBorrowing borrowing) {
+		setReturnPublication(borrowing.getPublication());
+		this.borrowing = borrowing;
 	}
 
 	void clearVariables() {
 		setBorrowingId(new PublicationBorrowingPK());
 		setUser(new User());
+		setPublication(null);
+		setReturnPublication(null);
+		//setBorrowing(null);
 	}
 
 	public void returnBorrowing() {
 		try {
-			getBorrowingBean().returnPublication(borrowingId);
+			getBorrowingBean().returnPublication(this.borrowingId);
 			clearVariables();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					LoginManagedBean.getResourceBundleString("web.borrowing.returnok"), null));
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
@@ -98,16 +142,17 @@ public class BorrowingManagedBean implements Serializable {
 
 	public void borrowBorrowing() {
 		try {
-			user.setBorrowing(null);
+			final PublicationBorrowing borrowing = new PublicationBorrowing();
+			this.user.setBorrowing(null);
 			borrowing.setId(getBorrowingId());
-			borrowing.setUser(user);
+			borrowing.setUser(this.user);
 			borrowing.setBorrowingDate(Date.valueOf(LocalDate.now()));
 			borrowing.setDeadline(Date.valueOf(LocalDate.now().plusDays(20)));
 			getBorrowingBean().borrowPublication(borrowing);
 			clearVariables();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					LoginManagedBean.getResourceBundleString("web.borrowing.borrowok"), null));
-		} catch (ServiceException e) {
+		} catch (final ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}

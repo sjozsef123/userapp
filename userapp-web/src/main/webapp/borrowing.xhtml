@@ -6,120 +6,178 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
-<f:metadata>
-	<f:viewAction action="#{loginmanagedbean.isAdmin()}" />
-</f:metadata>
-<title>#{msg['web.borrowing.title']}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+	<f:metadata>
+		<f:viewAction action="#{loginmanagedbean.isAdmin()}" />
+	</f:metadata>
+	<title>#{msg['web.borrowing.title']}</title>
 </h:head>
 <body>
-
-	<h:panelGrid id="panel" columns="4" border="0" cellpadding="20"
+	<p:messages id="messages" showDetail="false" autoUpdate="true"
+		closable="true" />
+	<h:panelGrid id="panel" columns="4" border="0" cellpadding="5"
 		cellspacing="1">
+
 		<h:column>
 			<ui:include src="/includes/navigation.xhtml" />
 		</h:column>
 
+
 		<h:column>
-			<h2>#{msg['web.borrowing.header.users']}</h2>
-			<h:form rendered="#{not empty usermanagedbean.allUsers}">				
+			<p:panel header="#{msg['web.borrowing.header.users']}">
+				<p:spacer height="10px;" />
+				#{publicationmanagedbean.init()}
 				#{usermanagedbean.init()}
-				<h:dataTable value="#{usermanagedbean.allUsers}" var="item">
-					<h:column>
-						<f:facet name="header">#{msg['web.name']}</f:facet>#{item.username}</h:column>
-					<h:column>
-						<f:facet name="header">#{msg['web.loyaltyindex']}</f:facet>#{item.loyaltyIndex}</h:column>
-					<h:column>
+				<h:form id="form1">
+					<p:panel header="#{msg['web.search']}">
+						<h:inputText id="namefilter" value="#{usermanagedbean.searchName}">
+							<p:ajax event="keyup" update="form1:userTable"
+								process="namefilter" listener="#{usermanagedbean.init()}" />
+						</h:inputText>
+					</p:panel>
+					<p:defaultCommand target="dummy" />
+					<p:commandButton id="dummy" process="@none" global="false"
+						style="display:none;" />
 
-						<h:column>
-							<h:commandButton value="#{msg['web.select']}"
-								action="#{borrowingmanagedbean.selectUser(item)}" />
-						</h:column>
-					</h:column>				
-				</h:dataTable>
-			</h:form>
+					<p:dataTable id="userTable" value="#{usermanagedbean.allUsers}"
+						var="u" widgetVar="50" selectionMode="single"
+						selection="#{borrowingmanagedbean.user}" rowKey="#{u.id}">
 
-			<h3>#{msg['web.borrowing.header.filterusers']}</h3>
-			<h:form>
-				<p>
-					<h:inputText value="#{usermanagedbean.searchName}">
-					</h:inputText>
-					<br />
-					<h:commandButton value="#{msg['web.search']}" outcome="user" />
-				</p>
-			</h:form>
+						<p:ajax event="rowSelect"
+							listener="#{borrowingmanagedbean.selectUser()}" 
+							update = "form2,form3"/>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.user.name']}" />
+							</f:facet>
+							<h:outputText value="#{u.username}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.user.loyalty']}" />
+							</f:facet>
+							<h:outputText value="#{u.loyaltyIndex}" style="width:110px" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:panel>
 		</h:column>
 
 		<h:column>
-			<h2>#{msg['web.borrowing.header.borrowpublication']}</h2>
-			<h:form
-				rendered="#{not empty publicationmanagedbean.publicationList}">
-				<h:dataTable id="publicationList"
-					value="#{publicationmanagedbean.publicationList}" var="item">
-					<h:column>
-						<f:facet name="header">#{msg['web.title']}</f:facet>#{item.title}</h:column>
-					<h:column>
-						<f:facet name="header">#{msg['web.type']}</f:facet>#{publicationmanagedbean.getType(item)}</h:column>
-					<h:column>
-						<f:facet name="header">#{msg['web.publication.copiesleft']}</f:facet>#{item.copiesLeft}</h:column>
+			<p:panel header="#{msg['web.borrowing.header.borrowpublication']}">
+				<p:spacer height="10px;" />
+				<h:form id="form2">
+					<p:panel header="#{msg['web.search']}">						
+						<p:inputText id="titleFilter"
+							value="#{publicationmanagedbean.publicationFilter.title}">
+							<p:ajax event="keyup" update="form2:pubTable"
+								process="titleFilter"
+								listener="#{publicationmanagedbean.init()}" />
+						</p:inputText>
+					</p:panel>
+					<p:defaultCommand target="dummy" />
+					<p:commandButton id="dummy" process="@none" global="false"
+						style="display:none;" />
 
-					<h:column>
-						<h:commandButton value="#{msg['web.select']}"
-							action="#{borrowingmanagedbean.selectPublication(item)}" />
-					</h:column>
-				</h:dataTable>
-			</h:form>
+					<p:dataTable id="pubTable"
+						value="#{publicationmanagedbean.publicationList}" var="p"
+						widgetVar="51" selectionMode="single"
+						selection="#{borrowingmanagedbean.publication}" rowKey="#{p.id}">
 
-			<h4>#{msg['web.publication.header.filterpublications']}</h4>
-			<h:form>
-				<p>
-					<h:inputText value="#{publicationmanagedbean.filter}">
-					</h:inputText>
-					<br />
-					<h:commandButton value="#{msg['web.filter']}" render="publicationList" />
-					<h:commandButton value="#{msg['web.clear']}"
-						action="#{publicationmanagedbean.clearFilter()}"
-						render="publicationList" />
-				</p>
-			</h:form>
+						<p:ajax event="rowSelect"
+							listener="#{borrowingmanagedbean.selectPublication()}" 
+							update = "form2"/>
 
-			<h:form rendered="#{borrowingmanagedbean.borrowingIdCompleted}">
-				<p>
-					<h:column>
-						<h:commandButton value="#{msg['web.borrow']}"
-							action="#{borrowingmanagedbean.borrowBorrowing()}" />
-					</h:column>
-				</p>
-			</h:form>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.title']}" />
+							</f:facet>
+							<h:outputText value="#{p.title}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.type']}" />
+							</f:facet>
+							<h:outputText value="#{publicationmanagedbean.getType(p)}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.publication.copiesleft']}" />
+							</f:facet>
+							<h:outputText value="#{p.copiesLeft}" style="width:110px" />
+						</p:column>
+					</p:dataTable>
+
+					<h:form rendered="#{borrowingmanagedbean.borrowingIdCompleted}"> 
+						<p>
+							<h:column>
+								<p:commandButton value="#{msg['web.borrow']}" 
+									action="#{borrowingmanagedbean.borrowBorrowing()}"
+									update="@all" />
+							</h:column>
+						</p>
+					</h:form>
+				</h:form>
+			</p:panel>
 		</h:column>
 
-		<h:column rendered="#{not empty borrowingmanagedbean.user.borrowing}">
-			<h2>#{msg['web.borrowing.header.returnpublication']}</h2>
-			<h:form>
-				<h:dataTable value="#{borrowingmanagedbean.user.borrowing}"
-					var="item">
-					<h:column>
-						<f:facet name="header">#{msg['web.title']}</f:facet>#{item.publication.title}</h:column>
-					<h:column>
-						<f:facet name="header">#{msg['web.publisher']}</f:facet>#{item.publication.publisher}</h:column>
+		<h:column>
+			<p:panel header="#{msg['web.borrowing.header.returnpublication']}">
+				<p:spacer height="10px;" />
+				<h:form id="form3">
+					<p:defaultCommand target="dummy" />
+					<p:commandButton id="dummy" process="@none" global="false"
+						style="display:none;" />
 
-					<h:column>
-						<h:commandButton value="#{msg['web.select']}"
-							action="#{borrowingmanagedbean.selectPublication(item.publication)}" />
-					</h:column>
-				</h:dataTable>
-			</h:form>
+					<p:dataTable id="retPubTable"
+						value="#{borrowingmanagedbean.user.borrowing}" var="b"
+						widgetVar="52" selectionMode="single"
+						selection="#{borrowingmanagedbean.borrowing}"
+						rowKey="#{b.publication.id}">
 
-			<h:form rendered="#{borrowingmanagedbean.borrowingIdCompleted}">
-				<p>
-					<h:column>
-						<h:commandButton value="#{msg['web.return']}"
-							action="#{borrowingmanagedbean.returnBorrowing()}" />
-					</h:column>
-				</p>
-			</h:form>
+						<p:ajax event="rowSelect"
+							listener="#{borrowingmanagedbean.selectReturnPublication()}" 
+							update = "form3"/>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.title']}" />
+							</f:facet>
+							<h:outputText value="#{b.publication.title}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg['web.type']}" />
+							</f:facet>
+							<h:outputText value="#{publicationmanagedbean.getType(b.publication)}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header"> 
+								<h:outputText value="#{msg['web.publisher']}" />
+							</f:facet>
+							<h:outputText value="#{b.publication.publisher}" />
+						</p:column>
+					</p:dataTable>
+
+					<h:form rendered="#{borrowingmanagedbean.borrowingIdCompleted}"> 
+						<p>
+							<h:column>
+								<p:commandButton value="#{msg['web.return']}"
+									action="#{borrowingmanagedbean.returnBorrowing()}" 
+									update="@all"
+								/>
+							</h:column>
+						</p>
+					</h:form>
+				</h:form>
+			</p:panel>
 		</h:column>
-
 	</h:panelGrid>
 
 	<ui:include src="/includes/footer.xhtml" />
