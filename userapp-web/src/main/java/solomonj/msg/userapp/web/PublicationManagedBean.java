@@ -63,7 +63,6 @@ public class PublicationManagedBean implements Serializable {
 		publicationList = new ArrayList<>();
 		try {
 			publicationList = getpublicationBean().getPublicationByFilter(publicationFilter);
-			System.out.println("size: " + publicationList.size());
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -80,18 +79,10 @@ public class PublicationManagedBean implements Serializable {
 
 	public void onLoad() {
 
-		book = null;
-		magazine = null;
-		newspaper = null;
-		titleFilter = "";
-	}
 
-	public void clearValues() {
-
-		book = null;
-		magazine = null;
-		newspaper = null;
-
+		book = new Book();
+		magazine = new Magazine();
+		newspaper = new Newspaper();
 	}
 
 	public IPublicationService getpublicationBean() {
@@ -115,6 +106,7 @@ public class PublicationManagedBean implements Serializable {
 
 		try {
 			publicationBean.deletePublication(publication);
+			init();
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -315,8 +307,17 @@ public class PublicationManagedBean implements Serializable {
 
 	public void addBook() {
 		try {
+			
+			List<Author> bAuthors = new ArrayList<>();
+			for (String author : selectedAuthors) {
+				bAuthors.add(new Author(Integer.parseInt(author)));
+			}
+			book.setbAuthors(bAuthors);
+			book.setCopiesLeft(book.getNrOfCopies());
+			selectedAuthors.clear();
 			publicationBean.createPublication(book);
-			book = null;
+			init();
+			newPubs();
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -327,7 +328,6 @@ public class PublicationManagedBean implements Serializable {
 
 		try {
 			publicationBean.updatePublication(book);
-			book = null;
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -338,8 +338,17 @@ public class PublicationManagedBean implements Serializable {
 	public void addMagazine() {
 
 		try {
+			
+			List<Author> mAuthors = new ArrayList<>();
+			for (String author : selectedAuthors) {
+				mAuthors.add(new Author(Integer.parseInt(author)));
+			}
+			magazine.setmAuthors(mAuthors);
+			magazine.setCopiesLeft(magazine.getNrOfCopies());
+			selectedAuthors.clear();
 			publicationBean.createPublication(magazine);
-			magazine = null;
+			init();
+			newPubs();
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
@@ -360,8 +369,16 @@ public class PublicationManagedBean implements Serializable {
 	public void addNewspaper() {
 
 		try {
+			List<Article> articles = new ArrayList<>();
+			for (String article : selectedArticles) {
+				articles.add(new Article(Integer.parseInt(article)));
+			}
+			newspaper.setArticles(articles);
+			newspaper.setCopiesLeft(newspaper.getNrOfCopies());
+			selectedArticles.clear();
 			publicationBean.createPublication(newspaper);
-			newspaper = null;
+			init();
+			newPubs();
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
