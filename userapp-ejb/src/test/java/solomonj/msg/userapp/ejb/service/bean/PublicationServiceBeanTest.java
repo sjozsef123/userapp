@@ -8,7 +8,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.doNothing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +28,7 @@ import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.ejb.repository.IBookRepository;
 import solomonj.msg.userapp.ejb.repository.IMagazineRepository;
 import solomonj.msg.userapp.ejb.repository.INewspaperRepository;
+import solomonj.msg.userapp.ejb.repository.IPubRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.jpa.model.Book;
 import solomonj.msg.userapp.jpa.model.Magazine;
@@ -49,6 +50,9 @@ public class PublicationServiceBeanTest {
 	
 	@Mock
 	public INewspaperRepository newspaperBean;
+	
+	@Mock
+	public IPubRepository publicationBean;
 	
 	@InjectMocks
 	public PublicationServiceBean publicationServiceBean;
@@ -130,13 +134,111 @@ public class PublicationServiceBeanTest {
 	}
 	
 	@Test(expected=ServiceException.class)
-	public void testGetPublicationByFilterThrowException() throws ServiceException {
+	public void testGetPublicationByFilterThrowException() throws Exception {
 		
 		PublicationFilter filter = new PublicationFilter();
 		String[] type = new String[1];
-		type[0] = new String("Trap");
+		type[0] = new String("Book");
 		filter.setType(type);
+
+		doThrow(new RepositoryException("publication.read")).when(bookBean).getByFilter(any());
 		
-		doThrow(new RepositoryException("publication.read"));
+		publicationServiceBean.getPublicationByFilter(filter);
 	}
+	
+	@Test
+	public void testGetAllPublication() throws Exception {
+		
+		List<Publication> publications = new ArrayList<>();
+		publications.add(new Book());
+		publications.add(new Magazine());
+		publications.add(new Newspaper());
+		
+		when(publicationBean.getlAll()).thenReturn(publications);
+		
+		publicationServiceBean.getAllPublication();
+		
+		verify(publicationBean, atLeastOnce()).getlAll();	
+	}
+	
+	@Test(expected=ServiceException.class)
+	public void testGetAllPublicationException() throws Exception {
+		
+		doThrow(new RepositoryException("publication.read")).when(publicationBean).getlAll();
+		
+		publicationServiceBean.getAllPublication();
+	}
+	
+	@Test(expected=ServiceException.class)
+	public void testCreatePublicationException() throws Exception {
+		
+		Publication publication = new Publication() {
+		};
+		
+		doThrow(new RepositoryException("publication.read")).when(publicationBean).create(publication);
+		
+		publicationServiceBean.createPublication(publication);
+	}
+	
+	@Test(expected=ServiceException.class)
+	public void testDeletePublicationException() throws Exception {
+		
+		Publication publication = new Publication() {
+		};
+		
+		doThrow(new RepositoryException("publication.read")).when(publicationBean).delete(publication);
+		
+		publicationServiceBean.deletePublication(publication);
+	}
+	
+	@Test(expected=ServiceException.class)
+	public void testUpdatePublicationException() throws Exception {
+		
+		Publication publication = new Publication() {
+		};
+		
+		doThrow(new RepositoryException("publication.read")).when(publicationBean).update(publication);
+		
+		publicationServiceBean.updatePublication(publication);
+	}
+	
+	@Test
+	public void testCreatePublication() throws Exception {
+		
+		Publication publication = new Publication() {
+		};
+		
+		doNothing().when(publicationBean).create(publication);
+		
+		publicationServiceBean.createPublication(publication);
+		verify(publicationBean, atLeastOnce()).create(publication);
+		
+	}
+	
+	@Test
+	public void testDeletePublication() throws Exception {
+		
+		Publication publication = new Publication() {
+		};
+		
+		doNothing().when(publicationBean).delete(publication);
+		
+		publicationServiceBean.deletePublication(publication);
+		verify(publicationBean, atLeastOnce()).delete(publication);
+		
+	}
+	
+	@Test
+	public void testupdatePublication() throws Exception {
+		
+		Publication publication = new Publication() {
+		};
+		
+		doNothing().when(publicationBean).update(publication);
+		
+		publicationServiceBean.updatePublication(publication);
+		verify(publicationBean, atLeastOnce()).update(publication);
+		
+	}
+	
 }
