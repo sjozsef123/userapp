@@ -8,8 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
-
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @DiscriminatorValue("newspaper")
 public class Newspaper extends Publication {
@@ -17,6 +23,8 @@ public class Newspaper extends Publication {
 	@Transient
 	private static final long serialVersionUID = 1L;
 
+	@XmlElementWrapper(name="articles")
+	@XmlElement(name="article")
 	@OneToMany
 	@JoinColumn(name = "publication_id")
 	List<Article> articles;

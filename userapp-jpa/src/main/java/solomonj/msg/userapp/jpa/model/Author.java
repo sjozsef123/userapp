@@ -4,12 +4,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
  * The persistent class for the authors database table.
  * 
  */
+@XmlRootElement
 @Entity
 @Table(name="authors")
 public class Author extends BaseEntity {
@@ -23,8 +25,9 @@ public class Author extends BaseEntity {
 	public Author() {
 	}
 	
-	public Author(int id) {
+	public Author(int id, String name) {
 		this.id = id;
+		this.name = name;
 	}
 
 	public String getName() {

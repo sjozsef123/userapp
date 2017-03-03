@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 //import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @Entity
 @Table(name = "articles")
 //@NamedQuery(name = "Article.freeArticles", query = "SELECT a FROM Article a WHERE a.publicationId is null")
@@ -18,6 +20,11 @@ public class Article extends BaseEntity {
 	private String title;
 
 	public Article() {
+	}
+	
+	public Article(int id, String title) {
+		this.id = id;
+		this.title = title;
 	}
 	
 	public Article(int id) {
