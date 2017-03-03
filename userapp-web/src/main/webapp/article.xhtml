@@ -92,7 +92,8 @@
 							<p:rowEditor />
 							<p:commandButton action="#{articleManagedBean.deleteArticleById(a)}"
 								title="#{msg['web.delete']}" icon="ui-icon-close" ajax="true"
-								update="articleTable" process="@this">
+								update="articleTable" process="@this"
+								onclick="if(!confirm('Do you really wanna do that?')) return false">
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>

@@ -33,6 +33,7 @@ public class BorrowingManagedBean implements Serializable {
 
 	private PublicationBorrowing borrowing = new PublicationBorrowing();
 	private PublicationBorrowingPK borrowingId = new PublicationBorrowingPK();
+	private PublicationBorrowingPK returnId = new PublicationBorrowingPK();
 	private User user = new User();
 	private Publication publication = null;
 	private Publication returnPublication = null;
@@ -55,27 +56,30 @@ public class BorrowingManagedBean implements Serializable {
 				|| ((getBorrowingId().getUserId() == 0) || (getBorrowingId().getPublicationId() == 0)) ? false : true;
 	}
 
+	public boolean getReturnIdCompleted() {
+		return (getReturnId() == null)
+				|| ((getReturnId().getUserId() == 0) || (getReturnId().getPublicationId() == 0)) ? false : true;
+	}
+
 	public void selectUser() {
 		final User u = this.user;
 		clearVariables();
 		this.user = u;
-		System.out.println(this.user+"U");
 		if (this.user != null) {
 			getBorrowingId().setUserId(this.user.getId());
+			getReturnId().setUserId(this.user.getId());
 		}
 	}
 
 	public void selectPublication() {
-		System.out.println(this.publication+"P");
 		if (this.publication != null) {
 			getBorrowingId().setPublicationId(this.publication.getId());
 		}
 	}
 
 	public void selectReturnPublication() {
-		System.out.println(this.returnPublication+"R");
 		if (this.returnPublication != null) {
-			getBorrowingId().setPublicationId(this.returnPublication.getId());
+			getReturnId().setPublicationId(this.returnPublication.getId());
 		}
 	}
 
@@ -85,6 +89,14 @@ public class BorrowingManagedBean implements Serializable {
 
 	public PublicationBorrowingPK getBorrowingId() {
 		return this.borrowingId;
+	}
+
+	public PublicationBorrowingPK getReturnId() {
+		return this.returnId;
+	}
+
+	public void setReturnId(final PublicationBorrowingPK returnId) {
+		this.returnId = returnId;
 	}
 
 	public User getUser() {
@@ -122,6 +134,7 @@ public class BorrowingManagedBean implements Serializable {
 
 	void clearVariables() {
 		setBorrowingId(new PublicationBorrowingPK());
+		setReturnId(new PublicationBorrowingPK());
 		setUser(new User());
 		setPublication(null);
 		setReturnPublication(null);
@@ -130,7 +143,7 @@ public class BorrowingManagedBean implements Serializable {
 
 	public void returnBorrowing() {
 		try {
-			getBorrowingBean().returnPublication(this.borrowingId);
+			getBorrowingBean().returnPublication(this.returnId);
 			clearVariables();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					LoginManagedBean.getResourceBundleString("web.borrowing.returnok"), null));
