@@ -11,9 +11,15 @@
 
 	<properties>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<jasperReport.version>6.4.0</jasperReport.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperReport.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
@@ -69,5 +75,40 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jasperreports-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile-reports</goal>
+						</goals>
+
+						<configuration>
+							<!-- jrxml file directory -->
+							<sourceDirectory>src\\main\\resources\\reports\\template</sourceDirectory>
+							<sourceFileExt>.jrxml</sourceFileExt>
+							<compiler>net.sf.jasperreports.engine.design.JRJavacCompiler</compiler>
+							<!-- Destination for jasper file -->
+							<outputDirectory>src\\main\\resources\\reports\\jasper</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+
+				<dependencies>
+
+					<dependency>
+						<groupId>net.sf.jasperreports</groupId>
+						<artifactId>jasperreports</artifactId>
+						<version>${jasperReport.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
 
 </project>
