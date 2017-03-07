@@ -88,11 +88,11 @@
 						</goals>
 
 						<configuration>
-							<!-- jrxml file directory -->
+						
 							<sourceDirectory>src\\main\\resources\\reports\\template</sourceDirectory>
 							<sourceFileExt>.jrxml</sourceFileExt>
 							<compiler>net.sf.jasperreports.engine.design.JRJavacCompiler</compiler>
-							<!-- Destination for jasper file -->
+					
 							<outputDirectory>src\\main\\resources\\reports\\jasper</outputDirectory>
 						</configuration>
 					</execution>
