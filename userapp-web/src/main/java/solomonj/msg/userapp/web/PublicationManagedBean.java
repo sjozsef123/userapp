@@ -91,7 +91,7 @@ public class PublicationManagedBean implements Serializable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initReport() throws JRException, ServiceException{
         JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(getpublicationBean().getPubStat());
-        InputStream reportPath=  FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/classes/reports/jasper/jasper_report_template.jasper"); 
+        InputStream reportPath=  FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/classes/reports/jasper/publication_template.jasper"); 
         jasperPrint=JasperFillManager.fillReport(reportPath, new HashMap(), beanCollectionDataSource);
 
     }

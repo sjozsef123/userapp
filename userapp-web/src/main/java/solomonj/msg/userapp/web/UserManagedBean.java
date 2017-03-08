@@ -54,7 +54,7 @@ public class UserManagedBean implements Serializable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initReport() throws JRException{
         JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(allUsers);
-        InputStream reportPath=  FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/classes/reports/jasper/template.jasper"); 
+        InputStream reportPath=  FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/classes/reports/jasper/user_template.jasper"); 
         jasperPrint=JasperFillManager.fillReport(reportPath, new HashMap(), beanCollectionDataSource);
 
     }
