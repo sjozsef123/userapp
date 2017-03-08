@@ -5,12 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
  * The persistent class for the roles database table.
  * 
  */
+@XmlRootElement(name="role")
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name="roles")
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")

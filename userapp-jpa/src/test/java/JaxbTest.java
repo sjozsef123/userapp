@@ -1,18 +1,22 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+//import org.junit.Test;
 
 import solomonj.msg.userapp.jpa.model.Article;
 import solomonj.msg.userapp.jpa.model.Author;
 import solomonj.msg.userapp.jpa.model.Book;
 import solomonj.msg.userapp.jpa.model.Magazine;
 import solomonj.msg.userapp.jpa.model.Newspaper;
+import solomonj.msg.userapp.jpa.model.Publication;
 import solomonj.msg.userapp.jpa.util.JaxB;
 
-public class JaxBTest {
+public class JaxbTest {
 
-	@Test
+//	@Test
 	public void test() {
 		
 		Book book = new Book();
@@ -36,8 +40,21 @@ public class JaxBTest {
 		articles.add(new Article(2, "art2"));
 		newspaper.setArticles(articles);
 		
-		JaxB.marshall(newspaper);
+//		JaxB.marshall(book);
 		
+		List<Publication> publications = new ArrayList<>();
+		publications.add(book);
+		publications.add(magazine);
+		publications.add(newspaper);
+		
+//		try {
+//			JaxB.marshal(publications, Publication.class, "publications", new FileOutputStream(new File("target/out.xml")));
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		List<Publication> unpub = JaxB.unmarshal(Publication.class, "target/out.xml");
+//		System.err.println(unpub.size());
 	}
 	
 }

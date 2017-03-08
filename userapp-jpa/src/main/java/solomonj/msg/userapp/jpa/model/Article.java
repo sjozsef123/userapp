@@ -5,9 +5,12 @@ import javax.persistence.Entity;
 //import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name="article")
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "articles")
 //@NamedQuery(name = "Article.freeArticles", query = "SELECT a FROM Article a WHERE a.publicationId is null")
@@ -46,5 +49,12 @@ public class Article extends BaseEntity {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	@Override
+	public String toString() {
+		return "Article [title=" + title + ", id=" + id + "]";
+	}
+	
+	
 	
 }

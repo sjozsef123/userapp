@@ -178,6 +178,12 @@
 		
 		<h:form id="tableForm">
 		<p:panel header="#{msg['web.publication.header.publications']}" toggleable="true">
+		<h:form>
+			<p:fileUpload fileUploadListener="#{publicationmanagedbean.load}" sizeLimit="100000" 
+				mode="advanced"  update="uploadMessage" allowTypes="/(\.|\/)(xml)$/"/>
+			<p:growl id="uploadMessage" showDetail="true" />
+		</h:form>
+		<h:commandButton value="Export"  action="#{publicationmanagedbean.save}"/>
 		<p:dataTable id="publicationTable" var="item" value="#{publicationmanagedbean.publicationList}" 
 					emptyMessage="No publications found!" editable="true"
 					>
@@ -406,7 +412,7 @@
 			
 		</p:dataTable>
 		</p:panel>	
-				
+		
 		</h:form>
 	</h:column>
 

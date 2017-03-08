@@ -35,8 +35,8 @@ public class PublicationManagedBeanTest {
 //	@Rule
 //	public MockitoRule mockitoRule = MockitoJUnit.rule();
 	
-	@Mock
-	public IPublicationService publicationService;
+//	@Mock
+//	public IPublicationService publicationService;
 	
 	@InjectMocks
 	public PublicationManagedBean publicationManagedBean;

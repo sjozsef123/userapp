@@ -13,7 +13,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name="user")
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name="users")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
@@ -38,6 +45,8 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private List<PublicationBorrowing> borrowings;
 
+	@XmlElementWrapper(name="roles")
+	@XmlElement(name="role")
 	@ManyToMany(fetch = FetchType.EAGER)	
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;

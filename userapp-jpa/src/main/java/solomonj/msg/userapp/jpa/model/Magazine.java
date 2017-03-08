@@ -3,6 +3,7 @@ package solomonj.msg.userapp.jpa.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -15,7 +16,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name="magazine")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @DiscriminatorValue("magazine")
@@ -26,7 +27,7 @@ public class Magazine extends Publication {
 
 	@XmlElementWrapper(name="authors")
 	@XmlElement(name="author")
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.MERGE)
 	@JoinTable(name = "publications_authors", joinColumns = @JoinColumn(name = "publication_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private List<Author> mAuthors;
 
@@ -43,4 +44,12 @@ public class Magazine extends Publication {
 		this.mAuthors = mAuthors;
 	}
 
+	@Override
+	public String toString() {
+		return "Magazine [mAuthors=" + mAuthors + ", id=" + id + ", getCopiesLeft()=" + getCopiesLeft()
+				+ ", getNrOfCopies()=" + getNrOfCopies() + ", getPublisher()=" + getPublisher() + ", getReleaseDate()="
+				+ getReleaseDate() + ", getTitle()=" + getTitle() + "]";
+	}
+
+	
 }

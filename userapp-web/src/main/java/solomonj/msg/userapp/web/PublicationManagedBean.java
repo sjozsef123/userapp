@@ -1,5 +1,9 @@
 package solomonj.msg.userapp.web;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,8 +16,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.UploadedFile;
 
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IPublicationService;
@@ -24,6 +33,7 @@ import solomonj.msg.userapp.jpa.model.Book;
 import solomonj.msg.userapp.jpa.model.Magazine;
 import solomonj.msg.userapp.jpa.model.Newspaper;
 import solomonj.msg.userapp.jpa.model.Publication;
+import solomonj.msg.userapp.jpa.util.JaxB;
 
 /**
  * Managed bean for publications.
@@ -68,17 +78,16 @@ public class PublicationManagedBean implements Serializable {
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
-	
+
 	public void newPubs() {
-		
+
 		book = new Book();
 		magazine = new Magazine();
 		newspaper = new Newspaper();
-		
+
 	}
 
 	public void onLoad() {
-
 
 		book = new Book();
 		magazine = new Magazine();
@@ -134,13 +143,13 @@ public class PublicationManagedBean implements Serializable {
 		}
 		return true;
 	}
-	
+
 	public boolean selectedArticles(Newspaper newspaper) {
-		
+
 		selectedArticles.clear();
 		List<Article> articles = newspaper.getArticles();
-		
-		for(Article a: articles) {
+
+		for (Article a : articles) {
 			selectedArticles.add(new Integer(a.getId()).toString());
 		}
 		return true;
@@ -307,7 +316,7 @@ public class PublicationManagedBean implements Serializable {
 
 	public void addBook() {
 		try {
-			
+
 			List<Author> bAuthors = new ArrayList<>();
 			for (String author : selectedAuthors) {
 				bAuthors.add(new Author(Integer.parseInt(author)));
@@ -338,7 +347,7 @@ public class PublicationManagedBean implements Serializable {
 	public void addMagazine() {
 
 		try {
-			
+
 			List<Author> mAuthors = new ArrayList<>();
 			for (String author : selectedAuthors) {
 				mAuthors.add(new Author(Integer.parseInt(author)));
@@ -415,6 +424,45 @@ public class PublicationManagedBean implements Serializable {
 		return maxStock > editedCurrentStock ? true : false;
 	}
 
+	public void save() {
+
+		try {
+			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
+					.getExternalContext().getResponse();
+			httpServletResponse.reset();
+			httpServletResponse.setHeader("Content-disposition", "attachment; filename=publications.xml");
+			httpServletResponse.setContentType("text/xml");
+			ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+			JaxB.marshal(publicationList, Publication.class, "publications", servletOutputStream);
+			FacesContext.getCurrentInstance().responseComplete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void load(FileUploadEvent event) {
+
+		UploadedFile file = event.getFile();
+		try {
+			InputStream inputStream = file.getInputstream();
+			List<Publication> publications = JaxB.unmarshal(Publication.class, inputStream);
+			
+			for(Publication p: publications) {
+				
+				getpublicationBean().updatePublication(p);
+			}
+			
+			FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			
+		} catch (IOException | ServiceException e) {
+			e.printStackTrace();
+			FacesMessage message = new FacesMessage("Failed", "Something went wrong");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} 
+	}
+
 	public Book getBook() {
 		return book;
 	}
@@ -454,8 +502,6 @@ public class PublicationManagedBean implements Serializable {
 	public void setSelectedAuthors(List<String> selectedAuthors) {
 		this.selectedAuthors = selectedAuthors;
 	}
-	
-	
 
 	public List<String> getSelectedArticles() {
 		return selectedArticles;
@@ -481,7 +527,7 @@ public class PublicationManagedBean implements Serializable {
 				break;
 			case "Magazine":
 				List<Author> mAuthors = new ArrayList<>();
-				for(String author: selectedAuthors) {
+				for (String author : selectedAuthors) {
 					mAuthors.add(new Author(Integer.parseInt(author)));
 				}
 				Magazine magazine = (Magazine) event.getObject();
