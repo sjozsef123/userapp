@@ -1,20 +1,31 @@
 package solomonj.msg.userapp.web;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.event.RowEditEvent;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.service.IPublicationService;
 import solomonj.msg.appuser.common.util.PublicationFilter;
@@ -49,6 +60,8 @@ public class PublicationManagedBean implements Serializable {
 	private PublicationFilter publicationFilter;
 	private List<String> selectedAuthors;
 	private List<String> selectedArticles;
+	
+	private JasperPrint jasperPrint;
 
 	public PublicationManagedBean() {
 
@@ -68,6 +81,27 @@ public class PublicationManagedBean implements Serializable {
 					LoginManagedBean.getResourceBundleString(e.getMessage()), null));
 		}
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void initReport() throws JRException, ServiceException{
+        JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(getpublicationBean().getPubStat());
+        InputStream reportPath=  FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/classes/reports/jasper/jasper_report_template.jasper"); 
+        jasperPrint=JasperFillManager.fillReport(reportPath, new HashMap(), beanCollectionDataSource);
+
+    }
+     
+   public void toPdf(ActionEvent actionEvent) throws JRException, IOException, ServiceException{
+       initReport();
+    
+       HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+       httpServletResponse.reset();
+       httpServletResponse.setHeader("Content-disposition", "attachment; filename=report.pdf");
+       httpServletResponse.setContentType("application/pdf");
+        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+        FacesContext.getCurrentInstance().responseComplete();
+        
+   }
 	
 	public void newPubs() {
 		

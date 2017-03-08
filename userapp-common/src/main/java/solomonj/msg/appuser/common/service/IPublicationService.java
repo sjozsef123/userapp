@@ -5,6 +5,7 @@ import java.util.List;
 import solomonj.msg.appuser.common.exception.ServiceException;
 import solomonj.msg.appuser.common.util.PublicationFilter;
 import solomonj.msg.userapp.jpa.model.Publication;
+import solomonj.msg.userapp.jpa.model.PublicationStat;
 
 /**
  * Interface for publication CRUD operations.
@@ -44,4 +45,6 @@ public interface IPublicationService {
 	
 	void createPublication(Publication publication) throws ServiceException;
 	void updatePublication(Publication publication) throws ServiceException;
+	
+	public List<PublicationStat> getPubStat() throws ServiceException;
 }

@@ -50,6 +50,7 @@ public class UserManagedBean implements Serializable {
 	private String searchName = "";
 	private JasperPrint jasperPrint;
 	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initReport() throws JRException{
         JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(allUsers);
