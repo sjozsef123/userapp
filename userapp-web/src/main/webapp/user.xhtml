@@ -196,10 +196,9 @@
 					</p:dataTable>
 
 					<p:panel header="#{msg['web.user.export']}">
-						<h:commandLink>
-							<p:graphicImage value="/icons/pdf.png" />
-							<p:dataExporter type="pdf" target="userTable" fileName="mypdf" />
-						</h:commandLink>
+					
+						<h:commandButton actionListener="#{usermanagedbean.toPdf}" value="PDF"/>
+					
 					</p:panel>
 
 				</h:form>

@@ -19,6 +19,7 @@ import solomonj.msg.userapp.ejb.repository.IPubRepository;
 import solomonj.msg.userapp.ejb.repository.exception.RepositoryException;
 import solomonj.msg.userapp.ejb.util.DebugMessages;
 import solomonj.msg.userapp.jpa.model.Publication;
+import solomonj.msg.userapp.jpa.model.PublicationStat;
 
 /**
  * Basic repository generic functions for publications.
@@ -38,7 +39,7 @@ public class PublicationServiceBean implements IPublicationService {
 	private IMagazineRepository magazineBean;
 	@EJB
 	private INewspaperRepository newspaperBean;
-	
+
 	private Logger oLogger = Logger.getLogger(PublicationServiceBean.class);
 
 	@Override
@@ -66,18 +67,18 @@ public class PublicationServiceBean implements IPublicationService {
 
 	@Override
 	public List<Publication> getPublicationByFilter(PublicationFilter filter) throws ServiceException {
-		List<Publication> filteredPublications = new ArrayList<>(); 
-		
+		List<Publication> filteredPublications = new ArrayList<>();
+
 		try {
 			oLogger.debug(DebugMessages.SEARCH_PUBLICATIONS_BY_NAME);
 
-			if(Arrays.asList(filter.getType()).contains(new String("Book"))) {
+			if (Arrays.asList(filter.getType()).contains(new String("Book"))) {
 				filteredPublications.addAll(bookBean.getByFilter(filter));
 			}
-			if(Arrays.asList(filter.getType()).contains(new String("Magazine"))) {
+			if (Arrays.asList(filter.getType()).contains(new String("Magazine"))) {
 				filteredPublications.addAll(magazineBean.getByFilter(filter));
 			}
-			if(Arrays.asList(filter.getType()).contains(new String("Newspaper"))) {
+			if (Arrays.asList(filter.getType()).contains(new String("Newspaper"))) {
 				filteredPublications.addAll(newspaperBean.getByFilter(filter));
 			}
 			oLogger.debug(DebugMessages.SEARCH_PUBLICATIONS_BY_NAME_OK);
@@ -99,7 +100,7 @@ public class PublicationServiceBean implements IPublicationService {
 			throw new ServiceException(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void updatePublication(Publication publication) throws ServiceException {
 		try {
@@ -110,6 +111,24 @@ public class PublicationServiceBean implements IPublicationService {
 			oLogger.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
+	}
+
+	@Override
+	public List<PublicationStat> getPubStat() throws ServiceException {
+		List<PublicationStat> pubStat = new ArrayList<>();
+		PublicationFilter filter = new PublicationFilter();
+		try {
+			pubStat.add(new PublicationStat("book", bookBean.getByFilter(filter).size()));
+			pubStat.add(new PublicationStat("magazin", magazineBean.getByFilter(filter).size()));
+			pubStat.add(new PublicationStat("newspaper", newspaperBean.getByFilter(filter).size()));
+			
+		} catch (RepositoryException e) {
+			oLogger.error(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		
+		return pubStat;
+		
 	}
 
 }
