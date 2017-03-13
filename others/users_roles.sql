@@ -4,7 +4,7 @@ create schema `userapp`;
 use userapp;
 
 CREATE TABLE `userapp`.`users` (
-	`id` int(10) NOT NULL AUTO_INCREMENT,
+	`id` VARCHAR(100) NOT NULL,
 	`username` VARCHAR(45) NOT NULL,
     `email` VARCHAR(45) NOT NULL,
 	`loyalty_index` INT(2),
@@ -18,7 +18,7 @@ insert into users (`id`, `username`, `email`, `loyalty_index`, `password`)  valu
 insert into users (`id`, `username`, `email`, `loyalty_index`, `password`)  values (4, 'Csilla','csilla@yahoo.com', 0, '¸Ÿô�Nô@äcµ0ÚGW›¢d>');
 
 CREATE TABLE `userapp`.`roles` (
-	`id` int(10) NOT NULL AUTO_INCREMENT,
+	`id` VARCHAR(100) NOT NULL,
 	`rolename` VARCHAR(45) NOT NULL,
 PRIMARY KEY `pk_roles` (`id`),
 UNIQUE KEY `uk_roles` (`rolename`)
@@ -28,8 +28,8 @@ insert into roles (`id`, `rolename`) values('1', 'administrator');
 insert into roles (`id`, `rolename`) values('2', 'user');
 
 CREATE TABLE `userapp`.`users_roles` (
-	`user_id` int(10) NOT NULL,
-	`role_id` int(10) NOT NULL,
+	`user_id` VARCHAR(100) NOT NULL,
+	`role_id` VARCHAR(100) NOT NULL,
 PRIMARY KEY `pk_ur` (`user_id`,`role_id`),
 CONSTRAINT `fk_ur_user` FOREIGN KEY (`user_id`) REFERENCES `userapp`.`users` (`id`) ON DELETE CASCADE
        ON UPDATE CASCADE,
@@ -43,7 +43,7 @@ insert into users_roles (`user_id`, `role_id`) values ('4', '2');
 
 
 CREATE TABLE `userapp`.`authors` (
-	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`id` VARCHAR(100) NOT NULL,
 	`name` VARCHAR(45) NOT NULL UNIQUE,
 PRIMARY KEY (`id`),
 UNIQUE INDEX `id_UNIQUE` (`id` ASC));
@@ -53,7 +53,7 @@ INSERT INTO `userapp`.`authors` (`id`, `name`) VALUES ('13', 'Jokai Mor');
   
 
 CREATE TABLE `userapp`.`publications` (
-  `id`INT(10) NOT NULL AUTO_INCREMENT,
+  `id`VARCHAR(100) NOT NULL,
   `title` VARCHAR(45) NOT NULL UNIQUE,
   `publisher` VARCHAR(45),  
   `release_date` date,
@@ -71,8 +71,8 @@ INSERT INTO `userapp`.`publications` (`id`, `title`, `publisher`, `release_date`
 
 
 CREATE TABLE `userapp`.`articles` (
-  `id` INT(10) NOT NULL AUTO_INCREMENT,
-  `publication_id` INT(10),
+  `id` VARCHAR(100) NOT NULL,
+  `publication_id` VARCHAR(100),
   `title` VARCHAR(45) NOT NULL UNIQUE,
 PRIMARY KEY (`id`),
 FOREIGN KEY (publication_id) 
@@ -94,8 +94,8 @@ INSERT INTO `userapp`.`articles` (`id`, `publication_id`, `title`) VALUES ('134'
 
 
 CREATE TABLE `userapp`.`publications_authors` (
-  `publication_id` INT(10) NOT NULL,
-  `author_id` INT(10) NOT NULL, 
+  `publication_id` VARCHAR(100) NOT NULL,
+  `author_id` VARCHAR(100) NOT NULL, 
 PRIMARY KEY (`publication_id`,`author_id`),
 FOREIGN KEY (publication_id) 
 	REFERENCES `userapp`.`publications`(id)
@@ -109,8 +109,8 @@ INSERT INTO `userapp`.`publications_authors` (`publication_id`, `author_id`) VAL
 
 
 create table `userapp`.`publications_borrowings`(
-	`publication_id` INT(10) NOT NULL,
-	`user_id` INT(10) NOT NULL,
+	`publication_id` VARCHAR(100) NOT NULL,
+	`user_id` VARCHAR(100) NOT NULL,
 	`borrowing_date` DATE,
 	`deadline` DATE,
 PRIMARY KEY (`publication_id`,`user_id`),

@@ -92,7 +92,7 @@ public class UserRepositoryBean extends BasicRepositoryBean<User> implements IUs
 	}
 
 	@Override
-	public User getUserById(int id) {
+	public User getUserById(String id) {
 		oLogger.debug(DebugMessages.GET_USER_BY_ID);
 		return entityManager.find(User.class, id);
 	}

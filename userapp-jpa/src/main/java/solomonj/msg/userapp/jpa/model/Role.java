@@ -30,7 +30,7 @@ public class Role extends BaseEntity {
 	public Role() {
 	}
 	
-	public Role(int id) {
+	public Role(String id) {
 		
 		this.id = id;
 	}
@@ -43,9 +43,33 @@ public class Role extends BaseEntity {
 		this.rolename = rolename;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Role [rolename=" + rolename + "]";
-//	}
+	@Override
+	public String toString() {
+		return "Role [rolename=" + rolename + "]";
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((rolename == null) ? 0 : rolename.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Role other = (Role) obj;
+		if (rolename == null) {
+			if (other.rolename != null)
+				return false;
+		} else if (!rolename.equals(other.rolename))
+			return false;
+		return true;
+	}
 }

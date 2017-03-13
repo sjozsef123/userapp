@@ -49,6 +49,29 @@ public class Newspaper extends Publication {
 				+ getReleaseDate() + ", getTitle()=" + getTitle() + "]";
 	}
 
-	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((articles == null) ? 0 : articles.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Newspaper other = (Newspaper) obj;
+		if (articles == null) {
+			if (other.articles != null)
+				return false;
+		} else if (!articles.equals(other.articles))
+			return false;
+		return true;
+	}
+
 }

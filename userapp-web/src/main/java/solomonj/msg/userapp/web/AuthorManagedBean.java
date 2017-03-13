@@ -84,6 +84,7 @@ public class AuthorManagedBean implements Serializable {
 	public void insertAuthor(final Author author) {
 		try {
 			if (checkAuthorName(author.getName())) {
+				author.getId();
 				getAuthorBean().insertAuthor(author);
 			}
 		} catch (final ServiceException e) {

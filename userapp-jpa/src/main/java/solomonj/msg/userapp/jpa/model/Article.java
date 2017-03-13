@@ -25,20 +25,12 @@ public class Article extends BaseEntity {
 	public Article() {
 	}
 	
-	public Article(int id, String title) {
+	public Article(String id, String title) {
 		this.id = id;
 		this.title = title;
 	}
 	
-	public Article(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
+	public Article(String id) {
 		this.id = id;
 	}
 
@@ -53,6 +45,31 @@ public class Article extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Article [title=" + title + ", id=" + id + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Article other = (Article) obj;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
 	
 	

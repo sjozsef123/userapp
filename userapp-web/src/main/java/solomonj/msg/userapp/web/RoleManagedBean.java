@@ -84,6 +84,7 @@ public class RoleManagedBean implements Serializable {
 
 	public void insertRole(Role role) {
 		try {
+			role.getId();
 			getRoleBean().insertRole(role);
 		} catch (ServiceException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,

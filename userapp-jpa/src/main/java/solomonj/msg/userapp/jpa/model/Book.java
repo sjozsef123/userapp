@@ -50,6 +50,31 @@ public class Book extends Publication {
 				+ ", getNrOfCopies()=" + getNrOfCopies() + ", getPublisher()=" + getPublisher() + ", getReleaseDate()="
 				+ getReleaseDate() + ", getTitle()=" + getTitle() + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((bAuthors == null) ? 0 : bAuthors.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Book other = (Book) obj;
+		if (bAuthors == null) {
+			if (other.bAuthors != null)
+				return false;
+		} else if (!bAuthors.equals(other.bAuthors))
+			return false;
+		return true;
+	}
 	
 	
 

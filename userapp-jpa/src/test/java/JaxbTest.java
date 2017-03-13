@@ -22,22 +22,22 @@ public class JaxbTest {
 		Book book = new Book();
 		book.setTitle("book");
 		List<Author> bauthors = new ArrayList<>();
-		bauthors.add(new Author(1, "name1"));
-		bauthors.add(new Author(2, "name2"));
+		bauthors.add(new Author("1", "name1"));
+		bauthors.add(new Author("2", "name2"));
 		book.setbAuthors(bauthors);
 		
 		Magazine magazine = new Magazine();
 		magazine.setTitle("magazine");
 		List<Author> mauthors = new ArrayList<>();
-		mauthors.add(new Author(1, "name1"));
-		mauthors.add(new Author(2, "name2"));
+		mauthors.add(new Author("1", "name1"));
+		mauthors.add(new Author("2", "name2"));
 		magazine.setmAuthors(mauthors);
 		
 		Newspaper newspaper = new Newspaper();
 		newspaper.setTitle("newspaper");
 		List<Article> articles = new ArrayList<>();
-		articles.add(new Article(1, "art1"));
-		articles.add(new Article(2, "art2"));
+		articles.add(new Article("1", "art1"));
+		articles.add(new Article("2", "art2"));
 		newspaper.setArticles(articles);
 		
 //		JaxB.marshall(book);

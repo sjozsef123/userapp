@@ -47,14 +47,6 @@ public abstract class Publication extends BaseEntity {
 	public Publication() {
 	}
 
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public int getCopiesLeft() {
 		return this.copiesLeft;
 	}
@@ -95,4 +87,48 @@ public abstract class Publication extends BaseEntity {
 		this.title = title;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + copiesLeft;
+		result = prime * result + nrOfCopies;
+		result = prime * result + ((publisher == null) ? 0 : publisher.hashCode());
+		result = prime * result + ((releaseDate == null) ? 0 : releaseDate.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Publication other = (Publication) obj;
+		if (copiesLeft != other.copiesLeft)
+			return false;
+		if (nrOfCopies != other.nrOfCopies)
+			return false;
+		if (publisher == null) {
+			if (other.publisher != null)
+				return false;
+		} else if (!publisher.equals(other.publisher))
+			return false;
+		if (releaseDate == null) {
+			if (other.releaseDate != null)
+				return false;
+		} else if (!releaseDate.equals(other.releaseDate))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+
+	
 }

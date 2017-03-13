@@ -148,6 +148,7 @@ public class UserManagedBean implements Serializable {
 	public void insert() {
 		try {
 			this.user.setRoles(rolesToInt());
+			user.getId();
 			getUserBean().insertUser(this.user);
 			this.allUsers.add(this.user);
 			this.user = new User();
@@ -196,7 +197,7 @@ public class UserManagedBean implements Serializable {
 	private List<Role> rolesToInt() {
 		final List<Role> roles = new ArrayList<>();
 		for (final String i : this.selectedRoles) {
-			roles.add(new Role(Integer.parseInt(i)));
+			roles.add(new Role(i));
 		}
 		return roles;
 	}

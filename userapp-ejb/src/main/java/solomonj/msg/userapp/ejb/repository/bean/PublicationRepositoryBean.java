@@ -65,7 +65,7 @@ public abstract class PublicationRepositoryBean<T extends Publication> extends B
 	}
 
 	@Override
-	public Publication getPublicationById(final int id) {
+	public Publication getPublicationById(final String id) {
 		this.oLogger.debug(DebugMessages.GET_PUBLICATION_BY_ID);
 		return this.entityManager.find(this.cls, id);
 	}

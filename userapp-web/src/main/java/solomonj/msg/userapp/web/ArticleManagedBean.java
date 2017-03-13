@@ -85,6 +85,7 @@ public class ArticleManagedBean implements Serializable {
 	public void insertArticle(final Article article) {
 		try {
 			if (checkArticleTitle(article.getTitle())) {
+				article.getId();
 				getArticleBean().insertArticle(article);
 			}
 		} catch (final ServiceException e) {

@@ -29,11 +29,11 @@ public class Author extends BaseEntity {
 	public Author() {
 	}
 	
-	public Author(int id) {
+	public Author(String id) {
 		this.id = id;
 	}
 	
-	public Author(int id, String name) {
+	public Author(String id, String name) {
 		this.id = id;
 		this.name = name;
 	}

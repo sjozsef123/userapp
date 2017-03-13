@@ -51,5 +51,31 @@ public class Magazine extends Publication {
 				+ getReleaseDate() + ", getTitle()=" + getTitle() + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((mAuthors == null) ? 0 : mAuthors.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Magazine other = (Magazine) obj;
+		if (mAuthors == null) {
+			if (other.mAuthors != null)
+				return false;
+		} else if (!mAuthors.equals(other.mAuthors))
+			return false;
+		return true;
+	}
+
+	
 	
 }

@@ -39,7 +39,7 @@ public interface IUserRepository extends IBasicRepository<User> {
 	 * @return user
 	 * @throws RepositoryException
 	 */
-	public User getUserById(int id) throws RepositoryException;
+	public User getUserById(String id) throws RepositoryException;
 
 	/**
 	 * This function implements login.

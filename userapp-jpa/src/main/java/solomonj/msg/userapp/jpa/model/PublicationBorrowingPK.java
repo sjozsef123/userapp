@@ -14,45 +14,53 @@ public class PublicationBorrowingPK implements Serializable {
 	private static final long serialVersionUID = -7733366869965132043L;
 
 	@Column(name="publication_id", insertable=false, updatable=false)
-	private int publicationId;
+	private String publicationId;
 
 	@Column(name="user_id", insertable=false, updatable=false)
-	private int userId;
+	private String userId;
 
 	public PublicationBorrowingPK() {
 	}
-	public int getPublicationId() {
+	public String getPublicationId() {
 		return this.publicationId;
 	}
-	public void setPublicationId(int publicationId) {
+	public void setPublicationId(String publicationId) {
 		this.publicationId = publicationId;
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof PublicationBorrowingPK)) {
-			return false;
-		}
-		PublicationBorrowingPK castOther = (PublicationBorrowingPK)other;
-		return 
-			(this.publicationId == castOther.publicationId)
-			&& (this.userId == castOther.userId);
-	}
-
+	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.publicationId;
-		hash = hash * prime + this.userId;
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ((publicationId == null) ? 0 : publicationId.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PublicationBorrowingPK other = (PublicationBorrowingPK) obj;
+		if (publicationId == null) {
+			if (other.publicationId != null)
+				return false;
+		} else if (!publicationId.equals(other.publicationId))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
+	}
+
 }

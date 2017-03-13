@@ -29,5 +29,5 @@ public interface IPublicationRepository<T extends Publication> extends IBasicRep
 	 * @param id
 	 * @return publication
 	 */
-	public Publication getPublicationById(int id) throws RepositoryException;
+	public Publication getPublicationById(String id) throws RepositoryException;
 }

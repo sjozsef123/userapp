@@ -51,15 +51,6 @@ public class BorrowingManagedBean implements Serializable {
 		return this.borrowingBean;
 	}
 
-	public boolean getBorrowingIdCompleted() {
-		return (getBorrowingId() == null)
-				|| ((getBorrowingId().getUserId() == 0) || (getBorrowingId().getPublicationId() == 0)) ? false : true;
-	}
-
-	public boolean getReturnIdCompleted() {
-		return (getReturnId() == null)
-				|| ((getReturnId().getUserId() == 0) || (getReturnId().getPublicationId() == 0)) ? false : true;
-	}
 
 	public void selectUser() {
 		final User u = this.user;

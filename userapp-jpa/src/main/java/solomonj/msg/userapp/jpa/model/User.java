@@ -3,6 +3,7 @@ package solomonj.msg.userapp.jpa.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,7 +48,7 @@ public class User extends BaseEntity {
 
 	@XmlElementWrapper(name="roles")
 	@XmlElement(name="role")
-	@ManyToMany(fetch = FetchType.EAGER)	
+	@ManyToMany(fetch = FetchType.EAGER, cascade={CascadeType.REMOVE})	
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
 
@@ -56,20 +57,12 @@ public class User extends BaseEntity {
 		borrowings = new ArrayList<>();
 	}
 
-	public User(int id, String userName) {
+	public User(String id, String userName) {
 		this();
-		setId(id);
+		this.id = id;
 		this.username = userName;		
 }
 	
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public int getLoyaltyIndex() {
 		return this.loyaltyIndex;
 	}
@@ -131,6 +124,57 @@ public class User extends BaseEntity {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((borrowings == null) ? 0 : borrowings.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + loyaltyIndex;
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (borrowings == null) {
+			if (other.borrowings != null)
+				return false;
+		} else if (!borrowings.equals(other.borrowings))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (loyaltyIndex != other.loyaltyIndex)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+	
 }
