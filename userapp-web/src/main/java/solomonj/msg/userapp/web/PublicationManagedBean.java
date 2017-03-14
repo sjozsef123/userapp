@@ -481,7 +481,6 @@ public class PublicationManagedBean implements Serializable {
 //			getpublicationBean().updatePublication(publications.get(0));
 			for(Publication p: publications) {
 				
-				getpublicationBean().updatePublication(p);
 				System.out.println("--------------------------------------------------------");
 				System.out.println(p);
 				switch(p.getClass().getSimpleName()) {
@@ -501,6 +500,7 @@ public class PublicationManagedBean implements Serializable {
 					}
 				}
 				System.out.println(p.getClass().getSimpleName() + " hashcode: " + p.hashCode());
+				getpublicationBean().updatePublication(p);
 			}
 			
 			FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
