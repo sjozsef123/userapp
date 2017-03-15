@@ -31,13 +31,12 @@ CREATE TABLE `userapp`.`users_roles` (
 	`user_id` VARCHAR(100) NOT NULL,
 	`role_id` VARCHAR(100) NOT NULL,
 PRIMARY KEY `pk_ur` (`user_id`,`role_id`),
-CONSTRAINT `fk_ur_user` FOREIGN KEY (`user_id`) REFERENCES `userapp`.`users` (`id`) ON DELETE CASCADE
-       ON UPDATE CASCADE,
+CONSTRAINT `fk_ur_user` FOREIGN KEY (`user_id`) REFERENCES `userapp`.`users` (`id`) ,
 CONSTRAINT `fk_ur_role` FOREIGN KEY (`role_id`) REFERENCES `userapp`.`roles` (`id`) 
 );
 
 insert into users_roles (`user_id`, `role_id`) values ('1', '1');
-insert into users_roles (`user_id`, `role_id`) values ('2', '2');
+insert into users_roles (`user_id`, `role_id`) values ('2', '1');
 insert into users_roles (`user_id`, `role_id`) values ('3', '1');
 insert into users_roles (`user_id`, `role_id`) values ('4', '2');
 
