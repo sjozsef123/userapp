@@ -13,15 +13,13 @@
 	<title>#{msg['web.author.title']}</title>
 </h:head>
 <body>
+<ui:include src="/includes/navigation.xhtml" />
 	<p:messages id="messages" showDetail="false" autoUpdate="true"
 		closable="true" />
 
-	<h:panelGrid id="panel" columns="2" border="0" cellpadding="20"
+	<h:panelGrid id="panel" columns="1" border="0" cellpadding="20"
 		cellspacing="1">
 
-		<h:column>
-			<ui:include src="/includes/navigation.xhtml" />
-		</h:column>
 
 		<h:column>
 			<p:panel header="#{msg['web.author.authors']}">
@@ -101,6 +99,6 @@
 			</p:panel>
 		</h:column>
 	</h:panelGrid>
-	<ui:include src="/includes/footer.xhtml" />
+<ui:include src="/includes/footer.xhtml" />
 </body>
 </html>
