@@ -59,12 +59,12 @@ public class BorrowingServiceTest {
 		User user = new User();
 		user.setLoyaltyIndex(1);
 
-		when(pubRepository.getPublicationById(anyInt())).thenReturn(book);
+		when(pubRepository.getPublicationById(any())).thenReturn(book);
 		doNothing().when(pubRepository).update(book);
 		when(borrowing.getDeadline()).thenReturn(Date.valueOf(LocalDate.now().minusDays(1)));
 		when(borrowRepository.getBorrowById(any())).thenReturn(borrowing);
 
-		when(userRepository.getUserById(anyInt())).thenReturn(user);
+		when(userRepository.getUserById(any())).thenReturn(user);
 		doNothing().when(userRepository).update(user);
 		doThrow(new RepositoryException("")).when(borrowRepository).deleteBorrowing(any());
 		PublicationBorrowingPK borrowingPK = new PublicationBorrowingPK();
@@ -81,8 +81,8 @@ public class BorrowingServiceTest {
 		Publication book = new Book();
 		book.setCopiesLeft(0);
 		when(borrowing.getId()).thenReturn(pB);
-		when(pB.getPublicationId()).thenReturn(5);
-		when(pubRepository.getPublicationById(anyInt())).thenReturn(book);
+		when(pB.getPublicationId()).thenReturn("5");
+		when(pubRepository.getPublicationById(any())).thenReturn(book);
 		borrowingService.borrowPublication(borrowing);
 
 	}
@@ -95,10 +95,10 @@ public class BorrowingServiceTest {
 		Publication book = new Book();
 		book.setCopiesLeft(1);
 		when(borrowing.getId()).thenReturn(pB);
-		when(pB.getPublicationId()).thenReturn(5);
-		when(pubRepository.getPublicationById(anyInt())).thenReturn(book);
-		when(pB.getUserId()).thenReturn(5);
-		when(userRepository.getUserById(anyInt())).thenReturn(user);
+		when(pB.getPublicationId()).thenReturn("5");
+		when(pubRepository.getPublicationById(any())).thenReturn(book);
+		when(pB.getUserId()).thenReturn("5");
+		when(userRepository.getUserById(any())).thenReturn(user);
 		
 		
 		borrowingService.borrowPublication(borrowing);
@@ -112,10 +112,10 @@ public class BorrowingServiceTest {
 		Publication book = new Book();
 		book.setCopiesLeft(1);
 		when(borrowing.getId()).thenReturn(pB);
-		when(pB.getPublicationId()).thenReturn(5);
-		when(pubRepository.getPublicationById(anyInt())).thenReturn(book);
-		when(pB.getUserId()).thenReturn(5);
-		when(userRepository.getUserById(anyInt())).thenReturn(user);
+		when(pB.getPublicationId()).thenReturn("5");
+		when(pubRepository.getPublicationById(any())).thenReturn(book);
+		when(pB.getUserId()).thenReturn("5");
+		when(userRepository.getUserById(any())).thenReturn(user);
 		doNothing().when(pubRepository).update(any());
 		doNothing().when(borrowRepository).insertBorrowing(borrowing);
 		borrowingService.borrowPublication(borrowing);

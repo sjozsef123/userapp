@@ -1,4 +1,4 @@
-package solomonj.msg.userapp.ejb.service.bean;
+/*package solomonj.msg.userapp.ejb.service.bean;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -34,12 +34,12 @@ import solomonj.msg.userapp.jpa.model.PublicationBorrowing;
 import solomonj.msg.userapp.jpa.model.PublicationBorrowingPK;
 import solomonj.msg.userapp.jpa.model.User;
 
-/**
+*//**
  * BorrowingService test class.
  *
  * @author Simo Zoltan
  *
- */
+ *//*
 @RunWith(MockitoJUnitRunner.class)
 public class BorrowingServiceBeanTest {
 
@@ -186,3 +186,4 @@ public class BorrowingServiceBeanTest {
 	}
 
 }
+*/
