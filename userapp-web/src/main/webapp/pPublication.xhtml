@@ -16,16 +16,12 @@
 
 </h:head>
 <h:body onload="#{publicationmanagedbean.onLoad()}">
-
+<ui:include src="/includes/navigation.xhtml"/>
 	<p:messages id="messages" showDetail="false" autoUpdate="true"
 		closable="true" />
 
-	<h:panelGrid id="panel" columns="4" border="0" cellpadding="10"
-		cellspacing="1">		
-	<h:column rendered="#{loginmanagedbean.isAdmin() eq null}">
-		<ui:include src="/includes/navigation.xhtml" style="float: left; clear: both;" />
-	</h:column>
-	
+	<h:panelGrid id="panel" columns="3" border="0" cellpadding="10">		
+
 	<h:column>
 	
 		
@@ -428,5 +424,5 @@
 	</h:panelGrid>
 
 </h:body>
-	<ui:include src="/includes/footer.xhtml" />	
+
 </html>

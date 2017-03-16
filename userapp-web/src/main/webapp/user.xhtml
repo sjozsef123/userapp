@@ -13,12 +13,11 @@
 </h:head>
 
 <h:body>
+<ui:include src="/includes/navigation.xhtml" />
 	<p:messages id="messages" showDetail="false" autoUpdate="true"
 		closable="true" />
-	<h:panelGrid id="panel" columns="2" cellpadding="10">
-		<h:column>
-			<ui:include src="/includes/navigation.xhtml" />
-		</h:column>
+	<h:panelGrid id="panel" columns="1" border="0">
+		
 
 		<h:column>
 
@@ -207,7 +206,7 @@
 
 		</h:column>
 	</h:panelGrid>
-	<ui:include src="/includes/footer.xhtml" />
+
 </h:body>
 
 </html>

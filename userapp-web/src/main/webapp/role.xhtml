@@ -13,13 +13,10 @@
 <title>#{msg['web.role.title']}</title>
 </h:head>
 <body>
-
-	<h:panelGrid id="panel" columns="2" border="0" cellpadding="20"
-		cellspacing="1">
+<ui:include src="/includes/navigation.xhtml" />
+	<h:panelGrid id="panel" columns="1" border="0" cellpadding="20">
 		
-		<h:column>
-			<ui:include src="/includes/navigation.xhtml" />
-		</h:column>
+		
 		
 		<h:column>
 		<h:form rendered="#{not empty rolemanagedbean.roles}">
@@ -59,7 +56,6 @@
 		</h:column>
 	</h:panelGrid>
 
-	<ui:include src="/includes/footer.xhtml" />
 
 
 </body>
