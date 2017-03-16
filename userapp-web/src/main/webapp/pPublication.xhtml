@@ -194,7 +194,7 @@
 			<p:column>
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.title']}" /> <br/>
-					<p:inputText id="titleFilter" value="#{publicationmanagedbean.publicationFilter.title}" >
+					<p:inputText id="titleFilter" value="#{publicationmanagedbean.publicationFilter.title}" style="width:90%;">
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="titleFilter" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 				</f:facet>
@@ -227,12 +227,12 @@
 					<p:outputLabel value="#{msg['web.onStock']}" /> <br/>
 					
 					<p:inputText id="minStock" value="#{publicationmanagedbean.publicationFilter.minStock}" 
-									placeholder="min" style="width: 60px;" >
+									placeholder="min" style="width: 50px;" >
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 					<p:outputLabel value=" - " />
 					<p:inputText id="maxStock" value="#{publicationmanagedbean.publicationFilter.maxStock}" 
-									placeholder="max" style="width: 60px;" >
+									placeholder="max" style="width: 50px;" >
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="minStock maxStock" listener="#{publicationmanagedbean.init()}"/>
 					</p:inputText>
 				</f:facet>
@@ -253,7 +253,7 @@
 			<p:column>
 				<f:facet name="header">
 					<p:outputLabel value="#{msg['web.publisher']}" /> <br/>
-					<p:inputText id="publicationFilter" value="#{publicationmanagedbean.publicationFilter.publisher}" >
+					<p:inputText id="publicationFilter" value="#{publicationmanagedbean.publicationFilter.publisher}" style="width:90%;">
 						<p:ajax event="keyup" update="tableForm:publicationTable" process="publicationFilter" listener="#{publicationmanagedbean.init()}" />
 					</p:inputText>
 				</f:facet>
@@ -312,18 +312,16 @@
 					
 			</p:column>
 			
-			<p:column style="width: 100px;">
+			<p:column>
 					
 						<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Book'}">
 							<p:cellEditor>
 								<f:facet name="output">
-									<p:commandLink oncomplete="PF('bAuthorList').show()" 
-										styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
-									<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="bAuthorList" modal="true" showEffect="blind">
-										<p:dataList value="#{item.bAuthors}" var="bAuthor">
-											<h:outputText value="#{bAuthor.name}" style="display:inline-block"/>
-										</p:dataList>
-									</p:dialog>	
+									<p:panel header="#{msg['web.author.authors']}" toggleable="true" collapsed="true">								
+										<ui:repeat value="#{item.bAuthors}" var="bAuthor">
+											<h:outputText value="#{bAuthor.name}" /> <br/>
+										</ui:repeat>
+									</p:panel>
 								</f:facet>
 								<f:facet name="input">
 									<p:selectCheckboxMenu id="bookAuthorList" layout="pageDirection" 
@@ -341,13 +339,11 @@
 						<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Magazine'}">
 							<p:cellEditor>
 								<f:facet name="output">
-									<p:commandLink oncomplete="PF('mAuthorList').show()" 
-										styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
-									<p:dialog header="Authors" hideEffect="explode" resizable="false" widgetVar="mAuthorList" modal="true" showEffect="blind">
-										<p:dataList value="#{item.mAuthors}" var="mAuthor">
-											<h:outputText value="#{mAuthor.name}" style="display:inline-block"/>
-										</p:dataList>
-									</p:dialog>
+									<p:panel header="#{msg['web.author.authors']}" toggleable="true" collapsed="true" >
+										<ui:repeat value="#{item.mAuthors}" var="mAuthor">
+											<h:outputText value="#{mAuthor.name}" /> <br/>
+										</ui:repeat>>
+									</p:panel>
 								</f:facet>
 								<f:facet name="input">
 									<p:selectCheckboxMenu id="magazineAuthorList" layout="pageDirection" 
@@ -365,13 +361,11 @@
 						<h:panelGroup rendered="#{publicationmanagedbean.getType(item) == 'Newspaper'}">
 							<p:cellEditor>
 								<f:facet name="output">
-									<p:commandLink oncomplete="PF('articleList').show()" 
-										styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px"/>
-									<p:dialog header="Articles" hideEffect="explode" resizable="false" widgetVar="articleList" modal="true" showEffect="blind">
-										<p:dataList value="#{item.articles}" var="article">
-											<h:outputText value="#{article.title}" style="display:inline-block"/>
-										</p:dataList>
-									</p:dialog>
+									<p:panel header="#{msg['web.article.header.articles']}" toggleable="true" collapsed="true">
+										<ui:repeat value="#{item.articles}" var="article">
+											<h:outputText value="#{article.title}" style="display:inline-block"/> <br/>
+										</ui:repeat>
+									</p:panel>
 								</f:facet>
 								<f:facet name="input">
 									<p:selectCheckboxMenu id="newspaperArticleList" layout="pageDirection" 

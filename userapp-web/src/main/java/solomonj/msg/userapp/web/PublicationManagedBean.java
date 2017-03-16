@@ -111,6 +111,8 @@ public class PublicationManagedBean implements Serializable {
 		book = new Book();
 		magazine = new Magazine();
 		newspaper = new Newspaper();
+		selectedArticles.clear();
+		selectedAuthors.clear();
 
 	}
 
@@ -512,13 +514,26 @@ public class PublicationManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		} 
 	}
+	
+	public void deselectBook() {
+		
+		this.book = new Book();
+		
+	}
 
 	public Book getBook() {
 		return book;
 	}
 
+	public void test() {
+		System.out.println("most");
+	}
 	public void setBook(Book book) {
+		
+		System.out.println("in set");
 		this.book = book;
+		System.out.println("size " + book.getbAuthors().size());
+		System.out.println(book.getbAuthors().get(0).getName());
 	}
 
 	public Magazine getMagazine() {
